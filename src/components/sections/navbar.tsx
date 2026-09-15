@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { BrandButton } from "@/components/tnl/brand-button";
-import { COMPANY, NAV_LINKS } from "@/lib/site-data";
+import { SocialIcons } from "@/components/tnl/social-icons";
+import { COMPANY, HEADER_NAV_LINKS, NAV_LINKS } from "@/lib/site-data";
 import { useModalStore } from "@/lib/modal-store";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -27,12 +28,24 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock background page scroll while the mobile side menu is open.
+  useEffect(() => {
+    if (open) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [open]);
+
   const handleNav = (href: string) => {
     setOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    // allow the sheet close + scroll lock restore before scrolling
+    requestAnimationFrame(() => {
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   };
 
   return (
@@ -74,9 +87,9 @@ export function Navbar() {
           </span>
         </a>
 
-        {/* Desktop nav */}
+        {/* Desktop nav (Why Choose Us / How It Works / FAQ removed from header) */}
         <div className="hidden items-center gap-1 lg:flex">
-          {NAV_LINKS.map((link) => (
+          {HEADER_NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -84,7 +97,7 @@ export function Navbar() {
                 e.preventDefault();
                 handleNav(link.href);
               }}
-              className="relative rounded-full px-3.5 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
+              className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
             >
               {link.label}
             </a>
@@ -125,12 +138,14 @@ export function Navbar() {
           </SheetTrigger>
           <SheetContent
             side="right"
-            className="w-[86%] max-w-sm border-l-primary/15 bg-gradient-to-b from-white to-[#f4f7ff] p-0"
+            className="tnl-nav-sheet flex w-[88%] max-w-[24rem] flex-col border-l-primary/15 bg-gradient-to-b from-white to-[#f4f7ff] p-0"
           >
             <SheetTitle className="sr-only">TNL Finance Navigation</SheetTitle>
-            <div className="flex items-center justify-between border-b border-primary/10 px-5 py-4">
-              <span className="flex items-center gap-2">
-                <span className="grid size-9 place-items-center overflow-hidden rounded-lg bg-gradient-to-br from-royal to-sky">
+
+            {/* Header (sticky, close always visible) */}
+            <div className="flex shrink-0 items-center justify-between border-b border-primary/10 px-5 py-4">
+              <span className="flex items-center gap-2.5">
+                <span className="relative grid size-9 place-items-center overflow-hidden rounded-lg bg-gradient-to-br from-royal to-sky">
                   <Image
                     src="/tnl-logo.jpeg"
                     alt="TNL Finance"
@@ -145,32 +160,41 @@ export function Navbar() {
               </span>
               <button
                 onClick={() => setOpen(false)}
-                className="grid size-9 place-items-center rounded-full bg-secondary text-foreground"
+                className="grid size-9 shrink-0 place-items-center rounded-full bg-secondary text-foreground transition-colors hover:bg-primary/10 hover:text-royal"
                 aria-label="Close menu"
               >
                 <X className="size-5" />
               </button>
             </div>
-            <div className="flex flex-col gap-1 px-4 py-5">
-              {NAV_LINKS.map((link, i) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNav(link.href);
-                  }}
-                  className="flex items-center justify-between rounded-2xl px-4 py-3.5 text-base font-semibold text-foreground/85 transition-colors hover:bg-primary/5 hover:text-royal"
-                  style={{ animationDelay: `${i * 40}ms` }}
-                >
-                  {link.label}
-                  <span className="text-xs font-bold text-primary/40">
-                    0{i + 1}
-                  </span>
-                </a>
-              ))}
-            </div>
-            <div className="mt-auto space-y-3 border-t border-primary/10 p-5">
+
+            {/* Scrollable navigation list — scrolls only when needed */}
+            <nav
+              className="tnl-scrollbar flex-1 overflow-y-auto px-4 py-4"
+              aria-label="Mobile navigation"
+            >
+              <ul className="flex flex-col gap-1.5">
+                {NAV_LINKS.map((link, i) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNav(link.href);
+                      }}
+                      className="flex items-center justify-between rounded-2xl px-4 py-3.5 text-[15px] font-semibold text-foreground/85 transition-colors hover:bg-primary/5 hover:text-royal active:bg-primary/10"
+                    >
+                      <span>{link.label}</span>
+                      <span className="text-[11px] font-bold tabular-nums text-primary/40">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            {/* Bottom area — CTAs + social (pinned, never scrolls away) */}
+            <div className="mt-auto shrink-0 space-y-4 border-t border-primary/10 bg-white/60 p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
               <BrandButton
                 onClick={() => {
                   setOpen(false);
@@ -189,6 +213,14 @@ export function Navbar() {
                 <Phone className="size-4" />
                 {COMPANY.phone}
               </a>
+
+              {/* Social */}
+              <div className="space-y-2.5 pt-1 text-center">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  Follow / Connect With Us
+                </p>
+                <SocialIcons />
+              </div>
             </div>
           </SheetContent>
         </Sheet>

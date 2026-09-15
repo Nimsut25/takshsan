@@ -27,7 +27,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative mt-24 overflow-hidden bg-navy text-white">
+    <footer className="relative mt-24 hidden overflow-hidden bg-navy text-white md:mt-24 md:block">
       {/* decorative glow */}
       <div className="pointer-events-none absolute -top-32 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-royal/40 blur-[120px]" />
       <div className="pointer-events-none absolute -bottom-24 right-10 size-72 rounded-full bg-sky/30 blur-[110px]" />

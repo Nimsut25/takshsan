@@ -46,7 +46,7 @@ export function LoanDetailModal() {
     <Dialog open={!!loan} onOpenChange={(o) => !o && closeLoan()}>
       <DialogContent
         showCloseButton
-        className="max-h-[92vh] w-full max-w-5xl overflow-hidden rounded-3xl border-primary/10 p-0"
+        className="max-h-[92vh] w-full max-w-5xl overflow-hidden rounded-3xl border-primary/10 p-0 lg:max-w-6xl xl:max-w-[80rem]"
       >
         <DialogTitle className="sr-only">{loan?.title} details</DialogTitle>
         <DialogDescription className="sr-only">
@@ -89,9 +89,9 @@ export function LoanDetailModal() {
               </div>
             </div>
 
-            <div className="p-6 sm:p-8">
+            <div className="p-6 sm:p-8 lg:p-10">
               {/* Overview */}
-              <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <p className="text-sm leading-relaxed text-muted-foreground sm:text-base lg:max-w-4xl">
                 {loan.overview}
               </p>
 

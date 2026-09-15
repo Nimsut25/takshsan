@@ -16,6 +16,7 @@ import { Footer } from "@/components/sections/footer";
 import { FloatingActions } from "@/components/sections/floating-actions";
 import { LoanDetailModal } from "@/components/sections/loan-detail-modal";
 import { EnquiryModal } from "@/components/sections/enquiry-modal";
+import { CoinCursor } from "@/components/tnl/coin-cursor";
 
 export default function Home() {
   return (
@@ -40,6 +41,8 @@ export default function Home() {
       <FloatingActions />
       <LoanDetailModal />
       <EnquiryModal />
+      {/* Premium gold Rupee coin cursor — renders only on fine-pointer devices */}
+      <CoinCursor />
     </div>
   );
 }

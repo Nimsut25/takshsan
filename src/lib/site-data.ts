@@ -46,6 +46,40 @@ export const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ] as const;
 
+/**
+ * Links shown in the DESKTOP header navigation only.
+ * ("Why Choose Us", "How It Works" and "FAQ" are intentionally hidden from the
+ * header but their sections remain on the page and stay reachable via the
+ * mobile menu + footer quick links.)
+ */
+export const HEADER_NAV_LINKS = NAV_LINKS.filter(
+  (l) => l.href !== "#why" && l.href !== "#how" && l.href !== "#faq"
+);
+
+/**
+ * Social media profiles.
+ * NOTE: These are clearly-marked configurable placeholders. Replace the `href`
+ * values with the actual TNL Finance profile URLs before launch. They are kept
+ * here in one place (not hardcoded inside components) so they are easy to update.
+ */
+export const SOCIAL_LINKS = [
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/919427979991", // uses the official TNL phone number
+    color: "from-[#25D366] to-[#128C7E]",
+  },
+  {
+    label: "Instagram",
+    href: "#", // placeholder — replace with real Instagram URL
+    color: "from-[#F58529] via-[#DD2A7B] to-[#8134AF]",
+  },
+  {
+    label: "Facebook",
+    href: "#", // placeholder — replace with real Facebook URL
+    color: "from-[#1877F2] to-[#0a5dc7]",
+  },
+] as const;
+
 export type LoanSlug =
   | "personal"
   | "business"

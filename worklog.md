@@ -88,3 +88,40 @@ Work Log:
 
 Stage Summary:
 - TNL Finance website is production-ready and fully browser-verified.
+
+---
+Task ID: 17
+Agent: main
+Task: Implement 4 targeted modifications to existing TNL Finance site (header nav cleanup, mobile menu + social icons, desktop popup width, gold coin cursor, hide footer on mobile)
+
+Work Log:
+- Copied attached gold Rupee coin image to /public/coin-cursor.png (258x241 PNG, transparent bg, gold ₹ coin with star ring)
+- Planned minimal, surgical edits preserving all existing design
+
+Stage Summary:
+- In progress.
+
+---
+Task ID: 17 (final)
+Agent: main
+Task: Complete 4 targeted modifications + browser verification
+
+Work Log:
+- Change 1: Removed "Why Choose Us", "How It Works", "FAQ" from desktop header nav (HEADER_NAV_LINKS); sections remain on page + in mobile menu + footer. Rebuilt mobile side menu: header (close button always visible) + scrollable nav (flex-1 overflow-y-auto, tnl-scrollbar) + pinned bottom area (Apply CTA + Call + WhatsApp/Instagram/Facebook social icons). Added body scroll-lock while menu open (restored on close). Removed redundant built-in Sheet close via scoped CSS rule.
+- Social icons: created SocialIcons component with accurate brand SVGs (WhatsApp not in lucide). Added SOCIAL_LINKS config in site-data.ts with clearly-marked placeholders (WhatsApp uses wa.me with TNL phone; Instagram/Facebook are "#" placeholders).
+- Change 2: Learn More loan detail modal widened on desktop only: base max-w-5xl (mobile/tablet unchanged) + lg:max-w-6xl + xl:max-w-[80rem]. Verified: mobile=390px (unchanged), desktop=1280px (was 1024px). Internal padding lg:p-10 + overview lg:max-w-4xl for balanced reading.
+- Change 3: Gold Rupee coin cursor (CoinCursor component). Uses attached coin image. Desktop-only via useSyncExternalStore + matchMedia("(hover: hover) and (pointer: fine)"). 3-layer transform: outer translate3d (rAF, GPU), middle scale (1x→1.55x on interactive hover, 0.2s cubic-bezier), inner rotateY spin (4.5s linear infinite, perspective 600px for 3D). Native cursor hidden via CSS @media(hover:hover). prefers-reduced-motion fallback. Coin CSS moved into @layer utilities (Tailwind v4 strips unlayered custom classes).
+- Change 4: Footer hidden on mobile: added `hidden md:block` to footer root. Verified: mobile display:none, height 0, no empty gap (doc height = main height). Desktop: display block, 754px, copyright visible.
+- Fixed lint: useSyncExternalStore for capability detection (avoids setState-in-effect).
+- Agent Browser verification (desktop 1440 + mobile 390/375/320):
+  - Desktop header: 4 nav links (Home, About Us, Loan Services, Contact), aligned, no awkward gap
+  - Mobile menu: all 7 items visible, close button visible, social icons at bottom, scrollable, body scroll locked
+  - Mobile menu on 320x400: nav scrolls, close+social remain accessible
+  - Learn More modal: desktop 1280px (wider), mobile 390px (unchanged)
+  - Coin cursor CSS served correctly (tnl-coin-cursor, tnl-coin-spin, cursor:none) — renders only on real fine-pointer devices (headless browser correctly reports coarse, so cursor not shown in automation = correct behavior)
+  - Footer: hidden on mobile (no gap), visible on desktop (754px, copyright)
+  - Console: clean, no errors, no hydration warnings
+  - Lint: 0 errors, 1 pre-existing benign warning
+
+Stage Summary:
+- All 4 changes implemented surgically without modifying unrelated components. Production-ready and browser-verified.
