@@ -48,12 +48,12 @@ export const NAV_LINKS = [
 
 /**
  * Links shown in the DESKTOP header navigation only.
- * ("Why Choose Us", "How It Works" and "FAQ" are intentionally hidden from the
- * header but their sections remain on the page and stay reachable via the
- * mobile menu + footer quick links.)
+ * ("How It Works" and "FAQ" remain hidden from the desktop header but their
+ * sections stay on the page and are reachable via the mobile menu + footer
+ * quick links. "Why Choose Us" is shown in the desktop header.)
  */
 export const HEADER_NAV_LINKS = NAV_LINKS.filter(
-  (l) => l.href !== "#why" && l.href !== "#how" && l.href !== "#faq"
+  (l) => l.href !== "#how" && l.href !== "#faq"
 );
 
 /**
