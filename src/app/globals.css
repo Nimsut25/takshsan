@@ -232,20 +232,90 @@
 
   .tnl-marquee { animation: tnl-marquee 28s linear infinite; will-change: transform; }
 
-  /* ---------- Premium gold Rupee coin cursor (desktop / fine pointer only) ---------- */
-  .tnl-coin-cursor {
-    margin-left: -17px;
-    margin-top: -17px;
-    opacity: 1;
-  }
-  .tnl-coin-scale {
-    transform-style: preserve-3d;
-    perspective: 600px;
-  }
-  .tnl-coin-spin {
-    transform-style: preserve-3d;
-    animation: tnl-coin-spin 4.5s linear infinite;
+  /* ---------- Premium dual-layer cursor (desktop / fine pointer only) ---------- */
+  /* Central solid dot — tracks the pointer almost instantly */
+  .tnl-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    margin: -3.5px 0 0 -3.5px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #cfe0ff 35%, var(--royal) 100%);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.65),
+      0 1px 4px rgba(15,30,70,0.35),
+      0 0 10px rgba(56,102,243,0.45);
     will-change: transform;
+    transition: width 0.2s cubic-bezier(0.22,1,0.36,1),
+                height 0.2s cubic-bezier(0.22,1,0.36,1),
+                margin 0.2s cubic-bezier(0.22,1,0.36,1),
+                background 0.2s ease,
+                opacity 0.2s ease;
+  }
+  /* Outer trailing ring — follows with subtle easing delay */
+  .tnl-cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(56,102,243,0.45);
+    background: radial-gradient(circle, rgba(56,102,243,0.06) 0%, rgba(56,102,243,0) 70%);
+    box-shadow: 0 0 14px rgba(56,102,243,0.18);
+    will-change: transform, width, height;
+    transition: width 0.22s cubic-bezier(0.22,1,0.36,1),
+                height 0.22s cubic-bezier(0.22,1,0.36,1),
+                margin 0.22s cubic-bezier(0.22,1,0.36,1),
+                border-color 0.22s ease,
+                box-shadow 0.22s ease,
+                background 0.22s ease,
+                opacity 0.2s ease;
+  }
+  /* Hover over any interactive element */
+  .tnl-cursor--hover .tnl-cursor-ring {
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+    border-color: rgba(56,102,243,0.85);
+    background: radial-gradient(circle, rgba(56,102,243,0.12) 0%, rgba(56,102,243,0) 70%);
+    box-shadow: 0 0 18px rgba(56,102,243,0.35);
+  }
+  .tnl-cursor--hover .tnl-cursor-dot {
+    width: 5px;
+    height: 5px;
+    margin: -2.5px 0 0 -2.5px;
+    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #bcd9ff 45%, var(--royal) 100%);
+  }
+  /* Stronger state for buttons / primary CTAs */
+  .tnl-cursor--button .tnl-cursor-ring {
+    width: 50px;
+    height: 50px;
+    margin: -25px 0 0 -25px;
+    border-color: rgba(20,184,166,0.85);
+    background: radial-gradient(circle, rgba(20,184,166,0.14) 0%, rgba(20,184,166,0) 70%);
+    box-shadow: 0 0 22px rgba(20,184,166,0.4);
+  }
+  .tnl-cursor--button .tnl-cursor-dot {
+    width: 4px;
+    height: 4px;
+    margin: -2px 0 0 -2px;
+    background: radial-gradient(circle at 35% 30%, #ffffff 0%, #b8f5e8 45%, var(--teal-brand) 100%);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.7),
+      0 1px 5px rgba(13,40,70,0.4),
+      0 0 12px rgba(20,184,166,0.6);
+  }
+  /* Click feedback — ring briefly contracts then eases back */
+  .tnl-cursor--down .tnl-cursor-ring {
+    width: 36px;
+    height: 36px;
+    margin: -18px 0 0 -18px;
+    border-color: rgba(56,102,243,0.95);
+    box-shadow: 0 0 16px rgba(56,102,243,0.5);
   }
 }
 
@@ -286,25 +356,39 @@
   to { transform: translateX(-50%); }
 }
 
-/* ---------- Premium gold Rupee coin cursor (desktop / fine pointer only) ---------- */
-@keyframes tnl-coin-spin {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
-}
+/* Hide native cursor on precise-pointer devices where the premium custom
+   cursor is active. Touch devices keep the default cursor. */
 @media (hover: hover) and (pointer: fine) {
   body { cursor: none; }
-  a, button, input, textarea, select, label, [role="button"], [role="link"] {
-    cursor: none;
-  }
+  a, button, input, textarea, select, label, summary,
+  [role="button"], [role="link"], [role="tab"], [tabindex] { cursor: none; }
 }
+
+/* Reduced motion: simplify the cursor (no trailing), no magnetic effects,
+   minimal hover animation. */
 @media (prefers-reduced-motion: reduce) {
   .tnl-marquee,
   .animate-float-slow,
   .animate-float-medium,
   .animate-spin-slow,
   .animate-pulse-ring { animation: none !important; }
-  .tnl-coin-spin { animation: none !important; }
-  .tnl-coin-cursor { display: none !important; }
+  /* Trailing ring is hidden; the dot still tracks the pointer (instantly). */
+  .tnl-cursor-ring { display: none !important; }
+  .tnl-cursor-dot {
+    transition: none !important;
+    width: 8px !important;
+    height: 8px !important;
+    margin: -4px 0 0 -4px !important;
+  }
+  .tnl-cursor--hover .tnl-cursor-dot,
+  .tnl-cursor--button .tnl-cursor-dot,
+  .tnl-cursor--down .tnl-cursor-dot {
+    width: 8px !important;
+    height: 8px !important;
+    margin: -4px 0 0 -4px !important;
+  }
+  /* Disable magnetic button transform under reduced motion */
+  [data-cursor-magnetic] { transform: none !important; }
 }
 @media (prefers-reduced-motion: reduce) and (hover: hover) and (pointer: fine) {
   body { cursor: auto; }

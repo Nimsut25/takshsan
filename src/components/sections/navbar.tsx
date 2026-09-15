@@ -118,6 +118,7 @@ export function Navbar() {
             onClick={() => openEnquiry()}
             size="md"
             className="hidden sm:inline-flex"
+            data-cursor-magnetic
           >
             <Sparkles className="size-4" />
             Apply for Loan

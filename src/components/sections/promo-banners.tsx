@@ -60,6 +60,7 @@ export function PromoBanners() {
               <div className="mt-5">
                 <button
                   onClick={() => openEnquiry()}
+                  data-cursor-magnetic
                   className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-royal shadow-soft transition-transform hover:-translate-y-0.5"
                 >
                   Get Loan Assistance

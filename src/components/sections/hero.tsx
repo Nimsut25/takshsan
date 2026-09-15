@@ -105,7 +105,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.24 }}
             className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:items-start lg:justify-start"
           >
-            <BrandButton onClick={() => openEnquiry()} size="lg">
+            <BrandButton onClick={() => openEnquiry()} size="lg" data-cursor-magnetic>
               <Sparkles className="size-4" />
               Apply for a Loan
             </BrandButton>

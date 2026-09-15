@@ -125,3 +125,51 @@ Work Log:
 
 Stage Summary:
 - All 4 changes implemented surgically without modifying unrelated components. Production-ready and browser-verified.
+
+---
+Task ID: 18
+Agent: main
+Task: Replace gold Rupee coin cursor with a minimal, premium dual-layer cursor (dot + trailing ring) with hover/click/magnetic interactions
+
+Work Log:
+- Reviewed current coin-cursor.tsx, page.tsx import, and globals.css coin rules
+- Confirmed hero.tsx "Coins" icon is an unrelated hero decoration (not the cursor) — left untouched
+- Plan: delete coin asset + component, strip coin CSS, build new PremiumCursor (dual-layer), wire magnetic CTAs
+
+Stage Summary:
+- In progress.
+
+---
+Task ID: 18 (final)
+Agent: main
+Task: Complete replacement of coin cursor with premium dual-layer cursor + verification
+
+Work Log:
+- Deleted src/components/tnl/coin-cursor.tsx and public/coin-cursor.png
+- Removed all coin CSS from globals.css (tnl-coin-cursor, tnl-coin-scale, tnl-coin-spin, @keyframes tnl-coin-spin)
+- Created PremiumCursor component (src/components/tnl/premium-cursor.tsx):
+  - Dual-layer: small luminous dot (7px radial gradient, white→royal) + thin trailing ring (30px, semi-transparent border)
+  - Single rAF loop updates BOTH layers; only translate3d written per frame (GPU-friendly)
+  - Dot ease 0.55 (near-instant), ring ease 0.18 (subtle trailing)
+  - Hover detection (delegated pointerover/out): .tnl-cursor--hover (ring→44px, dot→5px) for links; .tnl-cursor--button (ring→50px teal glow, dot→4px) for buttons/CTAs
+  - Click feedback: .tnl-cursor--down (ring contracts to 36px then eases back)
+  - Magnetic effect: [data-cursor-magnetic] CTAs — cursor gravitates toward button center within 90px radius (pulls cursor only, NOT the button, to avoid layout/hover/shimmer conflicts); disabled under reduced-motion
+  - useSyncExternalStore + matchMedia("(hover: hover) and (pointer: fine)") for capability detection (desktop only)
+  - prefers-reduced-motion: ring hidden, dot instant tracking, no magnetism, minimal size
+  - All cursor nodes pointer-events:none + aria-hidden
+- Added cursor CSS in @layer utilities of globals.css (Tailwind v4 requires layering for custom classes)
+- Kept native cursor hidden via @media(hover:hover) and (pointer: fine) { cursor: none }
+- Wired PremiumCursor into page.tsx (replaced CoinCursor import)
+- Added data-cursor-magnetic to 3 primary CTAs: navbar "Apply for Loan", hero "Apply for a Loan", promo "Get Loan Assistance"
+
+Verification (served CSS + headless browser):
+- tnl-cursor-dot: 5 occurrences, tnl-cursor-ring: 5, hover/button/down states present
+- cursor:none present (native hidden on fine-pointer)
+- COIN remnants in CSS: 0 (complete removal)
+- 3 magnetic CTAs in DOM
+- Headless browser (coarse pointer): cursor correctly NOT rendered (touch behavior preserved)
+- Console: clean, no errors
+- Lint: 0 errors, 1 pre-existing benign warning
+
+Stage Summary:
+- Gold coin cursor fully removed. New premium dual-layer cursor (dot + trailing ring) implemented with hover/click/button states + magnetic CTA interaction, desktop-only, reduced-motion aware. Single active cursor system confirmed.
