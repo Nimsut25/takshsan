@@ -107,7 +107,7 @@ export function ContactSection() {
             <div className="flex h-full flex-col gap-5">
               <div className="relative flex-1 overflow-hidden rounded-3xl border border-primary/10 shadow-soft">
                 <iframe
-                  title="TNL Finance location map"
+                  title="TNL Fincorp location map"
                   src={mapSrc}
                   className="h-full min-h-[18rem] w-full"
                   style={{ border: 0 }}

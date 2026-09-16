@@ -3,7 +3,7 @@
 import { useEffect, useRef, useSyncExternalStore } from "react";
 
 /**
- * Premium dual-layer custom cursor for TNL Finance.
+ * Premium dual-layer custom cursor for TNL Fincorp.
  *
  *   • Small luminous solid core dot — tracks the pointer almost instantly
  *   • Thin semi-transparent ring — follows with a subtle easing delay

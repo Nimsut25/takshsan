@@ -57,7 +57,7 @@ export function About() {
               <div className="aspect-[4/4.5] w-full relative">
                 <Image
                   src="/images/about.jpg"
-                  alt="TNL Finance financial advisor guiding a customer"
+                  alt="TNL Fincorp financial advisor guiding a customer"
                   fill
                   sizes="(max-width: 1024px) 90vw, 45vw"
                   className="object-cover"
@@ -102,7 +102,7 @@ export function About() {
         <div>
           <SectionHeading
             align="left"
-            eyebrow="About TNL Finance"
+            eyebrow="About TNL Fincorp"
             title="Financial Guidance Built"
             highlight="Around Your Needs"
           />

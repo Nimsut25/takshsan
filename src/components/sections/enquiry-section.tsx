@@ -44,7 +44,7 @@ export function EnquirySection() {
             <div className="relative h-full overflow-hidden rounded-3xl border border-white/60 shadow-glow">
               <Image
                 src="/images/cta-bg.jpg"
-                alt="Get loan assistance from TNL Finance"
+                alt="Get loan assistance from TNL Fincorp"
                 fill
                 sizes="(max-width: 1024px) 90vw, 40vw"
                 className="object-cover"
@@ -53,7 +53,7 @@ export function EnquirySection() {
               <div className="relative flex h-full flex-col justify-end p-7 text-white sm:p-8">
                 <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
                   <Sparkles className="size-3.5" />
-                  TNL Finance
+                  TNL Fincorp
                 </span>
                 <h3 className="mt-4 font-display text-2xl font-bold sm:text-3xl">
                   Talk to a loan guidance expert

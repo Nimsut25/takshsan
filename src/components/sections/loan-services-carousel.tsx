@@ -89,7 +89,7 @@ export function LoanServicesCarousel() {
                       <div className="relative aspect-[16/10] w-full overflow-hidden">
                         <Image
                           src={loan.image}
-                          alt={`${loan.title} assistance by TNL Finance`}
+                          alt={`${loan.title} assistance by TNL Fincorp`}
                           fill
                           sizes="(max-width: 768px) 90vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover transition-transform duration-700 group-hover:scale-110"

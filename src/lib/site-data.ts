@@ -21,12 +21,12 @@ import {
 import type { ComponentType } from "react";
 
 export const COMPANY = {
-  name: "TNL Finance",
+  name: "TNL Fincorp",
   tagline: "Smart Loan Solutions. Simple Financial Journey.",
   phone: "+91 94279 79991",
   phoneHref: "tel:+919427979991",
-  email: "care@tnlfinance.in",
-  emailHref: "mailto:care@tnlfinance.in",
+  email: "care@tnlfincorp.in",
+  emailHref: "mailto:care@tnlfincorp.in",
   address:
     "34 Madhuban, Sumukh Circle, Nr. Happy Villy International School, Dindoli, Surat, Gujarat, India.",
   city: "Surat",
@@ -36,30 +36,50 @@ export const COMPANY = {
     "We are engaged in providing financial loan solutions to customers through various loan products, including Personal Loans, Business Loans, Home Loans, Loan Against Property (LAP), Auto Loans and Education Loans. We assist customers with suitable loan options, documentation, application processing and end-to-end support through our financial services network.",
 };
 
+/** In-page (homepage) anchor links used by the mobile side menu + footer quick links. */
 export const NAV_LINKS = [
-  { label: "Home", href: "#home" },
-  { label: "About Us", href: "#about" },
-  { label: "Loan Services", href: "#services" },
-  { label: "Why Choose Us", href: "#why" },
-  { label: "How It Works", href: "#how" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/#home" },
+  { label: "About Us", href: "/#about" },
+  { label: "Loans", href: "/#services" },
+  { label: "Investment", href: "/investment" },
+  { label: "Why Choose Us", href: "/#why" },
+  { label: "How It Works", href: "/#how" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "/#contact" },
 ] as const;
 
 /**
- * Links shown in the DESKTOP header navigation only.
- * ("How It Works" and "FAQ" remain hidden from the desktop header but their
- * sections stay on the page and are reachable via the mobile menu + footer
- * quick links. "Why Choose Us" is shown in the desktop header.)
+ * Top-level desktop header navigation. "Why Choose Us", "How It Works" and
+ * "FAQ" are intentionally NOT in the header (their sections remain on the
+ * homepage and stay reachable via the mobile menu + footer quick links).
+ * "Loans" and "Investment" are dropdowns (see LOAN_DROPDOWN + INVEST_DROPDOWN).
  */
-export const HEADER_NAV_LINKS = NAV_LINKS.filter(
-  (l) => l.href !== "#how" && l.href !== "#faq"
-);
+export const HEADER_NAV_LINKS = [
+  { label: "Home", href: "/#home" },
+  { label: "About Us", href: "/#about" },
+] as const;
+
+/** Loans dropdown items (desktop hover + mobile accordion). */
+export const LOAN_DROPDOWN = [
+  { label: "Personal Loan", href: "/loans/personal", slug: "personal" as const },
+  { label: "Business Loan", href: "/loans/business", slug: "business" as const },
+  { label: "Home Loan", href: "/loans/home", slug: "home" as const },
+  { label: "Auto Loan", href: "/loans/auto", slug: "auto" as const },
+  { label: "Education Loan", href: "/loans/education", slug: "education" as const },
+  { label: "Loan Against Property", href: "/loans/loan-against-property", slug: "lap" as const },
+];
+
+/** Investment dropdown items (desktop hover + mobile accordion). */
+export const INVEST_DROPDOWN = [
+  { label: "FD & RD", href: "/investment" },
+  { label: "Fixed Deposit (FD)", href: "/investment/fd" },
+  { label: "Recurring Deposit (RD)", href: "/investment/rd" },
+];
 
 /**
  * Social media profiles.
  * NOTE: These are clearly-marked configurable placeholders. Replace the `href`
- * values with the actual TNL Finance profile URLs before launch. They are kept
+ * values with the actual TNL Fincorp profile URLs before launch. They are kept
  * here in one place (not hardcoded inside components) so they are easy to update.
  */
 export const SOCIAL_LINKS = [
@@ -119,7 +139,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
     accent: "from-royal to-sky",
     glow: "shadow-[0_20px_60px_-20px_rgba(56,102,243,0.55)]",
     overview:
-      "A Personal Loan can help you manage important life expenses such as medical needs, family events, travel, home improvements or lifestyle purchases. TNL Finance assists you in understanding available personal loan options, organising your documentation and guiding your application through the financial services network.",
+      "A Personal Loan can help you manage important life expenses such as medical needs, family events, travel, home improvements or lifestyle purchases. TNL Fincorp assists you in understanding available personal loan options, organising your documentation and guiding your application through the financial services network.",
     benefits: [
       "Guidance for multiple personal loan options",
       "Assistance with documentation and application",
@@ -155,8 +175,8 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
     ],
     faqs: [
       {
-        q: "Is personal loan approval guaranteed through TNL Finance?",
-        a: "No. Loan approval, eligibility, interest rates and tenure are subject to the policies, verification and approval processes of the respective lender. TNL Finance assists with guidance, documentation and application support only.",
+        q: "Is personal loan approval guaranteed through TNL Fincorp?",
+        a: "No. Loan approval, eligibility, interest rates and tenure are subject to the policies, verification and approval processes of the respective lender. TNL Fincorp assists with guidance, documentation and application support only.",
       },
       {
         q: "Do you charge for personal loan assistance?",
@@ -176,7 +196,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
     accent: "from-teal-brand to-cyan-brand",
     glow: "shadow-[0_20px_60px_-20px_rgba(20,184,166,0.55)]",
     overview:
-      "A Business Loan can support working capital, business expansion, equipment purchases, inventory or growth requirements. TNL Finance helps business owners understand suitable loan options, structure documentation and complete the application process through the financial services network.",
+      "A Business Loan can support working capital, business expansion, equipment purchases, inventory or growth requirements. TNL Fincorp helps business owners understand suitable loan options, structure documentation and complete the application process through the financial services network.",
     benefits: [
       "Assistance across business loan variants",
       "Guidance for working capital & term loans",
@@ -213,7 +233,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
     faqs: [
       {
         q: "Do you assist startups with business loans?",
-        a: "TNL Finance assists with understanding available business loan options. Eligibility for startups depends on the respective lender's policies, business vintage and financial profile.",
+        a: "TNL Fincorp assists with understanding available business loan options. Eligibility for startups depends on the respective lender's policies, business vintage and financial profile.",
       },
       {
         q: "Can you help with working capital loans?",
@@ -233,7 +253,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
     accent: "from-royal to-teal-brand",
     glow: "shadow-[0_20px_60px_-20px_rgba(56,102,243,0.55)]",
     overview:
-      "A Home Loan can help you purchase, construct or renovate your home. TNL Finance assists you with understanding home loan options, property-related documentation, eligibility discussions and the application process through the financial services network.",
+      "A Home Loan can help you purchase, construct or renovate your home. TNL Fincorp assists you with understanding home loan options, property-related documentation, eligibility discussions and the application process through the financial services network.",
     benefits: [
       "Assistance for purchase, construction & renovation",
       "Guidance for eligible property documentation",
@@ -290,7 +310,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
     accent: "from-navy to-royal",
     glow: "shadow-[0_20px_60px_-20px_rgba(15,30,70,0.55)]",
     overview:
-      "A Loan Against Property (LAP) lets you access funds by using eligible residential or commercial property. TNL Finance assists you with understanding LAP options, property documentation, eligibility discussions and the application process through the financial services network.",
+      "A Loan Against Property (LAP) lets you access funds by using eligible residential or commercial property. TNL Fincorp assists you with understanding LAP options, property documentation, eligibility discussions and the application process through the financial services network.",
     benefits: [
       "Assistance for residential & commercial property",
       "Guidance for personal or business fund usage",
@@ -347,7 +367,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
     accent: "from-sky to-cyan-brand",
     glow: "shadow-[0_20px_60px_-20px_rgba(56,189,248,0.55)]",
     overview:
-      "An Auto Loan helps you finance a new or used vehicle. TNL Finance assists you with understanding auto loan options, documentation, eligibility discussions and the application process through the financial services network.",
+      "An Auto Loan helps you finance a new or used vehicle. TNL Fincorp assists you with understanding auto loan options, documentation, eligibility discussions and the application process through the financial services network.",
     benefits: [
       "Assistance for new and used vehicles",
       "Guidance for cars, two-wheelers & commercial vehicles",
@@ -404,7 +424,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
     accent: "from-teal-brand to-royal",
     glow: "shadow-[0_20px_60px_-20px_rgba(20,184,166,0.55)]",
     overview:
-      "An Education Loan helps finance higher studies in India or eligible study destinations. TNL Finance assists students and families with understanding education loan options, documentation, eligibility discussions and the application process through the financial services network.",
+      "An Education Loan helps finance higher studies in India or eligible study destinations. TNL Fincorp assists students and families with understanding education loan options, documentation, eligibility discussions and the application process through the financial services network.",
     benefits: [
       "Assistance for India and overseas education",
       "Guidance for tuition, living and academic expenses",
@@ -575,7 +595,7 @@ export const TESTIMONIALS: Testimonial[] = [
     initials: "RS",
     accent: "from-royal to-sky",
     quote:
-      "The team at TNL Finance patiently explained my personal loan options and helped me arrange my documents. The whole enquiry process felt organised and stress-free.",
+      "The team at TNL Fincorp patiently explained my personal loan options and helped me arrange my documents. The whole enquiry process felt organised and stress-free.",
     rating: 5,
   },
   {
@@ -585,7 +605,7 @@ export const TESTIMONIALS: Testimonial[] = [
     initials: "PD",
     accent: "from-teal-brand to-cyan-brand",
     quote:
-      "I was confused about the home loan paperwork. TNL Finance guided me step by step and made the application support really easy to understand.",
+      "I was confused about the home loan paperwork. TNL Fincorp guided me step by step and made the application support really easy to understand.",
     rating: 5,
   },
   {
@@ -612,8 +632,8 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const FAQS: { q: string; a: string }[] = [
   {
-    q: "What types of loans does TNL Finance assist with?",
-    a: "TNL Finance assists customers across Personal Loans, Business Loans, Home Loans, Loan Against Property (LAP), Auto Loans and Education Loans through our financial services network.",
+    q: "What types of loans does TNL Fincorp assist with?",
+    a: "TNL Fincorp assists customers across Personal Loans, Business Loans, Home Loans, Loan Against Property (LAP), Auto Loans and Education Loans through our financial services network.",
   },
   {
     q: "How can I submit a loan enquiry?",
@@ -624,7 +644,7 @@ export const FAQS: { q: string; a: string }[] = [
     a: "Documentation varies by loan type and lender, but typically includes identity proof, address proof, income proof, bank statements and loan-specific documents such as property or admission papers. We guide you on the typical documents required.",
   },
   {
-    q: "Can TNL Finance help with the loan application process?",
+    q: "Can TNL Fincorp help with the loan application process?",
     a: "Yes. We assist with documentation, application processing and end-to-end support through the loan journey. Final approval, eligibility and terms are subject to the respective lender's policies.",
   },
   {
@@ -652,8 +672,8 @@ export const FAQS: { q: string; a: string }[] = [
     a: "Yes. We assist with education loan options for higher studies in India and eligible study destinations, including documentation guidance.",
   },
   {
-    q: "How can I contact TNL Finance?",
-    a: "You can call us at +91 94279 79991, email care@tnlfinance.in, or visit our office at 34 Madhuban, Sumukh Circle, Nr. Happy Villy International School, Dindoli, Surat, Gujarat, India.",
+    q: "How can I contact TNL Fincorp?",
+    a: "You can call us at +91 94279 79991, email care@tnlfincorp.in, or visit our office at 34 Madhuban, Sumukh Circle, Nr. Happy Villy International School, Dindoli, Surat, Gujarat, India.",
   },
 ];
 
@@ -681,8 +701,8 @@ export const CONTACT_CARDS: {
   {
     icon: Mail,
     title: "Email Us",
-    lines: ["care@tnlfinance.in"],
-    action: { label: "Send Email", href: "mailto:care@tnlfinance.in" },
+    lines: ["care@tnlfincorp.in"],
+    action: { label: "Send Email", href: "mailto:care@tnlfincorp.in" },
   },
   {
     icon: Clock,
@@ -692,6 +712,6 @@ export const CONTACT_CARDS: {
 ];
 
 export const DISCLAIMER =
-  "TNL Finance provides loan assistance and financial solution guidance. Loan approval, interest rates, eligibility, tenure, processing fees and other terms are subject to the policies, verification and approval processes of the respective financial institution/lender. Loan approval is not guaranteed.";
+  "TNL Fincorp provides loan assistance and financial solution guidance. Loan approval, interest rates, eligibility, tenure, processing fees and other terms are subject to the policies, verification and approval processes of the respective financial institution/lender. Loan approval is not guaranteed.";
 
 export type IconType = ComponentType<LucideProps>;

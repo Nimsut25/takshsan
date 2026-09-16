@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/sections/navbar";
 import { Hero } from "@/components/sections/hero";
+import { InvestSection } from "@/components/sections/invest-section";
 import { LoanServicesCarousel } from "@/components/sections/loan-services-carousel";
 import { LoanCategories } from "@/components/sections/loan-categories";
 import { PromoBanners } from "@/components/sections/promo-banners";
@@ -24,6 +25,7 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         <Hero />
+        <InvestSection />
         <LoanServicesCarousel />
         <PromoBanners />
         <LoanCategories />

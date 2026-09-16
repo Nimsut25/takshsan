@@ -18,9 +18,9 @@ export function WhyChooseUs() {
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Why TNL Finance"
+          eyebrow="Why TNL Fincorp"
           title="Why Choose"
-          highlight="TNL Finance?"
+          highlight="TNL Fincorp?"
           description="We focus on clear communication, suitable options and consistent support through your loan journey."
         />
 

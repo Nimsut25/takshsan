@@ -16,16 +16,16 @@ const jakarta = Plus_Jakarta_Sans({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-const SITE_URL = "https://tnlfinance.in";
+const SITE_URL = "https://tnlfincorp.in";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "TNL Finance | Smart Loan Solutions. Simple Financial Journey.",
-    template: "%s | TNL Finance",
+    default: "TNL Fincorp | Loans & Investment Solutions",
+    template: "%s | TNL Fincorp",
   },
   description:
-    "TNL Finance provides loan assistance and financial solutions across Personal, Business, Home, Loan Against Property, Auto and Education Loans in Surat, Gujarat. Get personalized guidance, documentation support and end-to-end application assistance.",
+    "TNL Fincorp provides loan assistance and investment solutions across Personal, Business, Home, Loan Against Property, Auto and Education Loans, plus FD & RD investment options in Surat, Gujarat. Get personalized guidance, documentation support and end-to-end assistance.",
   keywords: [
     "loan services in Surat",
     "personal loan assistance Surat",
@@ -36,27 +36,31 @@ export const metadata: Metadata = {
     "education loan assistance",
     "financial loan solutions",
     "loan consultancy Surat",
-    "TNL Finance",
+    "FD investment Surat",
+    "RD investment Surat",
+    "fixed deposit assistance",
+    "recurring deposit assistance",
+    "TNL Fincorp",
   ],
-  authors: [{ name: "TNL Finance" }],
-  creator: "TNL Finance",
-  publisher: "TNL Finance",
+  authors: [{ name: "TNL Fincorp" }],
+  creator: "TNL Fincorp",
+  publisher: "TNL Fincorp",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "TNL Finance | Smart Loan Solutions. Simple Financial Journey.",
+    title: "TNL Fincorp | Loans & Investment Solutions",
     description:
-      "Explore flexible loan solutions with personalized guidance, documentation assistance and end-to-end application support. Personal, Business, Home, LAP, Auto & Education Loans.",
+      "Explore flexible loan solutions plus FD & RD investment options with personalized guidance, documentation assistance and end-to-end support.",
     url: SITE_URL,
-    siteName: "TNL Finance",
+    siteName: "TNL Fincorp",
     locale: "en_IN",
     type: "website",
-    images: [{ url: "/images/hero.jpg", width: 1344, height: 768, alt: "TNL Finance loan solutions" }],
+    images: [{ url: "/images/hero.jpg", width: 1344, height: 768, alt: "TNL Fincorp loans & investment solutions" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "TNL Finance | Smart Loan Solutions",
+    title: "TNL Fincorp | Loans & Investment Solutions",
     description:
-      "Loan assistance & financial solutions across Personal, Business, Home, LAP, Auto & Education Loans.",
+      "Loan assistance & investment solutions across Personal, Business, Home, LAP, Auto, Education Loans plus FD & RD.",
     images: ["/images/hero.jpg"],
   },
   icons: {
@@ -70,9 +74,9 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "FinancialService",
-  name: "TNL Finance",
+  name: "TNL Fincorp",
   description:
-    "TNL Finance provides financial loan solutions and loan assistance across Personal, Business, Home, Loan Against Property, Auto and Education Loans.",
+    "TNL Fincorp provides financial loan solutions, loan assistance and investment options across Personal, Business, Home, Loan Against Property, Auto and Education Loans, plus Fixed Deposit (FD) and Recurring Deposit (RD) investment assistance.",
   image: `${SITE_URL}/images/hero.jpg`,
   url: SITE_URL,
   telephone: "+91-9427979991",
@@ -91,6 +95,8 @@ const jsonLd = {
     "Loan Against Property",
     "Auto Loan",
     "Education Loan",
+    "Fixed Deposit",
+    "Recurring Deposit",
   ],
   slogan: "Smart Loan Solutions. Simple Financial Journey.",
 };

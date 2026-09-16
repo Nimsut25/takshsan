@@ -1,0 +1,718 @@
+     1→import type { LucideIcon } from "lucide-react";
+     2→import {
+     3→  UserRound,
+     4→  Briefcase,
+     5→  Home,
+     6→  Building2,
+     7→  Car,
+     8→  GraduationCap,
+     9→  Phone,
+    10→  MapPin,
+    11→  Mail,
+    12→  Clock,
+    13→  ShieldCheck,
+    14→  Users,
+    15→  FileText,
+    16→  Network,
+    17→  Headphones,
+    18→  Handshake,
+    19→  type LucideProps,
+    20→} from "lucide-react";
+    21→import type { ComponentType } from "react";
+    22→
+    23→export const COMPANY = {
+    24→  name: "TNL Fincorp",
+    25→  tagline: "Smart Loan Solutions. Simple Financial Journey.",
+    26→  phone: "+91 94279 79991",
+    27→  phoneHref: "tel:+919427979991",
+    28→  email: "care@tnlfincorp.in",
+    29→  emailHref: "mailto:care@tnlfincorp.in",
+    30→  address:
+    31→    "34 Madhuban, Sumukh Circle, Nr. Happy Villy International School, Dindoli, Surat, Gujarat, India.",
+    32→  city: "Surat",
+    33→  state: "Gujarat",
+    34→  year: 2026,
+    35→  description:
+    36→    "We are engaged in providing financial loan solutions to customers through various loan products, including Personal Loans, Business Loans, Home Loans, Loan Against Property (LAP), Auto Loans and Education Loans. We assist customers with suitable loan options, documentation, application processing and end-to-end support through our financial services network.",
+    37→};
+    38→
+    39→/** In-page (homepage) anchor links used by the mobile side menu + footer quick links. */
+    40→export const NAV_LINKS = [
+    41→  { label: "Home", href: "/#home" },
+    42→  { label: "About Us", href: "/#about" },
+    43→  { label: "Loans", href: "/#services" },
+    44→  { label: "Investment", href: "/investment" },
+    45→  { label: "Why Choose Us", href: "/#why" },
+    46→  { label: "How It Works", href: "/#how" },
+    47→  { label: "FAQ", href: "/#faq" },
+    48→  { label: "Contact", href: "/#contact" },
+    49→] as const;
+    50→
+    51→/**
+    52→ * Top-level desktop header navigation. "Why Choose Us", "How It Works" and
+    53→ * "FAQ" are intentionally NOT in the header (their sections remain on the
+    54→ * homepage and stay reachable via the mobile menu + footer quick links).
+    55→ * "Loans" and "Investment" are dropdowns (see LOAN_DROPDOWN + INVEST_DROPDOWN).
+    56→ */
+    57→export const HEADER_NAV_LINKS = [
+    58→  { label: "Home", href: "/#home" },
+    59→  { label: "About Us", href: "/#about" },
+    60→] as const;
+    61→
+    62→/** Loans dropdown items (desktop hover + mobile accordion). */
+    63→export const LOAN_DROPDOWN = [
+    64→  { label: "Personal Loan", href: "/loans/personal", slug: "personal" as const },
+    65→  { label: "Business Loan", href: "/loans/business", slug: "business" as const },
+    66→  { label: "Home Loan", href: "/loans/home", slug: "home" as const },
+    67→  { label: "Auto Loan", href: "/loans/auto", slug: "auto" as const },
+    68→  { label: "Education Loan", href: "/loans/education", slug: "education" as const },
+    69→  { label: "Loan Against Property", href: "/loans/loan-against-property", slug: "lap" as const },
+    70→];
+    71→
+    72→/** Investment dropdown items (desktop hover + mobile accordion). */
+    73→export const INVEST_DROPDOWN = [
+    74→  { label: "FD & RD", href: "/investment" },
+    75→  { label: "Fixed Deposit (FD)", href: "/investment/fd" },
+    76→  { label: "Recurring Deposit (RD)", href: "/investment/rd" },
+    77→];
+    78→
+    79→/**
+    80→ * Social media profiles.
+    81→ * NOTE: These are clearly-marked configurable placeholders. Replace the `href`
+    82→ * values with the actual TNL Fincorp profile URLs before launch. They are kept
+    83→ * here in one place (not hardcoded inside components) so they are easy to update.
+    84→ */
+    85→export const SOCIAL_LINKS = [
+    86→  {
+    87→    label: "WhatsApp",
+    88→    href: "https://wa.me/919427979991", // uses the official TNL phone number
+    89→    color: "from-[#25D366] to-[#128C7E]",
+    90→  },
+    91→  {
+    92→    label: "Instagram",
+    93→    href: "#", // placeholder — replace with real Instagram URL
+    94→    color: "from-[#F58529] via-[#DD2A7B] to-[#8134AF]",
+    95→  },
+    96→  {
+    97→    label: "Facebook",
+    98→    href: "#", // placeholder — replace with real Facebook URL
+    99→    color: "from-[#1877F2] to-[#0a5dc7]",
+   100→  },
+   101→] as const;
+   102→
+   103→export type LoanSlug =
+   104→  | "personal"
+   105→  | "business"
+   106→  | "home"
+   107→  | "lap"
+   108→  | "auto"
+   109→  | "education";
+   110→
+   111→export type LoanProduct = {
+   112→  slug: LoanSlug;
+   113→  title: string;
+   114→  short: string;
+   115→  description: string;
+   116→  image: string;
+   117→  icon: LucideIcon;
+   118→  accent: string; // tailwind gradient classes
+   119→  glow: string;
+   120→  overview: string;
+   121→  benefits: string[];
+   122→  useCases: string[];
+   123→  eligibility: string[];
+   124→  documents: string[];
+   125→  process: string[];
+   126→  faqs: { q: string; a: string }[];
+   127→};
+   128→
+   129→export const LOAN_PRODUCTS: LoanProduct[] = [
+   130→  {
+   131→    slug: "personal",
+   132→    title: "Personal Loan",
+   133→    short:
+   134→      "Flexible personal loan solutions to help manage important expenses, emergencies, travel, lifestyle needs and more.",
+   135→    description:
+   136→      "Flexible personal loan solutions to help manage important expenses, emergencies, travel, lifestyle needs and more.",
+   137→    image: "/images/loan-personal.jpg",
+   138→    icon: UserRound,
+   139→    accent: "from-royal to-sky",
+   140→    glow: "shadow-[0_20px_60px_-20px_rgba(56,102,243,0.55)]",
+   141→    overview:
+   142→      "A Personal Loan can help you manage important life expenses such as medical needs, family events, travel, home improvements or lifestyle purchases. TNL Fincorp assists you in understanding available personal loan options, organising your documentation and guiding your application through the financial services network.",
+   143→    benefits: [
+   144→      "Guidance for multiple personal loan options",
+   145→      "Assistance with documentation and application",
+   146→      "Flexible loan amounts and tenure discussions",
+   147→      "Support for salaried and self-employed individuals",
+   148→      "End-to-end application assistance",
+   149→    ],
+   150→    useCases: [
+   151→      "Medical or emergency expenses",
+   152→      "Wedding and family events",
+   153→      "Travel and lifestyle needs",
+   154→      "Home renovation or repairs",
+   155→      "Debt consolidation planning",
+   156→    ],
+   157→    eligibility: [
+   158→      "Indian resident, typically 21–60 years",
+   159→      "Salaried or self-employed with stable income",
+   160→      "Acceptable credit repayment history",
+   161→      "Final eligibility subject to lender policies",
+   162→    ],
+   163→    documents: [
+   164→      "Identity proof (Aadhaar / PAN)",
+   165→      "Address proof",
+   166→      "Income proof / salary slips / bank statements",
+   167→      "Employment or business proof",
+   168→      "Other documents as required by the lender",
+   169→    ],
+   170→    process: [
+   171→      "Share your requirement with us",
+   172→      "Explore suitable personal loan options",
+   173→      "Get documentation & application assistance",
+   174→      "Receive end-to-end support through the journey",
+   175→    ],
+   176→    faqs: [
+   177→      {
+   178→        q: "Is personal loan approval guaranteed through TNL Fincorp?",
+   179→        a: "No. Loan approval, eligibility, interest rates and tenure are subject to the policies, verification and approval processes of the respective lender. TNL Fincorp assists with guidance, documentation and application support only.",
+   180→      },
+   181→      {
+   182→        q: "Do you charge for personal loan assistance?",
+   183→        a: "Any applicable charges or fees will be communicated transparently before proceeding. Loan terms are set by the respective financial institution/lender.",
+   184→      },
+   185→    ],
+   186→  },
+   187→  {
+   188→    slug: "business",
+   189→    title: "Business Loan",
+   190→    short:
+   191→      "Financial solutions designed to support business expansion, working capital, equipment purchases and growth requirements.",
+   192→    description:
+   193→      "Financial solutions designed to support business expansion, working capital, equipment purchases and growth requirements.",
+   194→    image: "/images/loan-business.jpg",
+   195→    icon: Briefcase,
+   196→    accent: "from-teal-brand to-cyan-brand",
+   197→    glow: "shadow-[0_20px_60px_-20px_rgba(20,184,166,0.55)]",
+   198→    overview:
+   199→      "A Business Loan can support working capital, business expansion, equipment purchases, inventory or growth requirements. TNL Fincorp helps business owners understand suitable loan options, structure documentation and complete the application process through the financial services network.",
+   200→    benefits: [
+   201→      "Assistance across business loan variants",
+   202→      "Guidance for working capital & term loans",
+   203→      "Documentation and application support",
+   204→      "Suitable for MSMEs, professionals and enterprises",
+   205→      "End-to-end assistance through the journey",
+   206→    ],
+   207→    useCases: [
+   208→      "Working capital requirements",
+   209→      "Business expansion and new branches",
+   210→      "Equipment and machinery purchase",
+   211→      "Inventory and raw material funding",
+   212→      "Hiring and operational growth",
+   213→    ],
+   214→    eligibility: [
+   215→      "Business vintage as required by lender",
+   216→      "Stable business turnover and profitability",
+   217→      "GST and financial documents in order",
+   218→      "Final eligibility subject to lender policies",
+   219→    ],
+   220→    documents: [
+   221→      "Business registration proof",
+   222→      "GST returns and financial statements",
+   223→      "Bank statements (business)",
+   224→      "PAN and KYC of proprietor/partners/directors",
+   225→      "Other documents as required by the lender",
+   226→    ],
+   227→    process: [
+   228→      "Share your business requirement",
+   229→      "Explore suitable business loan options",
+   230→      "Get documentation & application assistance",
+   231→      "Receive end-to-end support through the journey",
+   232→    ],
+   233→    faqs: [
+   234→      {
+   235→        q: "Do you assist startups with business loans?",
+   236→        a: "TNL Fincorp assists with understanding available business loan options. Eligibility for startups depends on the respective lender's policies, business vintage and financial profile.",
+   237→      },
+   238→      {
+   239→        q: "Can you help with working capital loans?",
+   240→        a: "Yes. We assist with exploring working capital and term loan options and support you with documentation and application processing.",
+   241→      },
+   242→    ],
+   243→  },
+   244→  {
+   245→    slug: "home",
+   246→    title: "Home Loan",
+   247→    short:
+   248→      "Loan assistance for purchasing, constructing or financing your dream home with suitable financing options.",
+   249→    description:
+   250→      "Loan assistance for purchasing, constructing or financing your dream home with suitable financing options.",
+   251→    image: "/images/loan-home.jpg",
+   252→    icon: Home,
+   253→    accent: "from-royal to-teal-brand",
+   254→    glow: "shadow-[0_20px_60px_-20px_rgba(56,102,243,0.55)]",
+   255→    overview:
+   256→      "A Home Loan can help you purchase, construct or renovate your home. TNL Fincorp assists you with understanding home loan options, property-related documentation, eligibility discussions and the application process through the financial services network.",
+   257→    benefits: [
+   258→      "Assistance for purchase, construction & renovation",
+   259→      "Guidance for eligible property documentation",
+   260→      "Support for salaried and self-employed applicants",
+   261→      "Documentation and application assistance",
+   262→      "End-to-end guidance through the journey",
+   263→    ],
+   264→    useCases: [
+   265→      "Purchasing a new or resale home",
+   266→      "Constructing a house",
+   267→      "Home renovation or extension",
+   268→      "Plot + construction financing",
+   269→      "Balance transfer and top-up guidance",
+   270→    ],
+   271→    eligibility: [
+   272→      "Indian resident, typically 21–65 years",
+   273→      "Stable income (salaried or self-employed)",
+   274→      "Acceptable property title and valuation",
+   275→      "Final eligibility subject to lender policies",
+   276→    ],
+   277→    documents: [
+   278→      "Identity and address proof",
+   279→      "Income proof / salary slips / bank statements",
+   280→      "Property documents (title, agreement, approvals)",
+   281→      "Tax and financial documents",
+   282→      "Other documents as required by the lender",
+   283→    ],
+   284→    process: [
+   285→      "Share your home loan requirement",
+   286→      "Explore suitable home loan options",
+   287→      "Get documentation & application assistance",
+   288→      "Receive end-to-end support through the journey",
+   289→    ],
+   290→    faqs: [
+   291→      {
+   292→        q: "Can you help with home loan balance transfer?",
+   293→        a: "Yes. We can assist you with understanding balance transfer and top-up options available through our financial services network.",
+   294→      },
+   295→      {
+   296→        q: "Is property documentation guidance included?",
+   297→        a: "Yes. We guide you on the typical documentation required, though final documentation and legal verification are governed by the respective lender.",
+   298→      },
+   299→    ],
+   300→  },
+   301→  {
+   302→    slug: "lap",
+   303→    title: "Loan Against Property",
+   304→    short:
+   305→      "Utilize the value of eligible property to access funds for personal or business-related financial requirements.",
+   306→    description:
+   307→      "Utilize the value of eligible property to access funds for personal or business-related financial requirements.",
+   308→    image: "/images/loan-lap.jpg",
+   309→    icon: Building2,
+   310→    accent: "from-navy to-royal",
+   311→    glow: "shadow-[0_20px_60px_-20px_rgba(15,30,70,0.55)]",
+   312→    overview:
+   313→      "A Loan Against Property (LAP) lets you access funds by using eligible residential or commercial property. TNL Fincorp assists you with understanding LAP options, property documentation, eligibility discussions and the application process through the financial services network.",
+   314→    benefits: [
+   315→      "Assistance for residential & commercial property",
+   316→      "Guidance for personal or business fund usage",
+   317→      "Documentation and application support",
+   318→      "Support for salaried and self-employed applicants",
+   319→      "End-to-end assistance through the journey",
+   320→    ],
+   321→    useCases: [
+   322→      "Business expansion funding",
+   323→      "Large personal or family expenses",
+   324→      "Debt consolidation",
+   325→      "Education or wedding funding",
+   326→      "Working capital for self-employed",
+   327→    ],
+   328→    eligibility: [
+   329→      "Owner of eligible property with clear title",
+   330→      "Stable income source",
+   331→      "Acceptable property valuation",
+   332→      "Final eligibility subject to lender policies",
+   333→    ],
+   334→    documents: [
+   335→      "Property title and ownership documents",
+   336→      "Identity and address proof",
+   337→      "Income proof / financial statements",
+   338→      "Property tax and approval documents",
+   339→      "Other documents as required by the lender",
+   340→    ],
+   341→    process: [
+   342→      "Share your funding requirement",
+   343→      "Explore suitable LAP options",
+   344→      "Get documentation & application assistance",
+   345→      "Receive end-to-end support through the journey",
+   346→    ],
+   347→    faqs: [
+   348→      {
+   349→        q: "Can I use LAP funds for business purposes?",
+   350→        a: "Yes. Loan Against Property funds can generally be used for business or personal needs, subject to the respective lender's terms and conditions.",
+   351→      },
+   352→      {
+   353→        q: "What property types are considered for LAP?",
+   354→        a: "Eligible residential, commercial or industrial property with clear title may be considered. Final acceptance depends on the lender's policies and valuation.",
+   355→      },
+   356→    ],
+   357→  },
+   358→  {
+   359→    slug: "auto",
+   360→    title: "Auto Loan",
+   361→    short:
+   362→      "Loan assistance for purchasing a new or used vehicle with suitable financing options.",
+   363→    description:
+   364→      "Loan assistance for purchasing a new or used vehicle with suitable financing options.",
+   365→    image: "/images/loan-auto.jpg",
+   366→    icon: Car,
+   367→    accent: "from-sky to-cyan-brand",
+   368→    glow: "shadow-[0_20px_60px_-20px_rgba(56,189,248,0.55)]",
+   369→    overview:
+   370→      "An Auto Loan helps you finance a new or used vehicle. TNL Fincorp assists you with understanding auto loan options, documentation, eligibility discussions and the application process through the financial services network.",
+   371→    benefits: [
+   372→      "Assistance for new and used vehicles",
+   373→      "Guidance for cars, two-wheelers & commercial vehicles",
+   374→      "Documentation and application support",
+   375→      "Support for salaried and self-employed applicants",
+   376→      "End-to-end assistance through the journey",
+   377→    ],
+   378→    useCases: [
+   379→      "New car or two-wheeler purchase",
+   380→      "Used vehicle purchase",
+   381→      "Commercial vehicle financing",
+   382→      "Electric vehicle purchase",
+   383→      "Top-up on existing vehicle loan",
+   384→    ],
+   385→    eligibility: [
+   386→      "Indian resident, typically 21–65 years",
+   387→      "Stable income source",
+   388→      "Acceptable vehicle age and condition",
+   389→      "Final eligibility subject to lender policies",
+   390→    ],
+   391→    documents: [
+   392→      "Identity and address proof",
+   393→      "Income proof / salary slips / bank statements",
+   394→      "Vehicle quotation or valuation (used vehicle)",
+   395→      "PAN and KYC documents",
+   396→      "Other documents as required by the lender",
+   397→    ],
+   398→    process: [
+   399→      "Share your vehicle requirement",
+   400→      "Explore suitable auto loan options",
+   401→      "Get documentation & application assistance",
+   402→      "Receive end-to-end support through the journey",
+   403→    ],
+   404→    faqs: [
+   405→      {
+   406→        q: "Do you assist with used vehicle loans?",
+   407→        a: "Yes. We assist with exploring both new and used vehicle loan options, subject to the respective lender's vehicle age and condition policies.",
+   408→      },
+   409→      {
+   410→        q: "Can self-employed applicants get auto loans?",
+   411→        a: "Yes. We assist both salaried and self-employed applicants. Final eligibility is subject to the lender's policies and verification.",
+   412→      },
+   413→    ],
+   414→  },
+   415→  {
+   416→    slug: "education",
+   417→    title: "Education Loan",
+   418→    short:
+   419→      "Financial assistance for higher education and academic expenses in India and eligible study destinations.",
+   420→    description:
+   421→      "Financial assistance for higher education and academic expenses in India and eligible study destinations.",
+   422→    image: "/images/loan-education.jpg",
+   423→    icon: GraduationCap,
+   424→    accent: "from-teal-brand to-royal",
+   425→    glow: "shadow-[0_20px_60px_-20px_rgba(20,184,166,0.55)]",
+   426→    overview:
+   427→      "An Education Loan helps finance higher studies in India or eligible study destinations. TNL Fincorp assists students and families with understanding education loan options, documentation, eligibility discussions and the application process through the financial services network.",
+   428→    benefits: [
+   429→      "Assistance for India and overseas education",
+   430→      "Guidance for tuition, living and academic expenses",
+   431→      "Documentation and application support",
+   432→      "Support for admission and course documentation",
+   433→      "End-to-end assistance through the journey",
+   434→    ],
+   435→    useCases: [
+   436→      "Undergraduate and postgraduate studies",
+   437→      "Professional and technical courses",
+   438→      "Study abroad programs",
+   439→      "Skill and certification courses",
+   440→      "Living and academic expense support",
+   441→    ],
+   442→    eligibility: [
+   443→      "Confirmed admission or offer letter",
+   444→      "Recognised course and institution",
+   445→      "Co-applicant with stable income (typically parent/guardian)",
+   446→      "Final eligibility subject to lender policies",
+   447→    ],
+   448→    documents: [
+   449→      "Admission letter / offer letter",
+   450→      "Identity and address proof",
+   451→      "Academic documents",
+   452→      "Co-applicant income proof / bank statements",
+   453→      "Other documents as required by the lender",
+   454→    ],
+   455→    process: [
+   456→      "Share your education requirement",
+   457→      "Explore suitable education loan options",
+   458→      "Get documentation & application assistance",
+   459→      "Receive end-to-end support through the journey",
+   460→    ],
+   461→    faqs: [
+   462→      {
+   463→        q: "Do you assist with education loans for studying abroad?",
+   464→        a: "Yes. We assist with exploring education loan options for India and eligible overseas study destinations, subject to lender policies.",
+   465→      },
+   466→      {
+   467→        q: "Is a co-applicant required for an education loan?",
+   468→        a: "Most lenders require a co-applicant such as a parent or guardian with a stable income. Final requirements depend on the lender's policies.",
+   469→      },
+   470→    ],
+   471→  },
+   472→];
+   473→
+   474→export const LOAN_TYPES = LOAN_PRODUCTS.map((p) => p.title);
+   475→
+   476→export const WHY_FEATURES: {
+   477→  icon: LucideIcon;
+   478→  title: string;
+   479→  desc: string;
+   480→  accent: string;
+   481→}[] = [
+   482→  {
+   483→    icon: Handshake,
+   484→    title: "Personalized Guidance",
+   485→    desc: "We help you understand available loan options based on your specific requirements and goals.",
+   486→    accent: "from-royal to-sky",
+   487→  },
+   488→  {
+   489→    icon: Network,
+   490→    title: "Multiple Loan Solutions",
+   491→    desc: "Access assistance across Personal, Business, Home, LAP, Auto and Education Loans.",
+   492→    accent: "from-teal-brand to-cyan-brand",
+   493→  },
+   494→  {
+   495→    icon: FileText,
+   496→    title: "Documentation Support",
+   497→    desc: "Clear guidance through required documentation and the overall application process.",
+   498→    accent: "from-royal to-teal-brand",
+   499→  },
+   500→  {
+   501→    icon: Headphones,
+   502→    title: "End-to-End Assistance",
+   503→    desc: "Support throughout your loan application journey, from enquiry to submission.",
+   504→    accent: "from-sky to-cyan-brand",
+   505→  },
+   506→  {
+   507→    icon: Users,
+   508→    title: "Customer-Centric Approach",
+   509→    desc: "Focus on clear communication and understanding your actual financial requirements.",
+   510→    accent: "from-teal-brand to-royal",
+   511→  },
+   512→  {
+   513→    icon: Network,
+   514→    title: "Financial Service Network",
+   515→    desc: "Connect with suitable loan solutions through our financial services network.",
+   516→    accent: "from-navy to-royal",
+   517→  },
+   518→];
+   519→
+   520→export const HOW_STEPS: {
+   521→  step: string;
+   522→  title: string;
+   523→  desc: string;
+   524→  icon: LucideIcon;
+   525→}[] = [
+   526→  {
+   527→    step: "01",
+   528→    title: "Share Your Requirement",
+   529→    desc: "Tell us what type of financing you need and your broad goals.",
+   530→    icon: Phone,
+   531→  },
+   532→  {
+   533→    step: "02",
+   534→    title: "Explore Suitable Options",
+   535→    desc: "Understand available loan solutions based on your requirement.",
+   536→    icon: Network,
+   537→  },
+   538→  {
+   539→    step: "03",
+   540→    title: "Documentation & Application",
+   541→    desc: "Get assistance with documentation and application processing.",
+   542→    icon: FileText,
+   543→  },
+   544→  {
+   545→    step: "04",
+   546→    title: "End-to-End Support",
+   547→    desc: "Receive guidance throughout the loan journey.",
+   548→    icon: ShieldCheck,
+   549→  },
+   550→];
+   551→
+   552→export const TRUST_POINTS: { icon: LucideIcon; title: string; desc: string }[] = [
+   553→  {
+   554→    icon: Handshake,
+   555→    title: "Customer-Focused Assistance",
+   556→    desc: "Guidance built around your actual financial requirements.",
+   557→  },
+   558→  {
+   559→    icon: Network,
+   560→    title: "Multiple Loan Solutions",
+   561→    desc: "Assistance across six major loan categories.",
+   562→  },
+   563→  {
+   564→    icon: FileText,
+   565→    title: "Documentation Guidance",
+   566→    desc: "Clear help with paperwork and application steps.",
+   567→  },
+   568→  {
+   569→    icon: Headphones,
+   570→    title: "End-to-End Support",
+   571→    desc: "Assistance throughout your loan journey.",
+   572→  },
+   573→  {
+   574→    icon: ShieldCheck,
+   575→    title: "Professional Assistance",
+   576→    desc: "Trusted financial solution guidance.",
+   577→  },
+   578→];
+   579→
+   580→export type Testimonial = {
+   581→  name: string;
+   582→  role: string;
+   583→  location: string;
+   584→  initials: string;
+   585→  accent: string;
+   586→  quote: string;
+   587→  rating: number;
+   588→};
+   589→
+   590→export const TESTIMONIALS: Testimonial[] = [
+   591→  {
+   592→    name: "Rohit Sharma",
+   593→    role: "Salaried Professional",
+   594→    location: "Surat",
+   595→    initials: "RS",
+   596→    accent: "from-royal to-sky",
+   597→    quote:
+   598→      "The team at TNL Fincorp patiently explained my personal loan options and helped me arrange my documents. The whole enquiry process felt organised and stress-free.",
+   599→    rating: 5,
+   600→  },
+   601→  {
+   602→    name: "Priya Desai",
+   603→    role: "Home Buyer",
+   604→    location: "Dindoli, Surat",
+   605→    initials: "PD",
+   606→    accent: "from-teal-brand to-cyan-brand",
+   607→    quote:
+   608→      "I was confused about the home loan paperwork. TNL Fincorp guided me step by step and made the application support really easy to understand.",
+   609→    rating: 5,
+   610→  },
+   611→  {
+   612→    name: "Amit Patel",
+   613→    role: "Business Owner",
+   614→    location: "Surat",
+   615→    initials: "AP",
+   616→    accent: "from-royal to-teal-brand",
+   617→    quote:
+   618→      "As a business owner I needed clear guidance on working capital options. Their team understood my requirement and supported me throughout the application.",
+   619→    rating: 5,
+   620→  },
+   621→  {
+   622→    name: "Sneha Mehta",
+   623→    role: "Parent",
+   624→    location: "Surat",
+   625→    initials: "SM",
+   626→    accent: "from-sky to-cyan-brand",
+   627→    quote:
+   628→      "For my daughter's education loan enquiry, the team was responsive and helpful at every step. The documentation guidance was especially reassuring.",
+   629→    rating: 5,
+   630→  },
+   631→];
+   632→
+   633→export const FAQS: { q: string; a: string }[] = [
+   634→  {
+   635→    q: "What types of loans does TNL Fincorp assist with?",
+   636→    a: "TNL Fincorp assists customers across Personal Loans, Business Loans, Home Loans, Loan Against Property (LAP), Auto Loans and Education Loans through our financial services network.",
+   637→  },
+   638→  {
+   639→    q: "How can I submit a loan enquiry?",
+   640→    a: "You can submit a loan enquiry through the enquiry form on our website, call us at +91 94279 79991, or visit our office in Dindoli, Surat. Our team will guide you on the next steps.",
+   641→  },
+   642→  {
+   643→    q: "What documents may be required?",
+   644→    a: "Documentation varies by loan type and lender, but typically includes identity proof, address proof, income proof, bank statements and loan-specific documents such as property or admission papers. We guide you on the typical documents required.",
+   645→  },
+   646→  {
+   647→    q: "Can TNL Fincorp help with the loan application process?",
+   648→    a: "Yes. We assist with documentation, application processing and end-to-end support through the loan journey. Final approval, eligibility and terms are subject to the respective lender's policies.",
+   649→  },
+   650→  {
+   651→    q: "Do you assist with Personal Loans?",
+   652→    a: "Yes. We assist with exploring personal loan options, documentation and application support for salaried and self-employed individuals.",
+   653→  },
+   654→  {
+   655→    q: "Do you assist with Business Loans?",
+   656→    a: "Yes. We assist with business loan options including working capital and term loans, along with documentation and application guidance.",
+   657→  },
+   658→  {
+   659→    q: "Do you assist with Home Loans?",
+   660→    a: "Yes. We assist with home loan options for purchase, construction and renovation, including property documentation guidance.",
+   661→  },
+   662→  {
+   663→    q: "Do you assist with Loan Against Property?",
+   664→    a: "Yes. We assist with Loan Against Property options for residential or commercial property, subject to lender eligibility and valuation.",
+   665→  },
+   666→  {
+   667→    q: "Do you assist with Auto Loans?",
+   668→    a: "Yes. We assist with auto loan options for new and used vehicles, including cars, two-wheelers and commercial vehicles.",
+   669→  },
+   670→  {
+   671→    q: "Do you assist with Education Loans?",
+   672→    a: "Yes. We assist with education loan options for higher studies in India and eligible study destinations, including documentation guidance.",
+   673→  },
+   674→  {
+   675→    q: "How can I contact TNL Fincorp?",
+   676→    a: "You can call us at +91 94279 79991, email care@tnlfincorp.in, or visit our office at 34 Madhuban, Sumukh Circle, Nr. Happy Villy International School, Dindoli, Surat, Gujarat, India.",
+   677→  },
+   678→];
+   679→
+   680→export const CONTACT_CARDS: {
+   681→  icon: LucideIcon;
+   682→  title: string;
+   683→  lines: string[];
+   684→  action?: { label: string; href: string };
+   685→}[] = [
+   686→  {
+   687→    icon: MapPin,
+   688→    title: "Visit Us",
+   689→    lines: [
+   690→      "34 Madhuban, Sumukh Circle,",
+   691→      "Nr. Happy Villy International School,",
+   692→      "Dindoli, Surat, Gujarat, India.",
+   693→    ],
+   694→  },
+   695→  {
+   696→    icon: Phone,
+   697→    title: "Call Us",
+   698→    lines: ["+91 94279 79991"],
+   699→    action: { label: "Call Now", href: "tel:+919427979991" },
+   700→  },
+   701→  {
+   702→    icon: Mail,
+   703→    title: "Email Us",
+   704→    lines: ["care@tnlfincorp.in"],
+   705→    action: { label: "Send Email", href: "mailto:care@tnlfincorp.in" },
+   706→  },
+   707→  {
+   708→    icon: Clock,
+   709→    title: "Working Hours",
+   710→    lines: ["Mon – Sat: 10:00 AM – 7:00 PM", "Sunday: By Appointment"],
+   711→  },
+   712→];
+   713→
+   714→export const DISCLAIMER =
+   715→  "TNL Fincorp provides loan assistance and financial solution guidance. Loan approval, interest rates, eligibility, tenure, processing fees and other terms are subject to the policies, verification and approval processes of the respective financial institution/lender. Loan approval is not guaranteed.";
+   716→
+   717→export type IconType = ComponentType<LucideProps>;
+   718→

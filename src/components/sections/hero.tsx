@@ -195,7 +195,7 @@ function HeroVisual() {
         <div className="aspect-[4/5] w-full sm:aspect-[5/5] lg:aspect-[4/4.4] relative">
           <Image
             src="/images/hero.jpg"
-            alt="TNL Finance consultant advising a customer on loan solutions"
+            alt="TNL Fincorp consultant advising a customer on loan solutions"
             fill
             priority
             sizes="(max-width: 1024px) 90vw, 50vw"
