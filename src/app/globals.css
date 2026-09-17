@@ -149,6 +149,40 @@
     background: var(--royal);
     color: white;
   }
+
+  /*
+   * Global text justification for flowing multi-line paragraphs & descriptions.
+   *
+   * - Mobile-first: NOT justified on narrow screens (looks messy), only at
+   *   sm: (≥640px / tablet & desktop).
+   * - Hyphenation enabled (hyphens: auto) so justification doesn't create
+   *   awkward large gaps between words.
+   * - Targets: <p>, elements using .text-muted-foreground (descriptions), and
+   *   any element with .leading-relaxed (the utility used on flowing body copy
+   *   across all loan/investment/homepage sections).
+   * - EXCLUDES: headings, nav, buttons, labels, form controls, short UI text,
+   *   badges, captions, and table cells (handled by their own alignment).
+   */
+  p,
+  .text-muted-foreground,
+  .leading-relaxed {
+    text-align: start;
+  }
+  @media (min-width: 640px) {
+    p,
+    .text-muted-foreground,
+    .leading-relaxed {
+      text-align: justify;
+      hyphens: auto;
+      -webkit-hyphens: auto;
+    }
+  }
+  /* Keep interactive / UI text left-aligned regardless of breakpoint */
+  a, button, label, input, textarea, select, th, caption,
+  [role="button"], [role="link"], [role="tab"], [role="menuitem"],
+  .btn, [data-slot="accordion-trigger"], [data-slot="select-trigger"] {
+    text-align: start !important;
+  }
 }
 
 /* ---------- Custom utilities ---------- */

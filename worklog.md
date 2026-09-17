@@ -353,3 +353,20 @@ Verification:
 
 Stage Summary:
 - Complete loan-page system live. 6 distinct premium loan pages sharing one design system + reusable components, each with hero+OTP form, calculators, reviews, trust banners, FAQs. OTP uses existing /api/otp/send + /api/otp/verify (server-side, never exposed). No false financial guarantees. Fully responsive. Production-ready.
+
+---
+Task ID: 21
+Agent: main
+Task: Apply global text justification (desktop/tablet only) + hyphenation to all flowing paragraphs/descriptions
+
+Work Log:
+- Added global CSS rules in @layer base of globals.css targeting flowing body copy:
+  - p, .text-muted-foreground, .leading-relaxed → text-align: start (mobile default, not justified)
+  - @media (min-width: 640px) → text-align: justify + hyphens: auto + -webkit-hyphens: auto (tablet/desktop only)
+  - Interactive/UI elements (a, button, label, input, textarea, select, th, caption, [role=button/link/tab/menuitem], accordion triggers, select triggers) → text-align: start !important (always left-aligned, never justified)
+- Verified served CSS contains the rules (text-align: justify, hyphens: auto, -webkit-hyphens: auto) wrapped in @media (min-width: 640px)
+- Confirmed the same global stylesheet is served across all 10 routes (homepage, 6 loan pages, 3 investment pages) — so all current AND future pages automatically inherit justification
+- Lint: 0 errors
+
+Stage Summary:
+- Global justification applied. Mobile stays left-aligned (clean on narrow widths); tablet/desktop paragraphs/descriptions are justified with hyphenation to prevent awkward gaps. Headings, nav, buttons, labels, and form controls remain left-aligned. Dynamic/CMS content using <p>, text-muted-foreground, or leading-relaxed is covered automatically.
