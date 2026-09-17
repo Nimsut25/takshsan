@@ -156,6 +156,7 @@ export function LoanPageClient({
               description="Choose the home loan option that fits your requirement."
               types={loan.loanTypes}
               accent={loan.accent}
+              loanName="Home Loan"
             />
           )}
           <LoanEmiCalculator
@@ -178,7 +179,7 @@ export function LoanPageClient({
             eyebrow="Why TNL Fincorp"
             title="Why Choose TNL Fincorp for"
             highlight="Auto Finance?"
-            description="Vehicle finance guidance for new and used cars, two-wheelers and commercial vehicles."
+            description="Vehicle finance guidance for new and used cars and commercial vehicles."
             benefits={loan.benefits}
             accent={loan.accent}
           />
@@ -190,6 +191,7 @@ export function LoanPageClient({
               description="Explore financing options across vehicle categories."
               types={loan.loanTypes}
               accent={loan.accent}
+              loanName="Auto Loan"
             />
           )}
           <LoanProcess steps={loan.process} accent={loan.accent} />
@@ -227,6 +229,7 @@ export function LoanPageClient({
               description="Explore education loan options across courses and study destinations."
               types={loan.loanTypes}
               accent={loan.accent}
+              loanName="Education Loan"
             />
           )}
           <LoanProcess steps={loan.process} accent={loan.accent} />
@@ -264,6 +267,7 @@ export function LoanPageClient({
               description="Residential, commercial and industrial property may be considered — subject to lender eligibility and valuation."
               types={loan.loanTypes}
               accent={loan.accent}
+              loanName="Loan Against Property"
             />
           )}
           <LoanProcess steps={loan.process} accent={loan.accent} />

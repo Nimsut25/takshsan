@@ -1,0 +1,1765 @@
+     1→/**
+     2→ * loan-page-data.ts
+     3→ * ------------------
+     4→ * Comprehensive, fully-typed content for the 6 standalone premium loan pages
+     5→ * (Personal, Business, Home, Loan Against Property, Auto, Education).
+     6→ *
+     7→ * Design notes
+     8→ * - Each loan page is self-contained: this file provides everything beyond what
+     9→ *   is in LOAN_PRODUCTS (hero copy, floating cards, why-choose, process,
+    10→ *   eligibility, documents, loan types, partners, testimonials, trust counters,
+    11→ *   FAQ and an EMI calculator config).
+    12→ * - Financial-responsibility policy: every claim is worded with appropriate
+    13→ *   qualifiers ("subject to lender assessment", "up to", "as applicable",
+    14→ *   "terms and conditions apply"). There are NO "guaranteed approval",
+    15→ *   "lowest rate guaranteed" or similar promises anywhere in this file.
+    16→ * - Testimonials and trust counters are clearly editable placeholders. They are
+    17→ *   the single source of truth — the UI layer renders them as demo content.
+    18→ *
+    19→ * Imports only `LoanSlug` from `@/lib/site-data` — this file is self-contained
+    20→ * otherwise.
+    21→ */
+    22→
+    23→import type { LucideIcon } from "lucide-react";
+    24→import {
+    25→  UserRound,
+    26→  Briefcase,
+    27→  Home,
+    28→  Building2,
+    29→  Car,
+    30→  GraduationCap,
+    31→  ShieldCheck,
+    32→  FileText,
+    33→  Clock,
+    34→  Wallet,
+    35→  TrendingUp,
+    36→  Target,
+    37→  Handshake,
+    38→  Network,
+    39→  Lock,
+    40→  Zap,
+    41→  CheckCircle2,
+    42→  Landmark,
+    43→  Coins,
+    44→  PiggyBank,
+    45→  Banknote,
+    46→  Percent,
+    47→  Trophy,
+    48→  Users,
+    49→  FileCheck2,
+    50→  CreditCard,
+    51→  Smartphone,
+    52→  BadgeIndianRupee,
+    53→  Calculator,
+    54→  ClipboardCheck,
+    55→  FileSignature,
+    56→  Stamp,
+    57→  Factory,
+    58→  Trees,
+    59→  Bike,
+    60→  CarFront,
+    61→  Receipt,
+    62→  ScrollText,
+    63→  Globe2,
+    64→  Rocket,
+    65→  ClipboardList,
+    66→  FileSearch,
+    67→  PhoneCall,
+    68→  LineChart,
+    69→  IndianRupee,
+    70→  BadgePercent,
+    71→  Building,
+    72→  BanknoteIcon,
+    73→  Mailbox,
+    74→  MessageSquare,
+    75→  MapPinned,
+    76→  Wallet2,
+    77→  Hourglass,
+    78→  BookOpen,
+    79→  GraduationCap as GradCap,
+    80→  Plane,
+    81→  Library,
+    82→  School,
+    83→  Wrench,
+    84→  HardHat,
+    85→  Hammer,
+    86→  TreePalm,
+    87→  Building2 as BuildingIcon,
+    88→  Microscope,
+    89→  Briefcase as BriefcaseIcon,
+    90→  Settings2,
+    91→  Truck,
+    92→  Gauge,
+    93→} from "lucide-react";
+    94→
+    95→import type { LoanSlug } from "@/lib/site-data";
+    96→
+    97→/* -------------------------------------------------------------------------- */
+    98→/* Shared types                                                               */
+    99→/* -------------------------------------------------------------------------- */
+   100→
+   101→export type LoanBenefit = { icon: LucideIcon; title: string; desc: string };
+   102→
+   103→export type LoanProcessStep = {
+   104→  step: string;
+   105→  title: string;
+   106→  desc: string;
+   107→  icon: LucideIcon;
+   108→};
+   109→
+   110→export type LoanWhyBetter = { icon: LucideIcon; title: string; desc: string };
+   111→
+   112→export type LoanTypeCard = { icon: LucideIcon; title: string; desc: string };
+   113→
+   114→export type LoanTestimonial = {
+   115→  name: string;
+   116→  role: string;
+   117→  location: string;
+   118→  initials: string;
+   119→  accent: string;
+   120→  quote: string;
+   121→  rating: number;
+   122→  loanType: string;
+   123→};
+   124→
+   125→export type TrustCounter = { value: number; suffix: string; label: string };
+   126→
+   127→export type CalculatorConfig = {
+   128→  minAmount: number;
+   129→  maxAmount: number;
+   130→  defaultAmount: number;
+   131→  minRate: number;
+   132→  maxRate: number;
+   133→  defaultRate: number;
+   134→  minYears: number;
+   135→  maxYears: number;
+   136→  defaultYears: number;
+   137→  /** When true, the calculator renders a down-payment / margin input. */
+   138→  hasDownPayment?: boolean;
+   139→};
+   140→
+   141→export type LoanPageContent = {
+   142→  slug: LoanSlug;
+   143→  route: string;
+   144→  /** e.g. "FAST • SIMPLE • DIGITAL" */
+   145→  eyebrow: string;
+   146→  /** e.g. "Instant Personal Loan" */
+   147→  heroHeadline: string;
+   148→  heroDescription: string;
+   149→  heroImage: string;
+   150→  /** 3–4 floating cards displayed on the hero image */
+   151→  heroFloatingCards: { icon: LucideIcon; label: string }[];
+   152→  /** Tailwind gradient classes e.g. "from-royal to-sky" */
+   153→  accent: string;
+   154→  /** Section: Why Choose / benefits */
+   155→  benefits: LoanBenefit[];
+   156→  /** Section: What Makes Us Better (4 cards) — optional */
+   157→  whyBetter?: LoanWhyBetter[];
+   158→  /** Section: Application process */
+   159→  process: LoanProcessStep[];
+   160→  /** Section: Eligibility */
+   161→  eligibility: { icon: LucideIcon; label: string; value: string }[];
+   162→  /** Section: Required documents */
+   163→  documents: { icon: LucideIcon; title: string; desc: string }[];
+   164→  /** Section: Loan types (home loan, auto loan, etc.) — optional */
+   165→  loanTypes?: LoanTypeCard[];
+   166→  /** Section: Partner brands (home loan) — placeholder names, clearly editable */
+   167→  partners?: string[];
+   168→  /** Section: Customer reviews (clearly editable placeholders / demo content) */
+   169→  testimonials: LoanTestimonial[];
+   170→  /**
+   171→   * Section: Trust banner counters.
+   172→   * NOTE: these are editable placeholders — replace with verified figures
+   173→   * before going live.
+   174→   */
+   175→  trustCounters: TrustCounter[];
+   176→  /** Section: FAQ */
+   177→  faqs: { q: string; a: string }[];
+   178→  /** EMI calculator config */
+   179→  calculator: CalculatorConfig;
+   180→  /** SEO */
+   181→  metaTitle: string;
+   182→  metaDescription: string;
+   183→};
+   184→
+   185→/* -------------------------------------------------------------------------- */
+   186→/* Shared trust counters                                                      */
+   187→/* -------------------------------------------------------------------------- */
+   188→
+   189→/**
+   190→ * EDITABLE PLACEHOLDER FIGURES — replace with verified numbers before launch.
+   191→ * Used as the default trust banner on each loan page; individual pages may
+   192→ * override the labels to feel product-specific while keeping values editable.
+   193→ */
+   194→const DEFAULT_TRUST_COUNTERS: TrustCounter[] = [
+   195→  { value: 50000, suffix: "+", label: "Customers Served" },
+   196→  { value: 75000, suffix: "+", label: "Loans Processed" },
+   197→  { value: 20, suffix: "+", label: "Partner Network" },
+   198→  { value: 100000, suffix: "+", label: "Applications Processed" },
+   199→];
+   200→
+   201→/* -------------------------------------------------------------------------- */
+   202→/* 1. PERSONAL LOAN — /personal-loan                                          */
+   203→/* -------------------------------------------------------------------------- */
+   204→
+   205→const personalLoan: LoanPageContent = {
+   206→  slug: "personal",
+   207→  route: "/personal-loan",
+   208→  eyebrow: "FAST • SIMPLE • DIGITAL",
+   209→  heroHeadline: "Instant Personal Loan",
+   210→  heroDescription:
+   211→    "Manage important life expenses — medical needs, family events, travel, home upgrades or lifestyle purchases — with personal loan assistance from TNL Fincorp. We help you understand available options, organise your documents and guide your application through our financial services network. Loan approval, eligibility, rates and tenure are subject to the respective lender's policies.",
+   212→  heroImage: "/images/loan-personal.jpg",
+   213→  heroFloatingCards: [
+   214→    { icon: Zap, label: "Quick Digital Enquiry" },
+   215→    { icon: ShieldCheck, label: "Secure & Private" },
+   216→    { icon: Wallet, label: "Flexible Amounts" },
+   217→    { icon: FileCheck2, label: "Documentation Help" },
+   218→  ],
+   219→  accent: "from-royal to-sky",
+   220→
+   221→  benefits: [
+   222→    {
+   223→      icon: Network,
+   224→      title: "Multiple Lender Options",
+   225→      desc: "Explore personal loan options across our financial services network — offers may vary by lender and applicant profile.",
+   226→    },
+   227→    {
+   228→      icon: FileText,
+   229→      title: "Documentation Guidance",
+   230→      desc: "We help you understand and arrange the documents typically required for your personal loan application.",
+   231→    },
+   232→    {
+   233→      icon: Users,
+   234→      title: "Salaried & Self-Employed",
+   235→      desc: "Assistance for both salaried professionals and self-employed individuals, subject to lender eligibility.",
+   236→    },
+   237→    {
+   238→      icon: Handshake,
+   239→      title: "Personalised Assistance",
+   240→      desc: "Guidance built around your specific requirement — no one-size-fits-all approach.",
+   241→    },
+   242→    {
+   243→      icon: ShieldCheck,
+   244→      title: "End-to-End Support",
+   245→      desc: "Support from enquiry through application submission, with clear communication at each step.",
+   246→    },
+   247→    {
+   248→      icon: Clock,
+   249→      title: "Convenient Process",
+   250→      desc: "Submit your enquiry online or offline and our team will guide you on the next steps.",
+   251→    },
+   252→  ],
+   253→
+   254→  whyBetter: [
+   255→    {
+   256→      icon: Trophy,
+   257→      title: "Highest Loan Amount",
+   258→      desc: "Explore higher eligible loan amounts across our lender network — final amount subject to lender assessment and your profile.",
+   259→    },
+   260→    {
+   261→      icon: BadgePercent,
+   262→      title: "Most Affordable Offers",
+   263→      desc: "We help you compare indicative offers across lenders. Actual rate depends on lender, applicant profile and credit assessment.",
+   264→    },
+   265→    {
+   266→      icon: ShieldCheck,
+   267→      title: "No Surprises",
+   268→      desc: "Any applicable processing fees, charges and terms are communicated transparently by the lender before you proceed.",
+   269→    },
+   270→    {
+   271→      icon: Zap,
+   272→      title: "Hassle-Free & Easy to Use",
+   273→      desc: "A simple, guided journey — share your requirement, get help with documents and we support you through submission.",
+   274→    },
+   275→  ],
+   276→
+   277→  process: [
+   278→    {
+   279→      step: "01",
+   280→      title: "Sign Up",
+   281→      desc: "Share your contact details and basic requirement to get started. A TNL Fincorp advisor will reach out to guide you.",
+   282→      icon: Smartphone,
+   283→    },
+   284→    {
+   285→      step: "02",
+   286→      title: "Profile Information",
+   287→      desc: "Provide your employment, income and basic profile details so we can understand suitable options for you.",
+   288→      icon: UserRound,
+   289→    },
+   290→    {
+   291→      step: "03",
+   292→      title: "Documents Verification & KYC",
+   293→      desc: "Submit identity, address and income documents. Verification timelines and requirements are set by the lender.",
+   294→      icon: FileCheck2,
+   295→    },
+   296→    {
+   297→      step: "04",
+   298→      title: "Select Amount & Tenure",
+   299→      desc: "Review indicative offers, loan amount and tenure options. Final approval, amount and rate are subject to lender assessment.",
+   300→      icon: Calculator,
+   301→    },
+   302→    {
+   303→      step: "05",
+   304→      title: "Disbursed in Bank",
+   305→      desc: "On lender approval, the sanctioned amount is disbursed to your bank account as per the lender's process.",
+   306→      icon: Banknote,
+   307→    },
+   308→  ],
+   309→
+   310→  eligibility: [
+   311→    {
+   312→      icon: UserRound,
+   313→      label: "Age",
+   314→      value: "Typically 21–60 years (subject to lender policy)",
+   315→    },
+   316→    {
+   317→      icon: BadgeIndianRupee,
+   318→      label: "Income",
+   319→      value: "Stable monthly income — salaried or self-employed (lender-defined minimums)",
+   320→    },
+   321→    {
+   322→      icon: FileText,
+   323→      label: "Credit History",
+   324→      value: "Acceptable repayment history; final eligibility subject to lender credit assessment",
+   325→    },
+   326→    {
+   327→      icon: MapPinned,
+   328→      label: "Residence",
+   329→      value: "Indian resident with valid address proof",
+   330→    },
+   331→  ],
+   332→
+   333→  documents: [
+   334→    {
+   335→      icon: FileText,
+   336→      title: "Identity Proof",
+   337→      desc: "Aadhaar / PAN / Passport / Driving Licence as accepted by the lender.",
+   338→    },
+   339→    {
+   340→      icon: MapPinned,
+   341→      title: "Address Proof",
+   342→      desc: "Aadhaar / Utility bill / Passport / Voter ID as accepted by the lender.",
+   343→    },
+   344→    {
+   345→      icon: Receipt,
+   346→      title: "Income Proof",
+   347→      desc: "Recent salary slips / bank statements / financials for self-employed.",
+   348→    },
+   349→    {
+   350→      icon: Briefcase,
+   351→      title: "Employment / Business Proof",
+   352→      desc: "Employee ID, offer letter or business registration as applicable.",
+   353→    },
+   354→    {
+   355→      icon: Stamp,
+   356→      title: "Additional Documents",
+   357→      desc: "Any other documents requested by the lender during verification.",
+   358→    },
+   359→  ],
+   360→
+   361→  testimonials: [
+   362→    {
+   363→      name: "Rohit Sharma",
+   364→      role: "IT Professional",
+   365→      location: "Bengaluru",
+   366→      initials: "RS",
+   367→      accent: "from-royal to-sky",
+   368→      quote:
+   369→        "The team explained my personal loan options patiently and helped me arrange my documents. The whole enquiry felt organised and stress-free.",
+   370→      rating: 5,
+   371→      loanType: "Personal Loan",
+   372→    },
+   373→    {
+   374→      name: "Anjali Nair",
+   375→      role: "Marketing Manager",
+   376→      location: "Mumbai",
+   377→      initials: "AN",
+   378→      accent: "from-royal to-sky",
+   379→      quote:
+   380→        "I was unsure about the documents needed. TNL Fincorp gave me a clear checklist and walked me through every step of the application.",
+   381→      rating: 5,
+   382→      loanType: "Personal Loan",
+   383→    },
+   384→    {
+   385→      name: "Vikram Reddy",
+   386→      role: "Self-Employed",
+   387→      location: "Hyderabad",
+   388→      initials: "VR",
+   389→      accent: "from-royal to-sky",
+   390→      quote:
+   391→        "As a freelancer I was worried about eligibility. The team understood my requirement and supported me throughout the documentation process.",
+   392→      rating: 4,
+   393→      loanType: "Personal Loan",
+   394→    },
+   395→    {
+   396→      name: "Pooja Verma",
+   397→      role: "Teacher",
+   398→      location: "Pune",
+   399→      initials: "PV",
+   400→      accent: "from-royal to-sky",
+   401→      quote:
+   402→        "Honest guidance with no pressure. They explained that final approval is the lender's call — exactly the transparency I was looking for.",
+   403→      rating: 5,
+   404→      loanType: "Personal Loan",
+   405→    },
+   406→  ],
+   407→
+   408→  /* EDITABLE PLACEHOLDER FIGURES — replace with verified numbers before launch. */
+   409→  trustCounters: DEFAULT_TRUST_COUNTERS,
+   410→
+   411→  faqs: [
+   412→    {
+   413→      q: "What is a personal loan?",
+   414→      a: "A personal loan is an unsecured loan typically used for expenses such as medical needs, weddings, travel, home renovation or lifestyle purchases. TNL Fincorp assists you in understanding available options, organising documents and guiding your application through the financial services network.",
+   415→    },
+   416→    {
+   417→      q: "Who can apply for a personal loan through TNL Fincorp?",
+   418→      a: "Indian residents, typically aged 21–60 years, who are salaried or self-employed with a stable income, may share an enquiry. Final eligibility is subject to the respective lender's policies and verification.",
+   419→    },
+   420→    {
+   421→      q: "How much personal loan amount can I get?",
+   422→      a: "Loan amounts vary by lender, applicant income, credit profile and other factors. TNL Fincorp helps you understand indicative amounts you may be eligible for; the final sanctioned amount is at the lender's discretion.",
+   423→    },
+   424→    {
+   425→      q: "What documents are typically required?",
+   426→      a: "Common documents include identity proof, address proof, income proof (salary slips or bank statements), and employment or business proof. Additional documents may be requested by the lender based on its verification process.",
+   427→    },
+   428→    {
+   429→      q: "How is the personal loan interest rate determined?",
+   430→      a: "Interest rates are determined by the lender based on factors such as your credit score, income, employment stability, existing obligations and internal risk assessment. TNL Fincorp does not set rates — we help you understand indicative offers from lenders in our network.",
+   431→    },
+   432→    {
+   433→      q: "How long does approval take?",
+   434→      a: "Approval timelines vary by lender and depend on document verification, credit assessment and internal processes. Some lenders offer quicker processing for pre-qualified profiles, but no approval timeframe is guaranteed.",
+   435→    },
+   436→    {
+   437→      q: "How is the EMI calculated?",
+   438→      a: "EMI depends on the loan amount, interest rate and tenure. You can use the EMI calculator on this page for an indicative estimate. The actual EMI is based on the final rate, tenure and terms set by the lender.",
+   439→    },
+   440→    {
+   441→      q: "Can I repay my personal loan early?",
+   442→      a: "Early repayment (foreclosure or prepayment) is generally allowed by lenders, subject to their terms and any applicable charges. Please review the lender's specific foreclosure and prepayment policy before proceeding.",
+   443→    },
+   444→    {
+   445→      q: "Is there a processing fee?",
+   446→      a: "Lenders may charge a processing fee, which varies by lender and product. Any applicable fees and charges are communicated by the lender before you proceed. TNL Fincorp does not levy lender fees.",
+   447→    },
+   448→    {
+   449→      q: "How do I apply through TNL Fincorp?",
+   450→      a: "Submit your enquiry through the form on this page, call us at +91 94279 79991, or visit our office in Dindoli, Surat. Our team will guide you on suitable options, documentation and the application process.",
+   451→    },
+   452→  ],
+   453→
+   454→  calculator: {
+   455→    minAmount: 50000,
+   456→    maxAmount: 4000000,
+   457→    defaultAmount: 500000,
+   458→    minRate: 10,
+   459→    maxRate: 24,
+   460→    defaultRate: 14,
+   461→    minYears: 1,
+   462→    maxYears: 5,
+   463→    defaultYears: 3,
+   464→  },
+   465→
+   466→  metaTitle:
+   467→    "Personal Loan Assistance in Surat | TNL Fincorp",
+   468→  metaDescription:
+   469→    "Personal loan assistance for salaried and self-employed individuals. Explore options, get documentation help and guided application support through TNL Fincorp's financial services network.",
+   470→};
+   471→
+   472→/* -------------------------------------------------------------------------- */
+   473→/* 2. BUSINESS LOAN — /business-loan                                          */
+   474→/* -------------------------------------------------------------------------- */
+   475→
+   476→const businessLoan: LoanPageContent = {
+   477→  slug: "business",
+   478→  route: "/business-loan",
+   479→  eyebrow: "FLEXIBLE • SCALABLE • WORKING CAPITAL",
+   480→  heroHeadline: "Business Loan",
+   481→  heroDescription:
+   482→    "Fuel your business growth — working capital, expansion, equipment, inventory or operational requirements — with business loan assistance from TNL Fincorp. We help MSMEs, professionals and enterprises understand suitable loan options, structure documentation and complete the application process. All loan terms, eligibility and approvals are subject to the respective lender's policies.",
+   483→  heroImage: "/images/loan-business.jpg",
+   484→  heroFloatingCards: [
+   485→    { icon: TrendingUp, label: "Growth Capital" },
+   486→    { icon: Briefcase, label: "MSME Friendly" },
+   487→    { icon: Wallet, label: "Flexible Usage" },
+   488→    { icon: ShieldCheck, label: "Guided Process" },
+   489→  ],
+   490→  accent: "from-teal-brand to-cyan-brand",
+   491→
+   492→  benefits: [
+   493→    {
+   494→      icon: BadgeIndianRupee,
+   495→      title: "Affordable Credit Every Step",
+   496→      desc: "Explore indicative business loan offers across our lender network. Actual rate depends on lender, business profile and credit assessment.",
+   497→    },
+   498→    {
+   499→      icon: Zap,
+   500→      title: "Hassle-Free Process",
+   501→      desc: "Guided documentation and application support from enquiry to submission — no guesswork.",
+   502→    },
+   503→    {
+   504→      icon: Clock,
+   505→      title: "Flexible Repayment",
+   506→      desc: "Understand repayment tenures and structures offered by lenders; final tenure subject to lender assessment.",
+   507→    },
+   508→    {
+   509→      icon: Lock,
+   510→      title: "Zero Collateral*",
+   511→      desc: "Some lenders offer collateral-free business loans for eligible profiles, subject to lender/product terms, business vintage and credit assessment.",
+   512→    },
+   513→    {
+   514→      icon: Network,
+   515→      title: "Multiple Lender Network",
+   516→      desc: "Access assistance across working capital, term loan and MSME loan options through our financial services network.",
+   517→    },
+   518→    {
+   519→      icon: FileText,
+   520→      title: "Documentation Support",
+   521→      desc: "Clear guidance on the financial and business documents typically required for a business loan application.",
+   522→    },
+   523→  ],
+   524→
+   525→  process: [
+   526→    {
+   527→      step: "01",
+   528→      title: "Check Eligibility",
+   529→      desc: "Share your business profile, vintage and turnover. We help you understand indicative eligibility across lenders.",
+   530→      icon: ClipboardCheck,
+   531→    },
+   532→    {
+   533→      step: "02",
+   534→      title: "Select Offers",
+   535→      desc: "Review indicative offers — amounts, rates and tenures vary by lender. Final offer is subject to lender assessment.",
+   536→      icon: Target,
+   537→    },
+   538→    {
+   539→      step: "03",
+   540→      title: "Documents Verification & KYC",
+   541→      desc: "Submit business and financial documents for verification. Requirements and timelines are set by the lender.",
+   542→      icon: FileCheck2,
+   543→    },
+   544→    {
+   545→      step: "04",
+   546→      title: "Disbursed in Bank",
+   547→      desc: "On lender approval, the sanctioned amount is disbursed to your business bank account per the lender's process.",
+   548→      icon: Banknote,
+   549→    },
+   550→  ],
+   551→
+   552→  eligibility: [
+   553→    {
+   554→      icon: Briefcase,
+   555→      label: "Business Vintage",
+   556→      value: "Typically 2+ years (subject to lender policy)",
+   557→    },
+   558→    {
+   559→      icon: TrendingUp,
+   560→      label: "Annual Turnover",
+   561→      value: "Stable turnover as required by the lender",
+   562→    },
+   563→    {
+   564→      icon: FileText,
+   565→      label: "GST & Financials",
+   566→      value: "GST returns and audited financials in order",
+   567→    },
+   568→    {
+   569→      icon: Landmark,
+   570→      label: "Credit Profile",
+   571→      value: "Acceptable repayment history; subject to lender assessment",
+   572→    },
+   573→  ],
+   574→
+   575→  documents: [
+   576→    {
+   577→      icon: Stamp,
+   578→      title: "Business Registration",
+   579→      desc: "Shop & Establishment, GST, MSME / Udyam, or company registration as applicable.",
+   580→    },
+   581→    {
+   582→      icon: FileText,
+   583→      title: "Financial Statements",
+   584→      desc: "Audited financials, GST returns and bank statements (typically 6–12 months).",
+   585→    },
+   586→    {
+   587→      icon: Landmark,
+   588→      title: "Bank Statements",
+   589→      desc: "Business bank statements reflecting transactions and turnover.",
+   590→    },
+   591→    {
+   592→      icon: UserRound,
+   593→      title: "PAN & KYC",
+   594→      desc: "PAN and KYC of proprietor / partners / directors as applicable.",
+   595→    },
+   596→    {
+   597→      icon: FileSignature,
+   598→      title: "Additional Documents",
+   599→      desc: "Any other documents requested by the lender during assessment.",
+   600→    },
+   601→  ],
+   602→
+   603→  testimonials: [
+   604→    {
+   605→      name: "Aarav Patel",
+   606→      role: "Founder, Textile Business",
+   607→      location: "Surat",
+   608→      initials: "AP",
+   609→      accent: "from-teal-brand to-cyan-brand",
+   610→      quote:
+   611→        "For my working capital requirement, TNL Fincorp clearly explained what each lender would need. The documentation guidance saved me several back-and-forths.",
+   612→      rating: 5,
+   613→      loanType: "Business Loan",
+   614→    },
+   615→    {
+   616→      name: "Neha Kulkarni",
+   617→      role: "Boutique Owner",
+   618→      location: "Pune",
+   619→      initials: "NK",
+   620→      accent: "from-teal-brand to-cyan-brand",
+   621→      quote:
+   622→        "As a small business owner I found the process intimidating. The team patiently walked me through every document and step.",
+   623→      rating: 5,
+   624→      loanType: "Business Loan",
+   625→    },
+   626→    {
+   627→      name: "Sanjay Gupta",
+   628→      role: "Retailer",
+   629→      location: "Jaipur",
+   630→      initials: "SG",
+   631→      accent: "from-teal-brand to-cyan-brand",
+   632→      quote:
+   633→        "Honest about the fact that final approval is the lender's call. That transparency is exactly why I trusted them with my application.",
+   634→      rating: 4,
+   635→      loanType: "Business Loan",
+   636→    },
+   637→  ],
+   638→
+   639→  /* EDITABLE PLACEHOLDER FIGURES — replace with verified numbers before launch. */
+   640→  trustCounters: DEFAULT_TRUST_COUNTERS,
+   641→
+   642→  faqs: [
+   643→    {
+   644→      q: "Who is eligible for a business loan through TNL Fincorp?",
+   645→      a: "MSMEs, professionals, proprietors, partnerships and private limited companies with the required business vintage and turnover, as defined by the lender, may share an enquiry. Final eligibility is subject to the respective lender's policies and verification.",
+   646→    },
+   647→    {
+   648→      q: "What documents are typically required?",
+   649→      a: "Common documents include business registration proof, GST returns, audited financials, bank statements and PAN/KYC of proprietors, partners or directors. Additional documents may be requested by the lender based on its assessment.",
+   650→    },
+   651→    {
+   652→      q: "How much business loan amount can I get?",
+   653→      a: "Loan amounts vary by lender, business profile, turnover and credit assessment. We help you understand indicative amounts you may be eligible for; the final sanctioned amount is at the lender's discretion.",
+   654→    },
+   655→    {
+   656→      q: "What interest rates apply to business loans?",
+   657→      a: "Interest rates are determined by the lender based on your business profile, financials, credit assessment and loan structure. TNL Fincorp does not set rates — we help you understand indicative offers from lenders in our network.",
+   658→    },
+   659→    {
+   660→      q: "What tenures are available?",
+   661→      a: "Tenures vary by lender and product (working capital, term loan, etc.). Typical tenures range from 1 to 10 years; final tenure is subject to lender assessment and product terms.",
+   662→    },
+   663→    {
+   664→      q: "How is repayment structured?",
+   665→      a: "Repayment structures (EMI, bullet, overdraft, etc.) depend on the lender and product. We help you understand typical structures; final terms are set by the lender.",
+   666→    },
+   667→    {
+   668→      q: "Is there a processing fee?",
+   669→      a: "Lenders may charge a processing fee, which varies by lender and product. Any applicable fees and charges are communicated by the lender before you proceed. TNL Fincorp does not levy lender fees.",
+   670→    },
+   671→    {
+   672→      q: "Is collateral required for a business loan?",
+   673→      a: "Some lenders offer collateral-free business loans for eligible profiles, while others may require collateral or security. This is subject to the lender's product terms, your business profile and credit assessment.",
+   674→    },
+   675→    {
+   676→      q: "Do you assist startups?",
+   677→      a: "We assist with understanding available business loan options. Eligibility for startups depends on the respective lender's policies, business vintage and financial profile.",
+   678→    },
+   679→    {
+   680→      q: "How do I apply through TNL Fincorp?",
+   681→      a: "Submit your enquiry through the form on this page, call us at +91 94279 79991, or visit our office in Dindoli, Surat. Our team will guide you on suitable options, documentation and the application process.",
+   682→    },
+   683→  ],
+   684→
+   685→  calculator: {
+   686→    minAmount: 100000,
+   687→    maxAmount: 20000000,
+   688→    defaultAmount: 2500000,
+   689→    minRate: 11,
+   690→    maxRate: 22,
+   691→    defaultRate: 15,
+   692→    minYears: 1,
+   693→    maxYears: 10,
+   694→    defaultYears: 5,
+   695→  },
+   696→
+   697→  metaTitle:
+   698→    "Business Loan Assistance in Surat | TNL Fincorp",
+   699→  metaDescription:
+   700→    "Business loan assistance for MSMEs, professionals and enterprises — working capital, expansion, equipment and inventory. Guided documentation and application support through TNL Fincorp.",
+   701→};
+   702→
+   703→/* -------------------------------------------------------------------------- */
+   704→/* 3. HOME LOAN — /home-loan                                                  */
+   705→/* -------------------------------------------------------------------------- */
+   706→
+   707→const homeLoan: LoanPageContent = {
+   708→  slug: "home",
+   709→  route: "/home-loan",
+   710→  eyebrow: "BUILD • OWN • CELEBRATE",
+   711→  heroHeadline: "Home Loan",
+   712→  heroDescription:
+   713→    "Purchase, construct or renovate your home with home loan assistance from TNL Fincorp. We help you understand available options, structure property-related documentation and guide your application through our financial services network. Loan amount, LTV, tenure, rates and approval are subject to the respective lender's policies and property assessment.",
+   714→  heroImage: "/images/loan-home.jpg",
+   715→  heroFloatingCards: [
+   716→    { icon: Home, label: "Up to 90% Funding*" },
+   717→    { icon: Clock, label: "Up to 30 Year Tenure*" },
+   718→    { icon: Network, label: "Lender Network" },
+   719→    { icon: Handshake, label: "Agent Support" },
+   720→  ],
+   721→  accent: "from-royal to-teal-brand",
+   722→
+   723→  benefits: [
+   724→    {
+   725→      icon: BadgeIndianRupee,
+   726→      title: "Up to 90% of Property Value*",
+   727→      desc: "LTV (loan-to-value) up to 90% of property value, subject to lender policy, property type, valuation and applicant profile.",
+   728→    },
+   729→    {
+   730→      icon: Clock,
+   731→      title: "Repayment Up to 30 Years*",
+   732→      desc: "Long repayment tenures up to 30 years, subject to lender policy, applicant age and eligibility assessment.",
+   733→    },
+   734→    {
+   735→      icon: Zap,
+   736→      title: "Quick Approval & Processing",
+   737→      desc: "Guided application process aimed at efficient turnaround. Actual timelines are subject to lender verification and documentation.",
+   738→    },
+   739→    {
+   740→      icon: Percent,
+   741→      title: "Zero Charges*",
+   742→      desc: "Some lenders may waive specific charges — subject to lender offers and terms. Any applicable fees are communicated by the lender before you proceed.",
+   743→    },
+   744→    {
+   745→      icon: Handshake,
+   746→      title: "Agent Support",
+   747→      desc: "Dedicated assistance from enquiry through submission, including property documentation guidance.",
+   748→    },
+   749→    {
+   750→      icon: Smartphone,
+   751→      title: "100% Online Application",
+   752→      desc: "Share your enquiry digitally and our team will guide you through documentation and the application journey.",
+   753→    },
+   754→  ],
+   755→
+   756→  /* Placeholder partner names — clearly editable. Replace with real partner
+   757→     lenders before going live. Do NOT invent real bank names here. */
+   758→  partners: [
+   759→    "Partner Bank 1",
+   760→    "Housing Lender A",
+   761→    "Partner Bank 2",
+   762→    "Housing Lender B",
+   763→    "Partner Bank 3",
+   764→    "Housing Lender C",
+   765→  ],
+   766→
+   767→  process: [
+   768→    {
+   769→      step: "01",
+   770→      title: "Personal Details",
+   771→      desc: "Share your income, employment and property details so we can understand suitable home loan options for you.",
+   772→      icon: UserRound,
+   773→    },
+   774→    {
+   775→      step: "02",
+   776→      title: "Agent Call for Verification",
+   777→      desc: "A TNL Fincorp advisor reaches out to verify details and guide you on documentation requirements.",
+   778→      icon: PhoneCall,
+   779→    },
+   780→    {
+   781→      step: "03",
+   782→      title: "Site Visit",
+   783→      desc: "Lender may arrange a property site visit and technical/legal verification as part of the assessment process.",
+   784→      icon: MapPinned,
+   785→    },
+   786→    {
+   787→      step: "04",
+   788→      title: "Loan Approval & Funds Disbursed",
+   789→      desc: "On lender approval, the sanctioned loan amount is disbursed as per the lender's disbursement schedule.",
+   790→      icon: Banknote,
+   791→    },
+   792→  ],
+   793→
+   794→  eligibility: [
+   795→    {
+   796→      icon: MapPinned,
+   797→      label: "Citizenship",
+   798→      value: "Indian citizen",
+   799→    },
+   800→    {
+   801→      icon: UserRound,
+   802→      label: "Age",
+   803→      value: "Typically 21–70 years (subject to lender policy)",
+   804→    },
+   805→    {
+   806→      icon: Briefcase,
+   807→      label: "Self-Employed",
+   808→      value: "Annual turnover typically minimum ₹3 lakhs (lender-defined)",
+   809→    },
+   810→    {
+   811→      icon: BadgeIndianRupee,
+   812→      label: "Salaried",
+   813→      value: "Minimum monthly salary typically ₹15,000 (lender-defined)",
+   814→    },
+   815→    {
+   816→      icon: LineChart,
+   817→      label: "Credit Score",
+   818→      value: "CIBIL typically above 600 (subject to lender policy)",
+   819→    },
+   820→  ],
+   821→
+   822→  documents: [
+   823→    {
+   824→      icon: Receipt,
+   825→      title: "Proof of Income",
+   826→      desc: "Salary slips (for salaried) or financial statements (for self-employed) as required by the lender.",
+   827→    },
+   828→    {
+   829→      icon: Landmark,
+   830→      title: "Bank Statement",
+   831→      desc: "Recent bank statements (typically 6–12 months) reflecting income and transactions.",
+   832→    },
+   833→    {
+   834→      icon: MapPinned,
+   835→      title: "Permanent Residence Proof",
+   836→      desc: "Aadhaar / Passport / Voter ID / utility bill as accepted by the lender.",
+   837→    },
+   838→    {
+   839→      icon: FileText,
+   840→      title: "Property Documents",
+   841→      desc: "Title deed, sale agreement, approvals and other property papers as required by the lender.",
+   842→    },
+   843→    {
+   844→      icon: FileCheck2,
+   845→      title: "Latest Form 16",
+   846→      desc: "Latest Form 16 / tax documents as applicable and required by the lender.",
+   847→    },
+   848→  ],
+   849→
+   850→  loanTypes: [
+   851→    {
+   852→      icon: Home,
+   853→      title: "Home Purchase Loan",
+   854→      desc: "Financing assistance for purchasing a new or resale residential property, subject to lender and property eligibility.",
+   855→    },
+   856→    {
+   857→      icon: Wrench,
+   858→      title: "Home Improvement Loan",
+   859→      desc: "Loans for renovation, repair or upgrade of an existing home, subject to lender terms.",
+   860→    },
+   861→    {
+   862→      icon: HardHat,
+   863→      title: "Construction Loan",
+   864→      desc: "Funding assistance for constructing a residential house, subject to lender and property assessment.",
+   865→    },
+   866→    {
+   867→      icon: Trees,
+   868→      title: "Plot Loan",
+   869→      desc: "Loans for purchasing a residential plot, subject to lender policy and property documentation.",
+   870→    },
+   871→  ],
+   872→
+   873→  testimonials: [
+   874→    {
+   875→      name: "Priya Desai",
+   876→      role: "Home Buyer",
+   877→      location: "Surat",
+   878→      initials: "PD",
+   879→      accent: "from-royal to-teal-brand",
+   880→      quote:
+   881→        "The home loan paperwork looked overwhelming at first. TNL Fincorp guided me step by step and made the application support easy to understand.",
+   882→      rating: 5,
+   883→      loanType: "Home Loan",
+   884→    },
+   885→    {
+   886→      name: "Manish Agarwal",
+   887→      role: "Salaried Professional",
+   888→      location: "Ahmedabad",
+   889→      initials: "MA",
+   890→      accent: "from-royal to-teal-brand",
+   891→      quote:
+   892→        "They explained how LTV, tenure and rate are decided by the lender. Honest guidance — no inflated promises.",
+   893→      rating: 5,
+   894→      loanType: "Home Loan",
+   895→    },
+   896→    {
+   897→      name: "Kavya Iyer",
+   898→      role: "First-Time Buyer",
+   899→      location: "Chennai",
+   900→      initials: "KI",
+   901→      accent: "from-royal to-teal-brand",
+   902→      quote:
+   903→        "As a first-time buyer I had many questions about property documents. The team was patient and explained each one clearly.",
+   904→      rating: 4,
+   905→      loanType: "Home Loan",
+   906→    },
+   907→  ],
+   908→
+   909→  /* EDITABLE PLACEHOLDER FIGURES — replace with verified numbers before launch. */
+   910→  trustCounters: DEFAULT_TRUST_COUNTERS,
+   911→
+   912→  faqs: [
+   913→    {
+   914→      q: "What is a home loan?",
+   915→      a: "A home loan is a secured loan used to purchase, construct or renovate a residential property. TNL Fincorp assists you with understanding options, property documentation and the application process through our financial services network.",
+   916→    },
+   917→    {
+   918→      q: "How much home loan amount am I eligible for?",
+   919→      a: "Eligible loan amounts depend on your income, age, existing obligations, credit profile and the property's value. LTV typically goes up to 90% of property value, subject to lender policy and property assessment.",
+   920→    },
+   921→    {
+   922→      q: "What tenure can I choose?",
+   923→      a: "Home loan tenures can extend up to 30 years, subject to lender policy, applicant age and eligibility assessment. Longer tenures typically result in lower EMIs but higher overall interest.",
+   924→    },
+   925→    {
+   926→      q: "What interest rates apply to home loans?",
+   927→      a: "Interest rates are determined by the lender based on your credit profile, income, loan amount, tenure and the prevailing rate environment. TNL Fincorp does not set rates — we help you understand indicative offers.",
+   928→    },
+   929→    {
+   930→      q: "What documents are typically required?",
+   931→      a: "Common documents include identity and address proof, income proof / salary slips, bank statements, property documents (title, agreement, approvals) and tax/Form 16 documents. Additional documents may be requested by the lender.",
+   932→    },
+   933→    {
+   934→      q: "Can I get a home loan for an under-construction property?",
+   935→      a: "Yes, many lenders offer home loans for under-construction properties, subject to the lender's approved-project list and property documentation. We help you understand the typical process and paperwork.",
+   936→    },
+   937→    {
+   938→      q: "Is a home loan balance transfer possible?",
+   939→      a: "Yes. We can assist you with understanding balance transfer and top-up options available through our financial services network. Final terms are subject to the new lender's policies.",
+   940→    },
+   941→    {
+   942→      q: "Can I prepay or foreclose my home loan?",
+   943→      a: "Prepayment and foreclosure are generally allowed by lenders, subject to their terms and any applicable charges. Please review the lender's specific policy before proceeding.",
+   944→    },
+   945→    {
+   946→      q: "Is property documentation guidance included?",
+   947→      a: "Yes. We guide you on the typical documentation required, though final documentation and legal verification are governed by the respective lender.",
+   948→    },
+   949→    {
+   950→      q: "How do I apply through TNL Fincorp?",
+   951→      a: "Submit your enquiry through the form on this page, call us at +91 94279 79991, or visit our office in Dindoli, Surat. Our team will guide you on suitable options, documentation and the application process.",
+   952→    },
+   953→  ],
+   954→
+   955→  calculator: {
+   956→    minAmount: 100000,
+   957→    maxAmount: 100000000,
+   958→    defaultAmount: 5000000,
+   959→    minRate: 7,
+   960→    maxRate: 12,
+   961→    defaultRate: 8.5,
+   962→    minYears: 1,
+   963→    maxYears: 30,
+   964→    defaultYears: 20,
+   965→  },
+   966→
+   967→  metaTitle:
+   968→    "Home Loan Assistance in Surat | TNL Fincorp",
+   969→  metaDescription:
+   970→    "Home loan assistance for purchase, construction, renovation and plot financing. Guided documentation, property paperwork help and application support through TNL Fincorp's lender network.",
+   971→};
+   972→
+   973→/* -------------------------------------------------------------------------- */
+   974→/* 4. AUTO LOAN — /auto-loan                                                  */
+   975→/* -------------------------------------------------------------------------- */
+   976→
+   977→const autoLoan: LoanPageContent = {
+   978→  slug: "auto",
+   979→  route: "/auto-loan",
+   980→  eyebrow: "NEW • USED • COMMERCIAL",
+   981→  heroHeadline: "Auto Loan",
+   982→  heroDescription:
+   983→    "Drive home your vehicle — a new car, a used car or a commercial vehicle — with auto loan assistance from TNL Fincorp. We help you understand available options, documentation and the application process through our financial services network. Loan amount, LTV, rates, tenure and approval are subject to the respective lender's policies and vehicle assessment.",
+   984→  heroImage: "/images/loan-auto.jpg",
+   985→  heroFloatingCards: [
+   986→    { icon: Car, label: "New & Used" },
+   987→    { icon: CarFront, label: "Car Finance" },
+   988→    { icon: Truck, label: "Commercial" },
+   989→    { icon: Percent, label: "Down Payment Help" },
+   990→  ],
+   991→  accent: "from-sky to-cyan-brand",
+   992→
+   993→  benefits: [
+   994→    {
+   995→      icon: CarFront,
+   996→      title: "New & Used Vehicle Financing",
+   997→      desc: "Assistance for both new and used vehicle loans, subject to lender policy, vehicle age and condition assessment.",
+   998→    },
+   999→    {
+  1000→      icon: Gauge,
+  1001→      title: "Flexible Tenure Options",
+  1002→      desc: "Explore indicative tenure options to balance your EMI and repayment comfort. Final tenure is subject to lender policy.",
+  1003→    },
+  1004→    {
+  1005→      icon: Truck,
+  1006→      title: "Commercial Vehicles",
+  1007→      desc: "Guidance for commercial vehicle loans, subject to lender policy and applicant profile.",
+  1008→    },
+  1009→    {
+  1010→      icon: Percent,
+  1011→      title: "Down Payment Guidance",
+  1012→      desc: "Understand how down payment (margin money) affects your loan amount and EMI. Final LTV is set by the lender.",
+  1013→    },
+  1014→    {
+  1015→      icon: Zap,
+  1016→      title: "Quick Enquiry",
+  1017→      desc: "Share your vehicle and income details — our team will guide you on indicative options.",
+  1018→    },
+  1019→    {
+  1020→      icon: ShieldCheck,
+  1021→      title: "End-to-End Support",
+  1022→      desc: "Documentation, application and submission guidance through the loan journey.",
+  1023→    },
+  1024→  ],
+  1025→
+  1026→  whyBetter: [
+  1027→    {
+  1028→      icon: Network,
+  1029→      title: "Multiple Lender Options",
+  1030→      desc: "Compare indicative offers across our lender network. Actual rate and LTV depend on lender, vehicle and applicant profile.",
+  1031→    },
+  1032→    {
+  1033→      icon: Handshake,
+  1034→      title: "Personalised Guidance",
+  1035→      desc: "We help you understand how vehicle type, age and your income affect eligible loan amount.",
+  1036→    },
+  1037→    {
+  1038→      icon: FileText,
+  1039→      title: "Documentation Help",
+  1040→      desc: "Clear checklist of documents typically required for new and used vehicle loans.",
+  1041→    },
+  1042→    {
+  1043→      icon: ShieldCheck,
+  1044→      title: "Transparent Process",
+  1045→      desc: "Honest communication — final approval, rate and tenure are subject to the lender's assessment.",
+  1046→    },
+  1047→  ],
+  1048→
+  1049→  process: [
+  1050→    {
+  1051→      step: "01",
+  1052→      title: "Share Vehicle & Income Details",
+  1053→      desc: "Tell us the vehicle you plan to purchase and your income profile so we can understand suitable options.",
+  1054→      icon: ClipboardCheck,
+  1055→    },
+  1056→    {
+  1057→      step: "02",
+  1058→      title: "Check Eligibility & Offers",
+  1059→      desc: "We help you understand indicative LTV, rate and tenure across lenders. Final offer is subject to lender assessment.",
+  1060→      icon: Target,
+  1061→    },
+  1062→    {
+  1063→      step: "03",
+  1064→      title: "Documents Verification & KYC",
+  1065→      desc: "Submit identity, address and income documents plus vehicle quotation / valuation as required by the lender.",
+  1066→      icon: FileCheck2,
+  1067→    },
+  1068→    {
+  1069→      step: "04",
+  1070→      title: "Loan Approval & Disbursal",
+  1071→      desc: "On lender approval, the sanctioned amount is disbursed to the dealer / seller per the lender's process.",
+  1072→      icon: Banknote,
+  1073→    },
+  1074→  ],
+  1075→
+  1076→  eligibility: [
+  1077→    {
+  1078→      icon: UserRound,
+  1079→      label: "Age",
+  1080→      value: "Typically 21–65 years (subject to lender policy)",
+  1081→    },
+  1082→    {
+  1083→      icon: BadgeIndianRupee,
+  1084→      label: "Income",
+  1085→      value: "Stable income — salaried or self-employed (lender-defined minimums)",
+  1086→    },
+  1087→    {
+  1088→      icon: Car,
+  1089→      label: "Vehicle",
+  1090→      value: "Acceptable vehicle age and condition (for used vehicles)",
+  1091→    },
+  1092→    {
+  1093→      icon: FileText,
+  1094→      label: "Credit Profile",
+  1095→      value: "Acceptable repayment history; subject to lender assessment",
+  1096→    },
+  1097→  ],
+  1098→
+  1099→  documents: [
+  1100→    {
+  1101→      icon: FileText,
+  1102→      title: "Identity Proof",
+  1103→      desc: "Aadhaar / PAN / Passport / Driving Licence as accepted by the lender.",
+  1104→    },
+  1105→    {
+  1106→      icon: MapPinned,
+  1107→      title: "Address Proof",
+  1108→      desc: "Aadhaar / Utility bill / Passport / Voter ID as accepted by the lender.",
+  1109→    },
+  1110→    {
+  1111→      icon: Receipt,
+  1112→      title: "Income Proof",
+  1113→      desc: "Salary slips / bank statements / financials for self-employed applicants.",
+  1114→    },
+  1115→    {
+  1116→      icon: Car,
+  1117→      title: "Vehicle Quotation / Valuation",
+  1118→      desc: "Dealer quotation for new vehicles; valuation report for used vehicles as required by the lender.",
+  1119→    },
+  1120→    {
+  1121→      icon: Stamp,
+  1122→      title: "Additional Documents",
+  1123→      desc: "Any other documents requested by the lender during verification.",
+  1124→    },
+  1125→  ],
+  1126→
+  1127→  loanTypes: [
+  1128→    {
+  1129→      icon: CarFront,
+  1130→      title: "New Car Loan",
+  1131→      desc: "Financing assistance for purchasing a new car, subject to lender and applicant eligibility.",
+  1132→    },
+  1133→    {
+  1134→      icon: Car,
+  1135→      title: "Used Car Loan",
+  1136→      desc: "Loans for pre-owned cars, subject to vehicle age, condition and lender policy.",
+  1137→    },
+  1138→    {
+  1139→      icon: Truck,
+  1140→      title: "Commercial Vehicle Loan",
+  1141→      desc: "Loans for commercial vehicles, subject to lender policy and applicant profile.",
+  1142→    },
+  1143→    {
+  1144→      icon: Percent,
+  1145→      title: "Down Payment & LTV Guidance",
+  1146→      desc: "Understand how down payment and loan-to-value affect your vehicle loan. Final LTV is set by the lender.",
+  1147→    },
+  1148→  ],
+  1149→
+  1150→  testimonials: [
+  1151→    {
+  1152→      name: "Karthik Subramaniam",
+  1153→      role: "IT Professional",
+  1154→      location: "Bengaluru",
+  1155→      initials: "KS",
+  1156→      accent: "from-sky to-cyan-brand",
+  1157→      quote:
+  1158→        "The team explained how down payment and tenure affect my EMI. Clear guidance with no pressure to commit.",
+  1159→      rating: 5,
+  1160→      loanType: "Auto Loan",
+  1161→    },
+  1162→    {
+  1163→      name: "Deepa Joshi",
+  1164→      role: "Doctor",
+  1165→      location: "Indore",
+  1166→      initials: "DJ",
+  1167→      accent: "from-sky to-cyan-brand",
+  1168→      quote:
+  1169→        "I was buying a used car and unsure about the documentation. TNL Fincorp gave me a clear checklist and helped me organise everything.",
+  1170→      rating: 5,
+  1171→      loanType: "Auto Loan",
+  1172→    },
+  1173→    {
+  1174→      name: "Imran Khan",
+  1175→      role: "Business Owner",
+  1176→      location: "Hyderabad",
+  1177→      initials: "IK",
+  1178→      accent: "from-sky to-cyan-brand",
+  1179→      quote:
+  1180→        "Honest about the fact that LTV and rate are decided by the lender. The application support was smooth and well-organised.",
+  1181→      rating: 4,
+  1182→      loanType: "Auto Loan",
+  1183→    },
+  1184→  ],
+  1185→
+  1186→  /* EDITABLE PLACEHOLDER FIGURES — replace with verified numbers before launch. */
+  1187→  trustCounters: DEFAULT_TRUST_COUNTERS,
+  1188→
+  1189→  faqs: [
+  1190→    {
+  1191→      q: "What is an auto loan?",
+  1192→      a: "An auto loan is a secured loan used to purchase a new or used vehicle, including cars and commercial vehicles. TNL Fincorp assists you with understanding options, documentation and the application process.",
+  1193→    },
+  1194→    {
+  1195→      q: "Can I get a loan for a used vehicle?",
+  1196→      a: "Yes. We assist with both new and used vehicle loans. For used vehicles, eligibility depends on the lender's policy on vehicle age, condition and valuation.",
+  1197→    },
+  1198→    {
+  1199→      q: "How much loan amount can I get?",
+  1200→      a: "Loan amounts depend on the vehicle price, LTV set by the lender, your income and credit profile. The final sanctioned amount is subject to the lender's assessment.",
+  1201→    },
+  1202→    {
+  1203→      q: "What is a down payment?",
+  1204→      a: "A down payment (margin money) is the portion of the vehicle price you pay upfront, with the lender financing the rest. A higher down payment typically reduces your loan amount and EMI. Final LTV is set by the lender.",
+  1205→    },
+  1206→    {
+  1207→      q: "What interest rates apply to auto loans?",
+  1208→      a: "Interest rates are determined by the lender based on your credit profile, vehicle type, loan amount and tenure. TNL Fincorp does not set rates — we help you understand indicative offers.",
+  1209→    },
+  1210→    {
+  1211→      q: "What tenure can I choose?",
+  1212→      a: "Auto loan tenures typically range from 1 to 7 years, subject to lender policy, vehicle type and applicant eligibility. Longer tenures usually mean lower EMIs but higher overall interest.",
+  1213→    },
+  1214→    {
+  1215→      q: "What documents are typically required?",
+  1216→      a: "Common documents include identity and address proof, income proof, bank statements and vehicle quotation or valuation report. Additional documents may be requested by the lender.",
+  1217→    },
+  1218→    {
+  1219→      q: "Can self-employed applicants get an auto loan?",
+  1220→      a: "Yes. We assist both salaried and self-employed applicants. Final eligibility is subject to the lender's policies and verification.",
+  1221→    },
+  1222→    {
+  1223→      q: "Is there a processing fee?",
+  1224→      a: "Lenders may charge a processing fee, which varies by lender and product. Any applicable fees and charges are communicated by the lender before you proceed. TNL Fincorp does not levy lender fees.",
+  1225→    },
+  1226→    {
+  1227→      q: "How do I apply through TNL Fincorp?",
+  1228→      a: "Submit your enquiry through the form on this page, call us at +91 94279 79991, or visit our office in Dindoli, Surat. Our team will guide you on suitable options, documentation and the application process.",
+  1229→    },
+  1230→  ],
+  1231→
+  1232→  calculator: {
+  1233→    minAmount: 50000,
+  1234→    maxAmount: 2000000,
+  1235→    defaultAmount: 800000,
+  1236→    minRate: 8,
+  1237→    maxRate: 16,
+  1238→    defaultRate: 11,
+  1239→    minYears: 1,
+  1240→    maxYears: 7,
+  1241→    defaultYears: 5,
+  1242→    hasDownPayment: true,
+  1243→  },
+  1244→
+  1245→  metaTitle:
+  1246→    "Auto Loan Assistance in Surat | TNL Fincorp",
+  1247→  metaDescription:
+  1248→    "Auto loan assistance for new and used cars and commercial vehicles. Down payment guidance, documentation help and application support through TNL Fincorp.",
+  1249→};
+  1250→
+  1251→/* -------------------------------------------------------------------------- */
+  1252→/* 5. EDUCATION LOAN — /education-loan                                        */
+  1253→/* -------------------------------------------------------------------------- */
+  1254→
+  1255→const educationLoan: LoanPageContent = {
+  1256→  slug: "education",
+  1257→  route: "/education-loan",
+  1258→  eyebrow: "STUDY IN INDIA • STUDY ABROAD",
+  1259→  heroHeadline: "Education Loan",
+  1260→  heroDescription:
+  1261→    "Finance higher studies in India or eligible study destinations with education loan assistance from TNL Fincorp. We help students and families understand available options, course-related documentation and the application process through our financial services network. Loan amount, coverage, collateral requirements, moratorium, rates and approval are subject to the respective lender's policies and the applicant's profile.",
+  1262→  heroImage: "/images/loan-education.jpg",
+  1263→  heroFloatingCards: [
+  1264→    { icon: GraduationCap, label: "India & Abroad" },
+  1265→    { icon: BookOpen, label: "Tuition & Living" },
+  1266→    { icon: Globe2, label: "Study Abroad" },
+  1267→    { icon: ShieldCheck, label: "Co-applicant Help" },
+  1268→  ],
+  1269→  accent: "from-teal-brand to-royal",
+  1270→
+  1271→  benefits: [
+  1272→    {
+  1273→      icon: School,
+  1274→      title: "Education Funding Benefits",
+  1275→      desc: "Guidance on loans for tuition, examination, library, laboratory and other academic expenses typically covered by lenders.",
+  1276→    },
+  1277→    {
+  1278→      icon: Globe2,
+  1279→      title: "Study in India / Study Abroad",
+  1280→      desc: "Assistance for higher studies in India and eligible overseas study destinations, subject to lender policy and course/institution recognition.",
+  1281→    },
+  1282→    {
+  1283→      icon: BookOpen,
+  1284→      title: "Courses & Categories",
+  1285→      desc: "Help for undergraduate, postgraduate, professional, technical and skill-based courses, subject to lender-approved course lists.",
+  1286→    },
+  1287→    {
+  1288→      icon: Users,
+  1289→      title: "Co-applicant Guidance",
+  1290→      desc: "Most lenders require a co-applicant such as a parent or guardian with stable income. We help you understand typical requirements.",
+  1291→    },
+  1292→    {
+  1293→      icon: FileText,
+  1294→      title: "Documentation Support",
+  1295→      desc: "Clear guidance on admission letters, academic records and co-applicant financial documents.",
+  1296→    },
+  1297→    {
+  1298→      icon: Handshake,
+  1299→      title: "End-to-End Assistance",
+  1300→      desc: "Support from enquiry through application submission, with clear communication at each step.",
+  1301→    },
+  1302→  ],
+  1303→
+  1304→  process: [
+  1305→    {
+  1306→      step: "01",
+  1307→      title: "Share Course & Admission Details",
+  1308→      desc: "Provide your admission status, course and institution details so we can understand suitable options.",
+  1309→      icon: ClipboardCheck,
+  1310→    },
+  1311→    {
+  1312→      step: "02",
+  1313→      title: "Check Eligibility & Offers",
+  1314→      desc: "We help you understand indicative loan amounts and lender options. Final offer is subject to lender assessment.",
+  1315→      icon: Target,
+  1316→    },
+  1317→    {
+  1318→      step: "03",
+  1319→      title: "Documents Verification & KYC",
+  1320→      desc: "Submit admission, academic and co-applicant documents for verification as required by the lender.",
+  1321→      icon: FileCheck2,
+  1322→    },
+  1323→    {
+  1324→      step: "04",
+  1325→      title: "Approval & Disbursal",
+  1326→      desc: "On lender approval, the sanctioned amount is disbursed to the institution / student as per the lender's process.",
+  1327→      icon: Banknote,
+  1328→    },
+  1329→  ],
+  1330→
+  1331→  eligibility: [
+  1332→    {
+  1333→      icon: GraduationCap,
+  1334→      label: "Admission",
+  1335→      value: "Confirmed admission or offer letter from a recognised institution",
+  1336→    },
+  1337→    {
+  1338→      icon: BookOpen,
+  1339→      label: "Course",
+  1340→      value: "Recognised course and institution (lender-approved list)",
+  1341→    },
+  1342→    {
+  1343→      icon: Users,
+  1344→      label: "Co-applicant",
+  1345→      value: "Typically a parent / guardian with stable income (lender-defined)",
+  1346→    },
+  1347→    {
+  1348→      icon: FileText,
+  1349→      label: "Credit Profile",
+  1350→      value: "Acceptable repayment history; subject to lender assessment",
+  1351→    },
+  1352→  ],
+  1353→
+  1354→  documents: [
+  1355→    {
+  1356→      icon: FileSignature,
+  1357→      title: "Admission Letter",
+  1358→      desc: "Confirmed admission letter / offer letter from the recognised institution.",
+  1359→    },
+  1360→    {
+  1361→      icon: BookOpen,
+  1362→      title: "Academic Documents",
+  1363→      desc: "Mark sheets, certificates and proof of previous academic qualifications.",
+  1364→    },
+  1365→    {
+  1366→      icon: FileText,
+  1367→      title: "Identity & Address Proof",
+  1368→      desc: "Aadhaar / PAN / Passport of student and co-applicant as accepted by the lender.",
+  1369→    },
+  1370→    {
+  1371→      icon: Receipt,
+  1372→      title: "Co-applicant Income Proof",
+  1373→      desc: "Salary slips / bank statements / financials of the co-applicant as required by the lender.",
+  1374→    },
+  1375→    {
+  1376→      icon: Stamp,
+  1377→      title: "Course / Fee Structure",
+  1378→      desc: "Fee structure, course duration and expense breakdown from the institution.",
+  1379→    },
+  1380→  ],
+  1381→
+  1382→  testimonials: [
+  1383→    {
+  1384→      name: "Sneha Mehta",
+  1385→      role: "Parent",
+  1386→      location: "Surat",
+  1387→      initials: "SM",
+  1388→      accent: "from-teal-brand to-royal",
+  1389→      quote:
+  1390→        "For my daughter's education loan enquiry, the team was responsive and helpful at every step. The documentation guidance was especially reassuring.",
+  1391→      rating: 5,
+  1392→      loanType: "Education Loan",
+  1393→    },
+  1394→    {
+  1395→      name: "Aditya Rao",
+  1396→      role: "Engineering Student",
+  1397→      location: "Hyderabad",
+  1398→      initials: "AR",
+  1399→      accent: "from-teal-brand to-royal",
+  1400→      quote:
+  1401→        "I had an offer letter but no idea how to proceed. TNL Fincorp explained the typical documents and co-applicant requirements clearly.",
+  1402→      rating: 5,
+  1403→      loanType: "Education Loan",
+  1404→    },
+  1405→    {
+  1406→      name: "Meera Krishnan",
+  1407→      role: "Parent",
+  1408→      location: "Chennai",
+  1409→      initials: "MK",
+  1410→      accent: "from-teal-brand to-royal",
+  1411→      quote:
+  1412→        "Honest guidance with no inflated promises. They clearly explained that final terms depend on the lender and the institution's recognition.",
+  1413→      rating: 4,
+  1414→      loanType: "Education Loan",
+  1415→    },
+  1416→  ],
+  1417→
+  1418→  /* EDITABLE PLACEHOLDER FIGURES — replace with verified numbers before launch. */
+  1419→  trustCounters: DEFAULT_TRUST_COUNTERS,
+  1420→
+  1421→  faqs: [
+  1422→    {
+  1423→      q: "What is an education loan?",
+  1424→      a: "An education loan helps finance higher studies in India or eligible study destinations, typically covering tuition, examination, library, laboratory and other academic expenses as defined by the lender. TNL Fincorp assists with understanding options, documentation and the application process.",
+  1425→    },
+  1426→    {
+  1427→      q: "Do you assist with education loans for studying abroad?",
+  1428→      a: "Yes. We assist with exploring education loan options for India and eligible overseas study destinations, subject to lender policies and the institution's recognition.",
+  1429→    },
+  1430→    {
+  1431→      q: "What courses are typically eligible?",
+  1432→      a: "Undergraduate, postgraduate, professional, technical and skill-based courses from lender-recognised institutions are typically considered. Final eligibility is subject to the lender's approved course list.",
+  1433→    },
+  1434→    {
+  1435→      q: "Is a co-applicant required?",
+  1436→      a: "Most lenders require a co-applicant such as a parent or guardian with a stable income. Final requirements depend on the lender's policies and the loan amount.",
+  1437→    },
+  1438→    {
+  1439→      q: "How much loan amount can I get?",
+  1440→      a: "Loan amounts vary by lender, course, institution, country and the co-applicant's income. For study-abroad loans, lenders may have higher limits, subject to collateral requirements and assessment. We help you understand indicative amounts; final sanction is at the lender's discretion.",
+  1441→    },
+  1442→    {
+  1443→      q: "Is collateral required for an education loan?",
+  1444→      a: "Collateral requirements depend on the lender, loan amount and the lender's internal thresholds. Some lenders offer collateral-free education loans up to certain limits, while higher amounts may require collateral or a third-party guarantee. Final terms are subject to the lender's policy.",
+  1445→    },
+  1446→    {
+  1447→      q: "Is there a moratorium / repayment holiday?",
+  1448→      a: "Many lenders offer a moratorium during the course period plus a specified grace period thereafter, subject to lender policy. Repayment terms, including the moratorium duration, are defined by the lender. We help you understand typical structures; final terms are set by the lender.",
+  1449→    },
+  1450→    {
+  1451→      q: "What interest rates apply to education loans?",
+  1452→      a: "Interest rates are determined by the lender based on the course, institution, country, loan amount, co-applicant profile and credit assessment. TNL Fincorp does not set rates — we help you understand indicative offers.",
+  1453→    },
+  1454→    {
+  1455→      q: "What documents are typically required?",
+  1456→      a: "Common documents include the admission letter, academic records, identity and address proof, and co-applicant income proof. Additional documents may be requested by the lender based on its verification process.",
+  1457→    },
+  1458→    {
+  1459→      q: "How do I apply through TNL Fincorp?",
+  1460→      a: "Submit your enquiry through the form on this page, call us at +91 94279 79991, or visit our office in Dindoli, Surat. Our team will guide you on suitable options, documentation and the application process.",
+  1461→    },
+  1462→  ],
+  1463→
+  1464→  calculator: {
+  1465→    minAmount: 100000,
+  1466→    maxAmount: 5000000,
+  1467→    defaultAmount: 1000000,
+  1468→    minRate: 9,
+  1469→    maxRate: 14,
+  1470→    defaultRate: 11,
+  1471→    minYears: 1,
+  1472→    maxYears: 15,
+  1473→    defaultYears: 10,
+  1474→  },
+  1475→
+  1476→  metaTitle:
+  1477→    "Education Loan Assistance in Surat | TNL Fincorp",
+  1478→  metaDescription:
+  1479→    "Education loan assistance for higher studies in India and eligible study destinations. Co-applicant guidance, documentation help and application support through TNL Fincorp.",
+  1480→};
+  1481→
+  1482→/* -------------------------------------------------------------------------- */
+  1483→/* 6. LOAN AGAINST PROPERTY — /loan-against-property                          */
+  1484→/* -------------------------------------------------------------------------- */
+  1485→
+  1486→const loanAgainstProperty: LoanPageContent = {
+  1487→  slug: "lap",
+  1488→  route: "/loan-against-property",
+  1489→  eyebrow: "HIGH-VALUE • LONG TENURE • MULTI-PURPOSE",
+  1490→  heroHeadline: "Loan Against Property",
+  1491→  heroDescription:
+  1492→    "Unlock the value of your eligible residential, commercial or industrial property with a Loan Against Property (LAP) from TNL Fincorp. We help you understand available options, property documentation, eligibility discussions and the application process through our financial services network. Loan amount, LTV, valuation, rates, tenure and approval are subject to the respective lender's policies and property assessment.",
+  1493→  heroImage: "/images/loan-lap.jpg",
+  1494→  heroFloatingCards: [
+  1495→    { icon: Building2, label: "Residential & Commercial" },
+  1496→    { icon: BadgeIndianRupee, label: "Higher Loan Amounts" },
+  1497→    { icon: Clock, label: "Longer Tenures" },
+  1498→    { icon: Wallet, label: "Multi-Purpose Usage" },
+  1499→  ],
+  1500→  accent: "from-navy to-royal",
+  1501→
+  1502→  benefits: [
+  1503→    {
+  1504→      icon: BadgeIndianRupee,
+  1505→      title: "Higher Loan Amounts",
+  1506→      desc: "LAP typically offers higher loan amounts based on property valuation, subject to lender LTV policy and assessment.",
+  1507→    },
+  1508→    {
+  1509→      icon: Clock,
+  1510→      title: "Longer Tenure Options",
+  1511→      desc: "Repayment tenures up to 20 years (subject to lender policy, applicant age and eligibility assessment).",
+  1512→    },
+  1513→    {
+  1514→      icon: Wallet,
+  1515→      title: "Multi-Purpose Usage",
+  1516→      desc: "Funds can generally be used for business expansion, working capital, education, wedding or other large expenses, subject to lender terms.",
+  1517→    },
+  1518→    {
+  1519→      icon: Building2,
+  1520→      title: "Residential & Commercial Property",
+  1521→      desc: "Assistance for residential, commercial and industrial property, subject to lender policy and clear title.",
+  1522→    },
+  1523→    {
+  1524→      icon: Handshake,
+  1525→      title: "Personalised Guidance",
+  1526→      desc: "We help you understand how property type, valuation and your income affect eligible loan amount.",
+  1527→    },
+  1528→    {
+  1529→      icon: FileText,
+  1530→      title: "Documentation Support",
+  1531→      desc: "Clear guidance on property title, ownership and income documents typically required by lenders.",
+  1532→    },
+  1533→  ],
+  1534→
+  1535→  /* How It Works — reusing process steps with clear lender-dependent wording. */
+  1536→  process: [
+  1537→    {
+  1538→      step: "01",
+  1539→      title: "Share Property & Requirement",
+  1540→      desc: "Provide property type, approximate value and your funding requirement so we can understand suitable LAP options.",
+  1541→      icon: ClipboardCheck,
+  1542→    },
+  1543→    {
+  1544→      step: "02",
+  1545→      title: "Property & Profile Assessment",
+  1546→      desc: "Lender arranges property valuation and legal verification, alongside your income and credit assessment.",
+  1547→      icon: FileSearch,
+  1548→    },
+  1549→    {
+  1550→      step: "03",
+  1551→      title: "Documents Verification & KYC",
+  1552→      desc: "Submit property title, ownership and income documents for verification as required by the lender.",
+  1553→      icon: FileCheck2,
+  1554→    },
+  1555→    {
+  1556→      step: "04",
+  1557→      title: "Approval & Disbursal",
+  1558→      desc: "On lender approval, the sanctioned amount is disbursed as per the lender's process and disbursement schedule.",
+  1559→      icon: Banknote,
+  1560→    },
+  1561→  ],
+  1562→
+  1563→  eligibility: [
+  1564→    {
+  1565→      icon: FileText,
+  1566→      label: "Property Ownership",
+  1567→      value: "Owner of eligible property with clear title",
+  1568→    },
+  1569→    {
+  1570→      icon: Building2,
+  1571→      label: "Property Type",
+  1572→      value: "Residential, commercial or industrial property accepted by lender",
+  1573→    },
+  1574→    {
+  1575→      icon: BadgeIndianRupee,
+  1576→      label: "Income",
+  1577→      value: "Stable income source — salaried or self-employed (lender-defined)",
+  1578→    },
+  1579→    {
+  1580→      icon: LineChart,
+  1581→      label: "Credit Profile",
+  1582→      value: "Acceptable repayment history; subject to lender assessment",
+  1583→    },
+  1584→  ],
+  1585→
+  1586→  documents: [
+  1587→    {
+  1588→      icon: ScrollText,
+  1589→      title: "Property Title & Ownership",
+  1590→      desc: "Title deed, sale deed and ownership documents for the property being offered as security.",
+  1591→    },
+  1592→    {
+  1593→      icon: FileText,
+  1594→      title: "Identity & Address Proof",
+  1595→      desc: "Aadhaar / PAN / Passport / Voter ID of all property owners and applicants.",
+  1596→    },
+  1597→    {
+  1598→      icon: Receipt,
+  1599→      title: "Income Proof",
+  1600→      desc: "Salary slips / bank statements / audited financials as required by the lender.",
+  1601→    },
+  1602→    {
+  1603→      icon: Stamp,
+  1604→      title: "Property Tax & Approvals",
+  1605→      desc: "Latest property tax receipts, building approvals and other property-related papers.",
+  1606→    },
+  1607→    {
+  1608→      icon: FileSignature,
+  1609→      title: "Additional Documents",
+  1610→      desc: "Any other documents requested by the lender during legal and technical verification.",
+  1611→    },
+  1612→  ],
+  1613→
+  1614→  loanTypes: [
+  1615→    {
+  1616→      icon: Home,
+  1617→      title: "Residential Property",
+  1618→      desc: "LAP against self-occupied, rented or under-construction residential property, subject to lender policy and clear title.",
+  1619→    },
+  1620→    {
+  1621→      icon: Building2,
+  1622→      title: "Commercial Property",
+  1623→      desc: "LAP against shops, offices or other commercial property, subject to lender assessment and valuation.",
+  1624→    },
+  1625→    {
+  1626→      icon: Factory,
+  1627→      title: "Industrial Property",
+  1628→      desc: "LAP against industrial property such as factories or warehouses, subject to lender policy and valuation.",
+  1629→    },
+  1630→    {
+  1631→      icon: Trees,
+  1632→      title: "Plot + Building",
+  1633→      desc: "LAP against a plot with an existing building, subject to lender policy and clear title documentation.",
+  1634→    },
+  1635→  ],
+  1636→
+  1637→  testimonials: [
+  1638→    {
+  1639→      name: "Rajesh Malhotra",
+  1640→      role: "Business Owner",
+  1641→      location: "Delhi",
+  1642→      initials: "RM",
+  1643→      accent: "from-navy to-royal",
+  1644→      quote:
+  1645→        "I needed funds for business expansion and considered LAP. The team explained how valuation and LTV are decided by the lender — clear and honest guidance.",
+  1646→      rating: 5,
+  1647→      loanType: "Loan Against Property",
+  1648→    },
+  1649→    {
+  1650→      name: "Fatima Sheikh",
+  1651→      role: "Entrepreneur",
+  1652→      location: "Mumbai",
+  1653→      initials: "FS",
+  1654→      accent: "from-navy to-royal",
+  1655→      quote:
+  1656→        "Property documentation looked complex. TNL Fincorp gave me a clear checklist of title and ownership papers required by lenders.",
+  1657→      rating: 5,
+  1658→      loanType: "Loan Against Property",
+  1659→    },
+  1660→    {
+  1661→      name: "Vivek Menon",
+  1662→      role: "Manufacturer",
+  1663→      location: "Coimbatore",
+  1664→      initials: "VM",
+  1665→      accent: "from-navy to-royal",
+  1666→      quote:
+  1667→        "Transparent about the fact that final LTV, rate and tenure depend on lender and property assessment. The application support was well-organised.",
+  1668→      rating: 4,
+  1669→      loanType: "Loan Against Property",
+  1670→    },
+  1671→  ],
+  1672→
+  1673→  /* EDITABLE PLACEHOLDER FIGURES — replace with verified numbers before launch. */
+  1674→  trustCounters: DEFAULT_TRUST_COUNTERS,
+  1675→
+  1676→  faqs: [
+  1677→    {
+  1678→      q: "What is a Loan Against Property (LAP)?",
+  1679→      a: "A Loan Against Property is a secured loan where you pledge eligible residential, commercial or industrial property to access funds. TNL Fincorp assists you with understanding LAP options, property documentation and the application process through the financial services network.",
+  1680→    },
+  1681→    {
+  1682→      q: "What property types are accepted for LAP?",
+  1683→      a: "Eligible residential, commercial or industrial property with clear title may be considered. Final acceptance depends on the lender's policies, property type, valuation and legal verification.",
+  1684→    },
+  1685→    {
+  1686→      q: "How much loan amount can I get?",
+  1687→      a: "Loan amounts depend on the property's valuation, lender LTV policy (typically a percentage of property value), your income and credit profile. The final sanctioned amount is at the lender's discretion.",
+  1688→    },
+  1689→    {
+  1690→      q: "What is LTV (Loan-to-Value)?",
+  1691→      a: "LTV is the percentage of the property's assessed value that the lender is willing to finance. Higher LTV means a higher loan amount but is subject to lender policy and applicant profile.",
+  1692→    },
+  1693→    {
+  1694→      q: "What tenure can I choose?",
+  1695→      a: "LAP tenures can extend up to 20 years, subject to lender policy, applicant age and eligibility assessment. Longer tenures typically result in lower EMIs but higher overall interest.",
+  1696→    },
+  1697→    {
+  1698→      q: "What interest rates apply to LAP?",
+  1699→      a: "Interest rates are determined by the lender based on property type, loan amount, applicant profile and credit assessment. TNL Fincorp does not set rates — we help you understand indicative offers.",
+  1700→    },
+  1701→    {
+  1702→      q: "Can I use LAP funds for business purposes?",
+  1703→      a: "Yes. LAP funds can generally be used for business or personal needs such as expansion, working capital, education or large expenses, subject to the respective lender's terms and conditions.",
+  1704→    },
+  1705→    {
+  1706→      q: "How is property valuation done?",
+  1707→      a: "The lender arranges a property valuation and legal verification through its empanelled valuers and legal counsel. The valuation figure is used to determine the eligible loan amount as per the lender's LTV policy.",
+  1708→    },
+  1709→    {
+  1710→      q: "What documents are typically required?",
+  1711→      a: "Common documents include property title and ownership papers, identity and address proof, income proof / financial statements, and property tax and approval documents. Additional documents may be requested by the lender.",
+  1712→    },
+  1713→    {
+  1714→      q: "How do I apply through TNL Fincorp?",
+  1715→      a: "Submit your enquiry through the form on this page, call us at +91 94279 79991, or visit our office in Dindoli, Surat. Our team will guide you on suitable options, documentation and the application process.",
+  1716→    },
+  1717→  ],
+  1718→
+  1719→  calculator: {
+  1720→    minAmount: 500000,
+  1721→    maxAmount: 150000000,
+  1722→    defaultAmount: 5000000,
+  1723→    minRate: 9,
+  1724→    maxRate: 16,
+  1725→    defaultRate: 12,
+  1726→    minYears: 1,
+  1727→    maxYears: 20,
+  1728→    defaultYears: 15,
+  1729→  },
+  1730→
+  1731→  metaTitle:
+  1732→    "Loan Against Property Assistance in Surat | TNL Fincorp",
+  1733→  metaDescription:
+  1734→    "Loan Against Property assistance for residential, commercial and industrial property. Documentation, valuation and application support through TNL Fincorp's lender network.",
+  1735→};
+  1736→
+  1737→/* -------------------------------------------------------------------------- */
+  1738→/* Aggregated export                                                          */
+  1739→/* -------------------------------------------------------------------------- */
+  1740→
+  1741→export const LOAN_PAGE_DATA: Record<LoanSlug, LoanPageContent> = {
+  1742→  personal: personalLoan,
+  1743→  business: businessLoan,
+  1744→  home: homeLoan,
+  1745→  lap: loanAgainstProperty,
+  1746→  auto: autoLoan,
+  1747→  education: educationLoan,
+  1748→};
+  1749→
+  1750→/* -------------------------------------------------------------------------- */
+  1751→/* Helper utilities                                                           */
+  1752→/* -------------------------------------------------------------------------- */
+  1753→
+  1754→/** Look up a single loan page's content by its route (e.g. "/personal-loan"). */
+  1755→export function getLoanPageByRoute(
+  1756→  route: string,
+  1757→): LoanPageContent | undefined {
+  1758→  return Object.values(LOAN_PAGE_DATA).find((p) => p.route === route);
+  1759→}
+  1760→
+  1761→/** Look up a single loan page's content by its slug. */
+  1762→export function getLoanPageBySlug(slug: LoanSlug): LoanPageContent {
+  1763→  return LOAN_PAGE_DATA[slug];
+  1764→}
+  1765→

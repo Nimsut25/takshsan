@@ -8,8 +8,11 @@ import {
   ArrowRight,
   CheckCircle2,
   ChevronRight,
+  Pause,
+  Play,
   Quote,
   ShieldCheck,
+  Sparkles,
   Star,
   TrendingUp,
 } from "lucide-react";
@@ -33,6 +36,8 @@ import {
   StaggerItem,
 } from "@/components/tnl/reveal";
 import { AnimatedCounter } from "@/components/tnl/animated-counter";
+import { BrandButton } from "@/components/tnl/brand-button";
+import { LoanApplyModal, type LoanApplyConfig } from "@/components/tnl/loan-apply-modal";
 import type {
   LoanBenefit,
   LoanProcessStep,
@@ -165,6 +170,13 @@ export function LoanProcess({
   steps: LoanProcessStep[];
   accent: string;
 }) {
+  // Dynamic column count so the timeline stays perfectly centered for 4 or 5 steps.
+  const cols = steps.length;
+  const gridCls =
+    cols <= 4
+      ? "sm:grid-cols-2 lg:grid-cols-4"
+      : "sm:grid-cols-2 lg:grid-cols-5";
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-white to-[#f6f9ff] py-20 sm:py-24">
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
@@ -175,28 +187,40 @@ export function LoanProcess({
           description="A clear, guided journey from application to disbursal."
         />
         <div className="relative mt-16">
-          {/* connecting line */}
+          {/* connecting line — aligned exactly with the center of the step circles.
+              The line sits behind the circles; each circle has a solid bg to mask it. */}
           <div className="pointer-events-none absolute left-0 right-0 top-[3.25rem] hidden lg:block">
-            <div className="relative mx-auto h-0.5 max-w-5xl bg-primary/15">
+            <div
+              className="relative mx-auto h-0.5 bg-primary/15"
+              style={{ maxWidth: `${Math.min(cols, 5) * 13}rem` }}
+            >
               <motion.div
                 className="absolute left-0 top-0 h-0.5 bg-gradient-to-r from-royal via-sky to-teal-brand"
                 initial={{ width: "0%" }}
                 whileInView={{ width: "100%" }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 2, ease: "easeInOut" }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 1.8, ease: "easeInOut", delay: 0.2 }}
               />
             </div>
           </div>
           <StaggerGroup
-            className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5"
-            stagger={0.15}
+            className={cn("grid gap-8", gridCls)}
+            stagger={0.18}
           >
             {steps.map((step) => (
               <StaggerItem key={step.step} className="relative">
                 <div className="group relative flex flex-col items-center text-center">
                   <motion.div
-                    whileHover={{ scale: 1.06, rotate: 2 }}
-                    transition={{ type: "spring", stiffness: 300 }}
+                    initial={{ scale: 0.6, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 240,
+                      damping: 18,
+                      delay: 0.15,
+                    }}
+                    whileHover={{ scale: 1.06 }}
                     className="relative grid size-[6.5rem] place-items-center rounded-full border border-primary/15 bg-white shadow-soft"
                   >
                     <span className="absolute inset-1 rounded-full bg-gradient-to-br from-primary/5 to-transparent" />
@@ -213,7 +237,7 @@ export function LoanProcess({
                   <h3 className="mt-5 font-display text-base font-bold text-navy">
                     {step.title}
                   </h3>
-                  <p className="mt-2 max-w-[14rem] text-sm text-muted-foreground">
+                  <p className="mt-2 max-w-[15rem] text-sm text-muted-foreground">
                     {step.desc}
                   </p>
                 </div>
@@ -328,7 +352,7 @@ export function RequiredDocuments({
   );
 }
 
-/* ─────────────── Loan Types ─────────────── */
+/* ─────────────── Loan Types (premium cards + Apply Now modal) ─────────────── */
 export function LoanTypesSection({
   eyebrow,
   title,
@@ -336,6 +360,10 @@ export function LoanTypesSection({
   description,
   types,
   accent,
+  /** Base loan name, e.g. "Home Loan" / "Auto Loan" / "Loan Against Property". */
+  loanName,
+  /** Optional category options for the modal's category select (auto: new/used). */
+  categoryOptions,
 }: {
   eyebrow: string;
   title: string;
@@ -343,9 +371,25 @@ export function LoanTypesSection({
   description: string;
   types: LoanTypeCard[];
   accent: string;
+  loanName: string;
+  categoryOptions?: string[];
 }) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selected, setSelected] = useState<LoanApplyConfig | null>(null);
+
+  const openModal = (cardTitle: string) => {
+    setSelected({
+      title: cardTitle,
+      category: cardTitle,
+      accent,
+      categoryLabel: `${loanName} Type`,
+    });
+    setModalOpen(true);
+  };
+
   return (
     <section className="relative overflow-hidden py-20 sm:py-24">
+      <div className="pointer-events-none absolute -right-20 top-10 size-72 rounded-full bg-teal-brand/10 blur-[120px]" />
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeading
           eyebrow={eyebrow}
@@ -357,45 +401,77 @@ export function LoanTypesSection({
           className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
           stagger={0.1}
         >
-          {types.map((t) => (
-            <StaggerItem key={t.title}>
-              <div className="group relative h-full overflow-hidden rounded-3xl border border-primary/10 bg-white p-6 shadow-soft transition-all hover:-translate-y-1.5 hover:shadow-card-hover">
-                <div
-                  className={cn(
-                    "grid size-14 place-items-center rounded-2xl bg-gradient-to-br text-white shadow-glow transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6",
-                    accent
-                  )}
-                >
-                  <t.icon className="size-7" />
+          {types.map((t, i) => {
+            // rotate accent gradients across cards for a colorful, premium look
+            const cardAccents = [
+              "from-royal to-sky",
+              "from-teal-brand to-cyan-brand",
+              "from-navy to-royal",
+              "from-sky to-teal-brand",
+            ];
+            const cardAccent = cardAccents[i % cardAccents.length];
+            return (
+              <StaggerItem key={t.title}>
+                <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-primary/10 bg-white shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-card-hover">
+                  {/* top accent banner */}
+                  <div
+                    className={cn(
+                      "relative h-20 overflow-hidden bg-gradient-to-r",
+                      cardAccent
+                    )}
+                  >
+                    <div className="pointer-events-none absolute inset-0 bg-grid opacity-20" />
+                    <div className="pointer-events-none absolute -right-6 -top-6 size-24 rounded-full bg-white/20 blur-xl" />
+                    <div className="absolute -bottom-5 left-5">
+                      <span
+                        className={cn(
+                          "grid size-12 place-items-center rounded-2xl bg-white text-navy shadow-glow ring-1 ring-white/40 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6",
+                        )}
+                      >
+                        <t.icon className="size-6" />
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* body — flex-col so the button can stick to the bottom */}
+                  <div className="flex flex-1 flex-col p-5 pt-7">
+                    <h3 className="font-display text-base font-bold text-navy">
+                      {t.title}
+                    </h3>
+                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                      {t.desc}
+                    </p>
+                    {/* Apply Now button — consistently aligned at the bottom */}
+                    <button
+                      onClick={() => openModal(t.title)}
+                      className={cn(
+                        "mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-glow active:scale-95",
+                        cardAccent
+                      )}
+                    >
+                      <Sparkles className="size-4" />
+                      Apply Now
+                    </button>
+                  </div>
                 </div>
-                <h3 className="mt-5 font-display text-base font-bold text-navy">
-                  {t.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {t.desc}
-                </p>
-                <a
-                  href="#apply"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document
-                      .querySelector("#apply")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-royal hover:gap-2"
-                >
-                  Apply <ChevronRight className="size-4" />
-                </a>
-              </div>
-            </StaggerItem>
-          ))}
+              </StaggerItem>
+            );
+          })}
         </StaggerGroup>
       </div>
+
+      {selected && (
+        <LoanApplyModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          config={selected}
+        />
+      )}
     </section>
   );
 }
 
-/* ─────────────── Customer Reviews carousel ─────────────── */
+/* ─────────────── Customer Reviews — endless infinite carousel ─────────────── */
 export function CustomerReviews({
   testimonials,
   accent,
@@ -406,6 +482,9 @@ export function CustomerReviews({
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(sectionRef, { amount: 0.2 });
 
   const onSelect = (api: CarouselApi) => {
     if (!api) return;
@@ -425,14 +504,18 @@ export function CustomerReviews({
     };
   }, [api]);
 
+  // Endless auto-slide — only when section is in view and not paused by the user.
   useEffect(() => {
-    if (!api) return;
-    const id = setInterval(() => api.scrollNext(), 5500);
+    if (!api || paused || !inView) return;
+    const id = setInterval(() => api.scrollNext(), 4000);
     return () => clearInterval(id);
-  }, [api]);
+  }, [api, paused, inView]);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#f6f9ff] to-white py-20 sm:py-24">
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden bg-gradient-to-b from-[#f6f9ff] to-white py-20 sm:py-24"
+    >
       <div className="pointer-events-none absolute -left-20 top-10 size-72 rounded-full bg-royal/10 blur-[120px]" />
       <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
         <SectionHeading
@@ -442,49 +525,62 @@ export function CustomerReviews({
           description="Placeholder testimonials shown for design demonstration. Replace with verified reviews before launch."
         />
         <Reveal direction="scale" className="mt-12">
-          <Carousel opts={{ align: "center", loop: true }} setApi={setApi}>
-            <CarouselContent className="-ml-4">
-              {testimonials.map((t) => (
-                <CarouselItem
-                  key={t.name}
-                  className="pl-4 md:basis-1/2 lg:basis-1/3"
-                >
-                  <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-primary/10 bg-white p-6 shadow-soft transition-all hover:-translate-y-1.5 hover:shadow-card-hover">
-                    <Quote className="size-9 text-primary/15" />
-                    <div className="mt-3 flex gap-0.5">
-                      {Array.from({ length: t.rating }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className="size-4 fill-amber-400 text-amber-400"
-                        />
-                      ))}
-                    </div>
-                    <p className="mt-4 flex-1 text-sm leading-relaxed text-foreground/80">
-                      &ldquo;{t.quote}&rdquo;
-                    </p>
-                    <div className="mt-6 flex items-center gap-3 border-t border-primary/10 pt-5">
-                      <span
-                        className={cn(
-                          "grid size-12 place-items-center rounded-full bg-gradient-to-br font-display text-base font-bold text-white shadow-soft",
-                          t.accent
-                        )}
-                      >
-                        {t.initials}
-                      </span>
-                      <div>
-                        <div className="font-display text-sm font-bold text-navy">
-                          {t.name}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {t.role} · {t.location}
+          <div
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+          >
+            <Carousel
+              opts={{ align: "start", loop: true, dragFree: false }}
+              setApi={setApi}
+            >
+              <CarouselContent className="-ml-4">
+                {testimonials.map((t) => (
+                  <CarouselItem
+                    key={t.name + t.quote.slice(0, 10)}
+                    className="pl-4 md:basis-1/2 lg:basis-1/3"
+                  >
+                    <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-primary/10 bg-white p-6 shadow-soft transition-all hover:-translate-y-1.5 hover:shadow-card-hover">
+                      <div className="flex items-center justify-between">
+                        <Quote className="size-9 text-primary/15" />
+                        <span className="rounded-full bg-primary/5 px-2.5 py-1 text-[10px] font-semibold text-royal">
+                          {t.loanType}
+                        </span>
+                      </div>
+                      <div className="mt-3 flex gap-0.5">
+                        {Array.from({ length: t.rating }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className="size-4 fill-amber-400 text-amber-400"
+                          />
+                        ))}
+                      </div>
+                      <p className="mt-4 flex-1 text-sm leading-relaxed text-foreground/80">
+                        &ldquo;{t.quote}&rdquo;
+                      </p>
+                      <div className="mt-6 flex items-center gap-3 border-t border-primary/10 pt-5">
+                        <span
+                          className={cn(
+                            "grid size-12 place-items-center rounded-full bg-gradient-to-br font-display text-base font-bold text-white shadow-soft",
+                            t.accent
+                          )}
+                        >
+                          {t.initials}
+                        </span>
+                        <div>
+                          <div className="font-display text-sm font-bold text-navy">
+                            {t.name}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {t.role} · {t.location}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </article>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
+                    </article>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
         </Reveal>
 
         <div className="mt-7 flex items-center justify-center gap-4">
@@ -521,6 +617,14 @@ export function CustomerReviews({
           >
             <ArrowRight className="size-5" />
           </Button>
+          <button
+            onClick={() => setPaused((p) => !p)}
+            aria-label={paused ? "Resume auto-slide" : "Pause auto-slide"}
+            className="ml-1 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-white px-3 py-2 text-xs font-semibold text-royal hover:bg-primary/5"
+          >
+            {paused ? <Play className="size-3.5" /> : <Pause className="size-3.5" />}
+            <span className="hidden sm:inline">{paused ? "Play" : "Pause"}</span>
+          </button>
         </div>
         <p className="mt-6 text-center text-[11px] text-muted-foreground">
           * Demo testimonials for design demonstration — replace with verified

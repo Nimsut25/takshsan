@@ -89,6 +89,7 @@ import {
   Briefcase as BriefcaseIcon,
   Settings2,
   Truck,
+  Gauge,
 } from "lucide-react";
 
 import type { LoanSlug } from "@/lib/site-data";
@@ -633,6 +634,39 @@ const businessLoan: LoanPageContent = {
       rating: 4,
       loanType: "Business Loan",
     },
+    {
+      name: "Vikram Reddy",
+      role: "Manufacturing Unit Owner",
+      location: "Bengaluru",
+      initials: "VR",
+      accent: "from-teal-brand to-cyan-brand",
+      quote:
+        "The working capital guidance was clear and practical. The team understood my business requirement and supported the documentation properly.",
+      rating: 5,
+      loanType: "Business Loan",
+    },
+    {
+      name: "Pooja Bhatia",
+      role: "Restaurant Owner",
+      location: "Chandigarh",
+      initials: "PB",
+      accent: "from-teal-brand to-cyan-brand",
+      quote:
+        "They explained how lenders look at GST returns and bank statements. The documentation checklist they shared saved me a lot of back-and-forth.",
+      rating: 5,
+      loanType: "Business Loan",
+    },
+    {
+      name: "Rohan Deshpande",
+      role: "Pharma Distributor",
+      location: "Nagpur",
+      initials: "RD",
+      accent: "from-teal-brand to-cyan-brand",
+      quote:
+        "I appreciated that they were upfront — final sanction and rate depend on the lender's assessment of my business profile. Guidance was honest throughout.",
+      rating: 4,
+      loanType: "Business Loan",
+    },
   ],
 
   /* EDITABLE PLACEHOLDER FIGURES — replace with verified numbers before launch. */
@@ -903,6 +937,39 @@ const homeLoan: LoanPageContent = {
       rating: 4,
       loanType: "Home Loan",
     },
+    {
+      name: "Suresh Nair",
+      role: "Senior Banker",
+      location: "Kochi",
+      initials: "SN",
+      accent: "from-royal to-teal-brand",
+      quote:
+        "The team clarified how loan eligibility is calculated from net income and existing obligations. The step-by-step application support was very helpful.",
+      rating: 5,
+      loanType: "Home Loan",
+    },
+    {
+      name: "Anjali Verma",
+      role: "Government Employee",
+      location: "Lucknow",
+      initials: "AV",
+      accent: "from-royal to-teal-brand",
+      quote:
+        "They walked me through the property documents the lender would verify. As a first-time applicant, I felt well-informed at every stage.",
+      rating: 5,
+      loanType: "Home Loan",
+    },
+    {
+      name: "Rajiv Khanna",
+      role: "NRI Returning Home",
+      location: "Chandigarh",
+      initials: "RK",
+      accent: "from-royal to-teal-brand",
+      quote:
+        "As an NRI, the paperwork seemed daunting. TNL Fincorp explained the KYC and power-of-attorney requirements clearly, with no inflated promises.",
+      rating: 4,
+      loanType: "Home Loan",
+    },
   ],
 
   /* EDITABLE PLACEHOLDER FIGURES — replace with verified numbers before launch. */
@@ -976,14 +1043,14 @@ const homeLoan: LoanPageContent = {
 const autoLoan: LoanPageContent = {
   slug: "auto",
   route: "/auto-loan",
-  eyebrow: "NEW • USED • TWO-WHEELER • COMMERCIAL",
+  eyebrow: "NEW • USED • COMMERCIAL",
   heroHeadline: "Auto Loan",
   heroDescription:
-    "Drive home your vehicle — a new car, a used car, a two-wheeler or a commercial vehicle — with auto loan assistance from TNL Fincorp. We help you understand available options, documentation and the application process through our financial services network. Loan amount, LTV, rates, tenure and approval are subject to the respective lender's policies and vehicle assessment.",
+    "Drive home your vehicle — a new car, a used car or a commercial vehicle — with auto loan assistance from TNL Fincorp. We help you understand available options, documentation and the application process through our financial services network. Loan amount, LTV, rates, tenure and approval are subject to the respective lender's policies and vehicle assessment.",
   heroImage: "/images/loan-auto.jpg",
   heroFloatingCards: [
     { icon: Car, label: "New & Used" },
-    { icon: Bike, label: "Two-Wheelers" },
+    { icon: CarFront, label: "Car Finance" },
     { icon: Truck, label: "Commercial" },
     { icon: Percent, label: "Down Payment Help" },
   ],
@@ -996,9 +1063,9 @@ const autoLoan: LoanPageContent = {
       desc: "Assistance for both new and used vehicle loans, subject to lender policy, vehicle age and condition assessment.",
     },
     {
-      icon: Bike,
-      title: "Two-Wheeler Loans",
-      desc: "Explore two-wheeler loan options across lenders — final eligibility subject to lender assessment.",
+      icon: Gauge,
+      title: "Flexible Tenure Options",
+      desc: "Explore indicative tenure options to balance your EMI and repayment comfort. Final tenure is subject to lender policy.",
     },
     {
       icon: Truck,
@@ -1135,14 +1202,14 @@ const autoLoan: LoanPageContent = {
       desc: "Loans for pre-owned cars, subject to vehicle age, condition and lender policy.",
     },
     {
-      icon: Bike,
-      title: "Two-Wheeler Loan",
-      desc: "Financing assistance for new two-wheelers, subject to lender eligibility.",
-    },
-    {
       icon: Truck,
       title: "Commercial Vehicle Loan",
       desc: "Loans for commercial vehicles, subject to lender policy and applicant profile.",
+    },
+    {
+      icon: Percent,
+      title: "Down Payment & LTV Guidance",
+      desc: "Understand how down payment and loan-to-value affect your vehicle loan. Final LTV is set by the lender.",
     },
   ],
 
@@ -1180,6 +1247,39 @@ const autoLoan: LoanPageContent = {
       rating: 4,
       loanType: "Auto Loan",
     },
+    {
+      name: "Lakshmi Venkataraman",
+      role: "Marketing Manager",
+      location: "Coimbatore",
+      initials: "LV",
+      accent: "from-sky to-cyan-brand",
+      quote:
+        "They explained how the vehicle's ex-showroom price and LTV decide the loan amount. Clear guidance, with no pressure to choose a particular model.",
+      rating: 5,
+      loanType: "Auto Loan",
+    },
+    {
+      name: "Arjun Malhotra",
+      role: "Freelance Designer",
+      location: "Mumbai",
+      initials: "AM",
+      accent: "from-sky to-cyan-brand",
+      quote:
+        "I was buying my first car. The documentation checklist and EMI breakdown helped me plan my down payment properly.",
+      rating: 5,
+      loanType: "Auto Loan",
+    },
+    {
+      name: "Farhan Ahmed",
+      role: "Logistics Operator",
+      location: "Kolkata",
+      initials: "FA",
+      accent: "from-sky to-cyan-brand",
+      quote:
+        "Honest about the rate being the lender's call based on my credit profile. The application support was organised and transparent throughout.",
+      rating: 4,
+      loanType: "Auto Loan",
+    },
   ],
 
   /* EDITABLE PLACEHOLDER FIGURES — replace with verified numbers before launch. */
@@ -1188,7 +1288,7 @@ const autoLoan: LoanPageContent = {
   faqs: [
     {
       q: "What is an auto loan?",
-      a: "An auto loan is a secured loan used to purchase a new or used vehicle, including cars, two-wheelers and commercial vehicles. TNL Fincorp assists you with understanding options, documentation and the application process.",
+      a: "An auto loan is a secured loan used to purchase a new or used vehicle, including cars and commercial vehicles. TNL Fincorp assists you with understanding options, documentation and the application process.",
     },
     {
       q: "Can I get a loan for a used vehicle?",
@@ -1244,7 +1344,7 @@ const autoLoan: LoanPageContent = {
   metaTitle:
     "Auto Loan Assistance in Surat | TNL Fincorp",
   metaDescription:
-    "Auto loan assistance for new and used cars, two-wheelers and commercial vehicles. Down payment guidance, documentation help and application support through TNL Fincorp.",
+    "Auto loan assistance for new and used cars and commercial vehicles. Down payment guidance, documentation help and application support through TNL Fincorp.",
 };
 
 /* -------------------------------------------------------------------------- */
@@ -1409,6 +1509,39 @@ const educationLoan: LoanPageContent = {
       accent: "from-teal-brand to-royal",
       quote:
         "Honest guidance with no inflated promises. They clearly explained that final terms depend on the lender and the institution's recognition.",
+      rating: 4,
+      loanType: "Education Loan",
+    },
+    {
+      name: "Nikhil Sharma",
+      role: "MBA Aspirant",
+      location: "Delhi",
+      initials: "NS",
+      accent: "from-teal-brand to-royal",
+      quote:
+        "I had admits from two universities and was unsure which documents mattered. The team explained the typical lender requirements clearly.",
+      rating: 5,
+      loanType: "Education Loan",
+    },
+    {
+      name: "Lakshmi Iyer",
+      role: "Parent of Postgraduate Student",
+      location: "Bengaluru",
+      initials: "LI",
+      accent: "from-teal-brand to-royal",
+      quote:
+        "For my son's postgraduate studies abroad, the co-applicant and collateral guidance was very useful. They set realistic expectations on timelines.",
+      rating: 5,
+      loanType: "Education Loan",
+    },
+    {
+      name: "Joseph Mathew",
+      role: "Father of Medical Student",
+      location: "Kochi",
+      initials: "JM",
+      accent: "from-teal-brand to-royal",
+      quote:
+        "They were transparent that final approval depends on the institution's recognition and my repayment capacity. The documentation support was thorough.",
       rating: 4,
       loanType: "Education Loan",
     },
@@ -1664,6 +1797,39 @@ const loanAgainstProperty: LoanPageContent = {
       accent: "from-navy to-royal",
       quote:
         "Transparent about the fact that final LTV, rate and tenure depend on lender and property assessment. The application support was well-organised.",
+      rating: 4,
+      loanType: "Loan Against Property",
+    },
+    {
+      name: "Anand Kapoor",
+      role: "Hotel Owner",
+      location: "Ahmedabad",
+      initials: "AK",
+      accent: "from-navy to-royal",
+      quote:
+        "The team explained how property valuation and title verification drive the loan amount. Honest guidance, with no exaggerated LTV claims.",
+      rating: 5,
+      loanType: "Loan Against Property",
+    },
+    {
+      name: "Sunita Rao",
+      role: "School Trustee",
+      location: "Pune",
+      initials: "SR",
+      accent: "from-navy to-royal",
+      quote:
+        "Property papers for our trust were complex. TNL Fincorp gave a clear checklist and helped me organise the ownership and tax documents.",
+      rating: 5,
+      loanType: "Loan Against Property",
+    },
+    {
+      name: "Gurpreet Singh",
+      role: "Trader",
+      location: "Ludhiana",
+      initials: "GS",
+      accent: "from-navy to-royal",
+      quote:
+        "I appreciated that they were upfront — final rate and tenure depend on the lender's assessment of the property and my profile. Smooth application support.",
       rating: 4,
       loanType: "Loan Against Property",
     },

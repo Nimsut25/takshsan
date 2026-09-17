@@ -370,3 +370,59 @@ Work Log:
 
 Stage Summary:
 - Global justification applied. Mobile stays left-aligned (clean on narrow widths); tablet/desktop paragraphs/descriptions are justified with hyphenation to prevent awkward gaps. Headings, nav, buttons, labels, and form controls remain left-aligned. Dynamic/CMS content using <p>, text-muted-foreground, or leading-relaxed is covered automatically.
+
+---
+Task ID: 22
+Agent: main
+Task: Polish loan pages — process alignment/animation, 6+ reviews + endless carousel, trust counters, premium loan-type cards with Apply Now modal, remove two-wheeler globally
+
+Work Log:
+- Inspected: LoanProcess (stagger + line anim), CustomerReviews (3 per loan, 5.5s interval), TrustBanner (AnimatedCounter), LoanTypesSection (Apply link, not button), auto loan loanTypes has "Two-Wheeler Loans"
+- Found two-wheeler refs in: loan-page-data.ts (auto eyebrow, heroDescription, heroFloatingCards, loanTypes, FAQ), site-data.ts (useCases, FAQ), loan-page-client.tsx (auto description)
+
+Stage Summary:
+- In progress.
+
+---
+Task ID: 3b
+Agent: content-editor
+Task: Expand testimonials to 6+ per loan in loan-page-data.ts
+
+Work Log:
+- Read worklog for context and located the testimonials arrays for the 5 target loans (business, home, auto, education, lap) in /home/z/my-project/src/lib/loan-page-data.ts via grep on `loanType: "..."`.
+- Confirmed each of the 5 target loans had exactly 3 testimonials; Personal Loan had 4 (left untouched per instructions).
+- Used MultiEdit to insert 3 new testimonial objects before the closing `]` of each of the 5 loan testimonials arrays (anchored on the unique `loanType: "<Type>",` + `},` + `],` + trustCounters comment pattern).
+- New testimonials use realistic Indian names, varied roles/locations, correct per-loan accent gradients (teal-brand→cyan-brand for business; royal→teal-brand for home; sky→cyan-brand for auto; teal-brand→royal for education; navy→royal for LAP), matching loanType strings, and honest review wording (guidance, documentation help, process clarity — no "guaranteed approval" claims). Ratings: mostly 5, one 4 per loan.
+- Verified with grep counts: Business=6, Home=6, Auto=6, Education=6, LAP=6 (all up from 3); Personal=4 (unchanged).
+- Ran `tsc --noEmit` — no errors in loan-page-data.ts (remaining pre-existing tsc errors are only in unrelated examples/ and skills/ files).
+
+Stage Summary:
+- Testimonial counts: Business 3→6, Home 3→6, Auto 3→6, Education 3→6, LAP 3→6. Personal unchanged at 4. File is type-clean. No other files modified; no tests written.
+
+---
+Task ID: 22 (final)
+Agent: main
+Task: Polish loan pages — process, reviews, trust, cards, apply modal, two-wheeler removal
+
+Work Log:
+- Two-wheeler removal (global, 0 refs remaining): loan-page-data.ts (auto eyebrow, heroDescription, heroFloatingCards, benefits, loanTypes, FAQ, metaDescription), site-data.ts (auto benefits, useCases, FAQ), loan-page-client.tsx (auto benefits description). Replaced two-wheeler loanType with "Down Payment & LTV Guidance" card. Removed unused Bike icon usage; added Gauge import.
+- LoanProcess improved: dynamic grid cols (4 or 5 centered), connecting line width scales with step count and animates at viewport amount 0.5, step circles spring-in sequentially (delay 0.15, stagger 0.18), line animates with delay 0.2 over 1.8s. No premature repeat (once: true).
+- CustomerReviews improved: endless infinite auto-slide (4s interval), pause on mouseEnter + manual pause/play button, only animates when section in view (useInView amount 0.2), touch/swipe via embla dragFree:false, loan-type badge on each card. Expanded testimonials to 6 per loan (business/home/auto/education/lap) via subagent.
+- TrustBanner: confirmed AnimatedCounter works (count-up from 0, easing, Indian formatting). Verified: 50,000+, 75,000+, 20+, 1,00,000+ animate on viewport entry.
+- LoanTypesSection rebuilt: premium colorful cards with top accent banner (rotating gradients), icon badge overlapping banner, flex-col body so Apply Now button is consistently bottom-aligned. Replaced old "Apply" link with prominent "Apply Now" gradient button. Opens LoanApplyModal.
+- LoanApplyModal (new reusable component): 3D open/close (scale + rotateY spring), dynamic title ("Apply for Home Purchase Loan" etc.), pre-selected category display, full validation (name/10-digit IN mobile/email/numeric amount/city/employment), submits to /api/enquiry with loanType tagged, success state, body scroll lock, ESC-to-close, click-outside-to-close, close button. Responsive + accessible.
+- Wired LoanApplyModal into LoanTypesSection (home/auto/education/lap). Added loanName prop to all 4 LoanTypesSection usages in loan-page-client.tsx.
+
+Verification:
+- All 6 loan routes return 200
+- Two-wheeler: 0 references globally (grep confirmed)
+- Testimonials: 6 each for business/home/auto/education/lap (grep confirmed)
+- Home loan: 4 loan-type cards (Home Purchase/Improvement/Construction/Plot) each with Apply Now button → modal opens with "Apply for Home Purchase Loan" dynamic title + all form fields
+- Auto loan: vehicle categories = New Car / Used Car / Commercial Vehicle / Down Payment (no two-wheeler)
+- Reviews: 6 article cards per loan section (browser-verified)
+- Trust counters: animate 0→50,000+ / 75,000+ / 20+ / 1,00,000+ on viewport entry
+- Mobile 390px: no horizontal scroll, process steps render correctly
+- Lint: 0 errors, 1 pre-existing benign warning
+
+Stage Summary:
+- All requested polish applied. Process sections centered + synchronized animation, 6+ reviews in endless carousels, trust counters animate, loan-type cards are premium with Apply Now buttons opening a reusable 3D LoanApplyModal. Two-wheeler concept fully removed. Production-ready.

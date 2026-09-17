@@ -380,13 +380,13 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
       "An Auto Loan helps you finance a new or used vehicle. TNL Fincorp assists you with understanding auto loan options, documentation, eligibility discussions and the application process through the financial services network.",
     benefits: [
       "Assistance for new and used vehicles",
-      "Guidance for cars, two-wheelers & commercial vehicles",
+      "Guidance for cars & commercial vehicles",
       "Documentation and application support",
       "Support for salaried and self-employed applicants",
       "End-to-end assistance through the journey",
     ],
     useCases: [
-      "New car or two-wheeler purchase",
+      "New car purchase",
       "Used vehicle purchase",
       "Commercial vehicle financing",
       "Electric vehicle purchase",
@@ -675,7 +675,7 @@ export const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Do you assist with Auto Loans?",
-    a: "Yes. We assist with auto loan options for new and used vehicles, including cars, two-wheelers and commercial vehicles.",
+    a: "Yes. We assist with auto loan options for new and used vehicles, including cars and commercial vehicles.",
   },
   {
     q: "Do you assist with Education Loans?",
