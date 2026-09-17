@@ -61,13 +61,23 @@ export const HEADER_NAV_LINKS = [
 
 /** Loans dropdown items (desktop hover + mobile accordion). */
 export const LOAN_DROPDOWN = [
-  { label: "Personal Loan", href: "/loans/personal", slug: "personal" as const },
-  { label: "Business Loan", href: "/loans/business", slug: "business" as const },
-  { label: "Home Loan", href: "/loans/home", slug: "home" as const },
-  { label: "Auto Loan", href: "/loans/auto", slug: "auto" as const },
-  { label: "Education Loan", href: "/loans/education", slug: "education" as const },
-  { label: "Loan Against Property", href: "/loans/loan-against-property", slug: "lap" as const },
+  { label: "Personal Loan", href: "/personal-loan", slug: "personal" as const },
+  { label: "Business Loan", href: "/business-loan", slug: "business" as const },
+  { label: "Home Loan", href: "/home-loan", slug: "home" as const },
+  { label: "Auto Loan", href: "/auto-loan", slug: "auto" as const },
+  { label: "Education Loan", href: "/education-loan", slug: "education" as const },
+  { label: "Loan Against Property", href: "/loan-against-property", slug: "lap" as const },
 ];
+
+/** Map a loan slug to its standalone page route. */
+export const LOAN_ROUTE: Record<LoanSlug, string> = {
+  personal: "/personal-loan",
+  business: "/business-loan",
+  home: "/home-loan",
+  lap: "/loan-against-property",
+  auto: "/auto-loan",
+  education: "/education-loan",
+};
 
 /** Investment dropdown items (desktop hover + mobile accordion). */
 export const INVEST_DROPDOWN = [

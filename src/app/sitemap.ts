@@ -24,17 +24,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     ...[
-      "personal",
-      "business",
-      "home",
-      "auto",
-      "education",
+      "personal-loan",
+      "business-loan",
+      "home-loan",
+      "auto-loan",
+      "education-loan",
       "loan-against-property",
     ].map((slug) => ({
-      url: `${base}/loans/${slug}`,
+      url: `${base}/${slug}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
-      priority: 0.8,
+      priority: 0.9,
     })),
   ];
 }

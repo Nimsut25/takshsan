@@ -1,15 +1,13 @@
 "use client";
 
 import { ArrowUpRight, ChevronRight } from "lucide-react";
-import { LOAN_PRODUCTS } from "@/lib/site-data";
-import { useModalStore } from "@/lib/modal-store";
+import Link from "next/link";
+import { LOAN_PRODUCTS, LOAN_ROUTE } from "@/lib/site-data";
 import { SectionHeading } from "@/components/tnl/section-heading";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/tnl/reveal";
 import { cn } from "@/lib/utils";
 
 export function LoanCategories() {
-  const openLoan = useModalStore((s) => s.openLoan);
-
   return (
     <section className="relative overflow-hidden py-20 sm:py-24">
       <div className="pointer-events-none absolute -left-32 top-1/2 size-80 -translate-y-1/2 rounded-full bg-teal-brand/10 blur-[120px]" />
@@ -25,8 +23,8 @@ export function LoanCategories() {
         <StaggerGroup className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {LOAN_PRODUCTS.map((loan) => (
             <StaggerItem key={loan.slug}>
-              <button
-                onClick={() => openLoan(loan.slug)}
+              <Link
+                href={LOAN_ROUTE[loan.slug]}
                 className="group relative block w-full overflow-hidden rounded-3xl border border-primary/10 bg-white p-6 text-left shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:border-primary/25 hover:shadow-card-hover"
               >
                 {/* hover gradient wash */}
@@ -62,7 +60,7 @@ export function LoanCategories() {
                   Learn More
                   <ChevronRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </span>
-              </button>
+              </Link>
             </StaggerItem>
           ))}
         </StaggerGroup>

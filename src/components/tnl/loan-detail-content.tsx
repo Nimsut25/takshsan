@@ -14,6 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   LOAN_PRODUCTS,
+  LOAN_ROUTE,
   COMPANY,
   DISCLAIMER,
   type LoanProduct,
@@ -268,7 +269,7 @@ export function LoanDetailContent({
             {LOAN_PRODUCTS.filter((p) => p.slug !== loan.slug).map((p) => (
               <Link
                 key={p.slug}
-                href={`/loans/${p.slug === "lap" ? "loan-against-property" : p.slug}`}
+                href={LOAN_ROUTE[p.slug]}
                 className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-white px-3.5 py-2 text-xs font-semibold text-royal transition-colors hover:bg-primary/5"
               >
                 <p.icon className="size-3.5" />

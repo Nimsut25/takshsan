@@ -9,11 +9,11 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
-import { LOAN_PRODUCTS } from "@/lib/site-data";
-import { useModalStore } from "@/lib/modal-store";
+import { LOAN_PRODUCTS, LOAN_ROUTE } from "@/lib/site-data";
 import { SectionHeading } from "@/components/tnl/section-heading";
 import { Reveal } from "@/components/tnl/reveal";
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export function LoanServicesCarousel() {
@@ -21,7 +21,6 @@ export function LoanServicesCarousel() {
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
   const [paused, setPaused] = useState(false);
-  const openLoan = useModalStore((s) => s.openLoan);
 
   const onSelect = useCallback((api: CarouselApi) => {
     if (!api) return;
@@ -125,13 +124,13 @@ export function LoanServicesCarousel() {
                             </span>
                           ))}
                         </div>
-                        <button
-                          onClick={() => openLoan(loan.slug)}
+                        <Link
+                          href={LOAN_ROUTE[loan.slug]}
                           className="mt-5 inline-flex items-center gap-1.5 self-start rounded-full border border-primary/20 px-4 py-2 text-sm font-semibold text-royal transition-all hover:gap-2.5 hover:bg-primary/5"
                         >
                           Learn More
                           <ChevronRight className="size-4" />
-                        </button>
+                        </Link>
                       </div>
                     </article>
                   </CarouselItem>

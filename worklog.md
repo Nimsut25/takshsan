@@ -279,3 +279,77 @@ Verification:
 
 Stage Summary:
 - TNL Fincorp transformation complete. Single unified platform for Loans + FD/RD investment with clean navigation, animated dropdowns, premium investment pages, interactive calculators, OTP-based application flow, and full SEO/metadata. No broken routes, no layout overflow, no console errors.
+
+---
+Task ID: 20
+Agent: main
+Task: Build complete premium loan-page system (6 standalone loan pages with hero+OTP, reusable components, calculators, reviews, trust banners, FAQs)
+
+Work Log:
+- Inspected existing: /loans/[slug] route (modal-style content), OTP API (send/verify with cooldown+rate-limit, in-memory+DB, never exposed), LOAN_DROPDOWN, LOAN_PRODUCTS, emi-calculator pattern, apply-with-consent + otp-verification components
+- Confirmed no real WhatsApp Business API exists; will use existing working OTP API and label delivery as WhatsApp/SMS (configurable)
+- Plan: new loan-page-data.ts + reusable loan components + 6 standalone routes (/personal-loan etc.) + remove old /loans/[slug]
+
+Stage Summary:
+- In progress.
+
+---
+Task ID: 1b
+Agent: content-builder
+Task: Build loan-page-data.ts with rich per-loan content for 6 loan pages
+
+Work Log:
+- Read worklog.md and reviewed existing src/lib/site-data.ts (LoanSlug union: personal|business|home|lap|auto|education; LOAN_PRODUCTS array; LOAN_ROUTE mapping slugs to /personal-loan etc.) plus investment-data.ts as a style reference.
+- Created /home/z/my-project/src/lib/loan-page-data.ts (1763 lines, fully typed) with:
+  * All shared types: LoanBenefit, LoanProcessStep, LoanWhyBetter, LoanTypeCard, LoanTestimonial, TrustCounter, CalculatorConfig, LoanPageContent.
+  * A single source-of-truth DEFAULT_TRUST_COUNTERS array (50k+ customers, 75k+ loans, 20+ partners, 100k+ applications) with explicit EDITABLE PLACEHOLDER comments.
+  * Six loan content objects (personal, business, home, lap, auto, education) assembled into `LOAN_PAGE_DATA: Record<LoanSlug, LoanPageContent>`.
+  * Two helper functions: getLoanPageByRoute(route) and getLoanPageBySlug(slug).
+- Each loan entry provides: eyebrow, heroHeadline, heroDescription, heroImage, 4 heroFloatingCards, accent gradient, benefits (4-6), whyBetter (where required), process steps (4-5 with step numbers + icons), eligibility (icon/label/value), documents (5), loanTypes (home/auto/lap), partners (home — generic placeholder names like "Partner Bank 1", "Housing Lender A" — no real bank names invented), 3-4 testimonials with Indian names + distinct accent gradients + loanType tag, trustCounters (editable placeholders), 10 FAQs, calculator config (minAmount/maxAmount/defaultAmount/minRate/maxRate/defaultRate/minYears/maxYears/defaultYears, hasDownPayment=true only on auto).
+- Financial-responsibility pass: every claim qualified with "subject to lender assessment / policy / verification", "up to", "as applicable", "terms and conditions apply"; NO "guaranteed approval" / "lowest rate guaranteed" anywhere; personal loan "disbursed instantly" softened to "disbursed in bank as per the lender's process"; zero-collateral business loan carries disclaimer "subject to lender/product terms"; home loan "up to 90% funding" and "up to 30 year tenure" both flagged as subject-to; education loan collateral/moratorium/coverage all stated as lender-dependent.
+- Calculator configs verified per spec:
+  * Personal: 50k-40L / 10-24% / 1-5y (defaults 5L / 14% / 3y)
+  * Business: 1L-2Cr / 11-22% / 1-10y (defaults 25L / 15% / 5y)
+  * Home: 1L-10Cr / 7-12% / 1-30y (defaults 50L / 8.5% / 20y)
+  * Auto: 50k-20L / 8-16% / 1-7y (defaults 8L / 11% / 5y, hasDownPayment true)
+  * Education: 1L-50L / 9-14% / 1-15y (defaults 10L / 11% / 10y)
+  * LAP: 5L-15Cr / 9-16% / 1-20y (defaults 50L / 12% / 15y)
+- Icon variety: imported 50+ lucide-react icons (UserRound, Briefcase, Home, Building2, Car, GraduationCap, ShieldCheck, FileText, Clock, Wallet, TrendingUp, Target, Handshake, Network, Lock, Zap, CheckCircle2, Landmark, Coins, PiggyBank, Banknote, Percent, Trophy, Users, FileCheck2, CreditCard, Smartphone, BadgeIndianRupee, Calculator, ClipboardCheck, FileSignature, Stamp, Factory, Trees, Bike, CarFront, Receipt, ScrollText, Globe2, Rocket, ClipboardList, FileSearch, PhoneCall, LineChart, IndianRupee, BadgePercent, Mailbox, MessageSquare, MapPinned, Wallet2, Hourglass, BookOpen, Plane, Library, School, Wrench, HardHat, Hammer, TreePalm, Microscope, Settings2, Truck).
+- Removed a stray `faqs: undefined as never` duplicate-property placeholder that would have broken the education loan object's typing.
+- Verified: `bunx tsc --noEmit` reports zero errors in loan-page-data.ts (remaining errors are pre-existing in examples/ and skills/). `bun run lint` reports only a single pre-existing warning in components/tnl/enquiry-form.tsx — none in the new file.
+
+Stage Summary:
+- Produced /home/z/my-project/src/lib/loan-page-data.ts (1763 lines, TypeScript strict, type-checks + lints clean).
+- Key exports: types LoanBenefit, LoanProcessStep, LoanWhyBetter, LoanTypeCard, LoanTestimonial, TrustCounter, CalculatorConfig, LoanPageContent; const LOAN_PAGE_DATA: Record<LoanSlug, LoanPageContent> with all 6 loans; helper functions getLoanPageByRoute and getLoanPageBySlug.
+- All financial claims responsibly qualified; trust counters and testimonials are clearly editable placeholders ready for the UI layer to render.
+
+---
+Task ID: 20 (final)
+Agent: main
+Task: Complete loan-page system with 6 standalone premium pages + reusable components + OTP flow
+
+Work Log:
+- Updated LOAN_DROPDOWN routes to /personal-loan, /business-loan, etc. Added LOAN_ROUTE mapping.
+- Created loan-page-data.ts (via subagent) with full typed content for all 6 loans: hero (eyebrow, headline, description, image, floating cards), benefits, whyBetter, process steps, eligibility, documents, loanTypes, partners (home), testimonials, trustCounters, FAQs, calculator configs, SEO metadata. All claims financially responsible.
+- Built reusable components:
+  - mobile-otp-form.tsx: mobile input + 10-digit IN validation + Send OTP /api/otp/send + 6-digit InputOTP + Verify /api/otp/verify + 30s resend countdown + change number + verified state. Consent checkbox checked-by-default; Apply Now disabled until consent AND verified.
+  - loan-hero.tsx: premium hero (eyebrow, gradient headline, description, CTA, OTP form card, image with floating glass cards, 3D shapes, parallax).
+  - loan-emi-calculator.tsx: configurable calculator (amount/rate/tenure sliders + optional down payment for auto), recharts donut, EMI formula with zero/decimal/NaN handling, reset.
+  - loan-sections.tsx: LoanBenefits, WhatMakesUsBetter (4 cards), LoanProcess (timeline), EligibilitySection, RequiredDocuments, LoanTypesSection, CustomerReviews (carousel), TrustBanner (animated counters), LoanFaq (accordion), PartnerCarousel.
+  - mobile-screen-animation.tsx: cinematic 3D phone with 4 sequential steps → TNL logo reveal → coin drop to wallet → celebration confetti+stars (loops, reduced-motion static).
+  - loan-page-layout.tsx: shared chrome (navbar, footer, modals, cursor).
+  - loan-page-client.tsx: client wrapper resolving LOAN_PAGE_DATA internally (avoids icon-function serialization) with 6 layout variants.
+- Created 6 loan page routes (thin server components with SEO metadata + LoanPageClient):
+  /personal-loan, /business-loan, /home-loan, /auto-loan, /education-loan, /loan-against-property
+- Removed old /loans/[slug] route. Updated homepage Learn More (carousel + categories) to use Link + LOAN_ROUTE. Updated loan-detail-content cross-links + footer (via LOAN_DROPDOWN). Updated sitemap with new routes.
+- Fixed JSX member-expression parse error in mobile-screen-animation (assigned STEPS[step].icon to StepIcon variable).
+
+Verification:
+- All 10 routes return HTTP 200 (/, 6 loan pages, /investment, /investment/fd, /investment/rd)
+- OTP flow tested end-to-end: send → server-log OTP (never client) → verify correct → verified:true; verify wrong → error; resend works
+- Homepage loan links now point to /personal-loan etc. (verified)
+- Brand: 0 "TNL Finance" references (all TNL Fincorp)
+- Lint: 0 errors, 1 pre-existing benign warning
+
+Stage Summary:
+- Complete loan-page system live. 6 distinct premium loan pages sharing one design system + reusable components, each with hero+OTP form, calculators, reviews, trust banners, FAQs. OTP uses existing /api/otp/send + /api/otp/verify (server-side, never exposed). No false financial guarantees. Fully responsive. Production-ready.
