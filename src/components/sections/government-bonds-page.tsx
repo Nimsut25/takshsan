@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   AlertTriangle, ArrowDownRight, ArrowUpRight, CheckCircle2, ChevronRight,
@@ -170,7 +171,7 @@ function BondsTypes() {
         <SectionHeading eyebrow="Securities" title="Types of" highlight="Government Securities" description="Availability, issue dates, coupon rates, maturity and terms can change. Not every security is continuously available." />
         <StaggerGroup className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" stagger={0.1}>
           {BOND_TYPES.map((t) => (
-            <StaggerItem key={t.title}>
+            <StaggerItem key={t.id}>
               <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-primary/10 bg-white shadow-soft transition-all hover:-translate-y-1.5 hover:shadow-card-hover">
                 <div className={cn("relative h-20 overflow-hidden bg-gradient-to-r", t.accent)}>
                   <div className="pointer-events-none absolute inset-0 bg-grid opacity-20" />
@@ -181,6 +182,14 @@ function BondsTypes() {
                   <h3 className="font-display text-base font-bold text-navy">{t.title}</h3>
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{t.desc}</p>
                   {t.examples && <div className="mt-4 flex flex-wrap gap-1.5">{t.examples.map((ex) => <span key={ex} className="rounded-full bg-primary/5 px-2.5 py-1 text-[11px] font-semibold text-royal">{ex}</span>)}</div>}
+                  <Link
+                    href={`/government-bonds/apply/${t.id}`}
+                    className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-royal to-sky px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-glow active:scale-95"
+                  >
+                    <Sparkles className="size-4" />
+                    Apply Now
+                    <ArrowUpRight className="size-4" />
+                  </Link>
                 </div>
               </div>
             </StaggerItem>

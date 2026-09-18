@@ -87,3 +87,96 @@ model InstantLoanApplication {
   @@index([applicationReference])
   @@index([createdAt])
 }
+
+model Bonds {
+  id                        String   @id @default(cuid())
+  applicationNumber         String   @unique
+  userId                    String?
+  bondId                    String
+  status                    String   @default("draft")
+
+  // Applicant Details
+  fullName                  String
+  fatherHusbandName         String?
+  dateOfBirth               String?
+  panNumber                 String?
+  aadhaarNumber             String?
+  mobileNumber              String
+  email                     String
+  residentialAddress        String?
+  city                      String?
+  state                     String?
+  pinCode                   String?
+
+  // Bond Details
+  bondType                  String?
+  bondName                  String?
+  tenure                    String?
+  faceValue                 Decimal? @db.Decimal(12, 2)
+  investmentAmount          Decimal? @db.Decimal(12, 2)
+  quantity                  Int?
+  couponRate                String?
+  applicationDate           DateTime?
+
+  // Bank Details
+  bankName                  String?
+  branch                    String?
+  accountNumber             String?
+  ifscCode                  String?
+  accountType               String?
+
+  // Nominee Details
+  nomineeName               String?
+  nomineeRelationship       String?
+  nomineeDateOfBirth        String?
+  nomineeAddress            String?
+
+  // Declaration
+  declarationAccepted       Boolean  @default(false)
+  declarationAcceptedAt     DateTime?
+  place                     String?
+  signatureDate             DateTime?
+
+  // Signatures / Documents
+  applicantSignature        String?
+  jointApplicantSignature   String?
+  panDocumentUrl            String?
+  addressDocumentUrl        String?
+  bankDocumentUrl           String?
+  photographUrl             String?
+  otherDocumentUrl          String?
+  otherDocumentDescription  String?
+
+  // Payment
+  paymentStatus             String   @default("pending")
+  paymentOrderId            String?  @unique
+  paymentTransactionId      String?
+  paymentAmount             Decimal? @db.Decimal(10, 2)
+  paymentCurrency           String?  @default("INR")
+  paymentVerifiedAt         DateTime?
+
+  // Certificate
+  certificateNumber         String?  @unique
+  certificateIssueDate      DateTime?
+  certificateIssued         Boolean  @default(false)
+  certificatePdfUrl         String?
+  certificateGeneratedAt    DateTime?
+
+  // Administrative / Office Use
+  dateReceived              DateTime?
+  amountReceived            Decimal? @db.Decimal(10, 2)
+  paymentMode               String?
+  verifiedBy                String?
+  authorizedOfficer         String?
+  officialNotes             String?
+
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  @@index([applicationNumber])
+  @@index([userId])
+  @@index([bondId])
+  @@index([paymentOrderId])
+  @@index([paymentTransactionId])
+  @@index([createdAt])
+}

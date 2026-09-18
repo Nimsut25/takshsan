@@ -7,7 +7,7 @@ import {
 
 export type BondBenefit = { icon: LucideIcon; title: string; desc: string };
 export type BondProcessStep = { step: string; title: string; desc: string; icon: LucideIcon };
-export type BondType = { icon: LucideIcon; title: string; desc: string; examples?: string[]; accent: string };
+export type BondType = { id: string; icon: LucideIcon; title: string; desc: string; examples?: string[]; accent: string; issuer?: string; tenure?: string; couponRate?: string; faceValue?: number };
 export type BondProfile = { icon: LucideIcon; title: string; desc: string };
 export type BondFaq = { q: string; a: string };
 
@@ -59,11 +59,11 @@ export const BONDS_PROCESS: BondProcessStep[] = [
 ];
 
 export const BOND_TYPES: BondType[] = [
-  { icon: Banknote, title: "Treasury Bills", desc: "Short-term government securities, typically issued at a discount to face value.", examples: ["91-day", "182-day", "364-day"], accent: "from-royal to-sky" },
-  { icon: Landmark, title: "Dated Government Securities", desc: "Medium- and long-term securities issued by the Central Government, generally with specified maturity and coupon terms.", accent: "from-navy to-royal" },
-  { icon: Building2, title: "State Development Loans", desc: "Securities issued by State Governments to meet their borrowing requirements.", accent: "from-teal-brand to-cyan-brand" },
-  { icon: Percent, title: "Floating Rate Bonds", desc: "Government securities where the interest rate changes periodically according to the security's specified benchmark/reset mechanism.", accent: "from-sky to-teal-brand" },
-  { icon: Coins, title: "Sovereign Gold Bonds", desc: "Where an applicable issue is available, these are government securities linked to the market value of gold and subject to the terms of the particular issue.", accent: "from-amber-500 to-amber-600" },
+  { id: "treasury-bills", icon: Banknote, title: "Treasury Bills", desc: "Short-term government securities, typically issued at a discount to face value.", examples: ["91-day", "182-day", "364-day"], accent: "from-royal to-sky", issuer: "Government of India", tenure: "91–364 days", couponRate: "Discount-based", faceValue: 100 },
+  { id: "dated-gsec", icon: Landmark, title: "Dated Government Securities", desc: "Medium- and long-term securities issued by the Central Government, generally with specified maturity and coupon terms.", accent: "from-navy to-royal", issuer: "Government of India", tenure: "5–40 years", couponRate: "Fixed (as per issue)", faceValue: 100 },
+  { id: "sdl", icon: Building2, title: "State Development Loans", desc: "Securities issued by State Governments to meet their borrowing requirements.", accent: "from-teal-brand to-cyan-brand", issuer: "State Governments", tenure: "10–30 years", couponRate: "Fixed (as per issue)", faceValue: 100 },
+  { id: "floating-rate-bonds", icon: Percent, title: "Floating Rate Bonds", desc: "Government securities where the interest rate changes periodically according to the security's specified benchmark/reset mechanism.", accent: "from-sky to-teal-brand", issuer: "Government of India", tenure: "Varies", couponRate: "Floating (benchmark-linked)", faceValue: 100 },
+  { id: "sovereign-gold-bonds", icon: Coins, title: "Sovereign Gold Bonds", desc: "Where an applicable issue is available, these are government securities linked to the market value of gold and subject to the terms of the particular issue.", accent: "from-amber-500 to-amber-600", issuer: "Government of India / RBI", tenure: "8 years", couponRate: "2.5% p.a. (indicative)", faceValue: 100 },
 ];
 
 export const BONDS_COMPARISON = {
