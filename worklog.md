@@ -523,3 +523,31 @@ Work Log:
 
 Stage Summary:
 - Build succeeds. Production server runs. All routes 200. Supabase DB reads/writes work in production. Deployment-ready with guide.
+
+---
+Task ID: 31
+Agent: main
+Task: Rebuild Government Bonds page (files were lost)
+
+Work Log:
+- Generated 2 premium images: bonds-hero.jpg + bonds-intro.jpg
+- Added "Government Bonds" to INVEST_DROPDOWN in site-data.ts (4th item, existing FD/RD preserved)
+- Created src/lib/bonds-data.ts: all content (hero, intro, 6 benefits, 5-step process, 5 bond types, comparison table, price/rate, hold-vs-sell, 4 profiles, benefits-risks, simple example, 5-step invest process, trust, 13 FAQs, calculator config, disclaimer)
+- Created src/components/tnl/bond-calculator.tsx: educational calculator (4 sliders, annual coupon, total coupon, face-value repayment, gain/loss)
+- Created src/components/sections/government-bonds-page.tsx: 16 sections reusing LoanProcess + LoanFaq from loan-sections, tnl primitives
+- Created /government-bonds route with SEO metadata + FAQPage JSON-LD
+- Updated sitemap with /government-bonds
+
+Verification:
+- /government-bonds returns 200
+- Page title: "Government Bonds | TNL Fincorp"
+- Investment dropdown: 4 items (FD & RD, FD, RD, Government Bonds)
+- All 16 sections render (browser-verified)
+- 5 bond types: Treasury Bills, Dated G-Secs, SDLs, Floating Rate Bonds, Sovereign Gold Bonds
+- 13 FAQ accordion items
+- Calculator: 4 sliders, annual coupon = ₹7,000 (correct)
+- Mobile 390px: no horizontal scroll
+- Lint: 0 errors, 1 pre-existing benign warning
+
+Stage Summary:
+- Government Bonds page live at /government-bonds. Premium educational investment page with navy/gold accents, sharing TNL Fincorp design system. No misleading financial claims. Fully responsive.

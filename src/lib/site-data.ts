@@ -84,6 +84,7 @@ export const INVEST_DROPDOWN = [
   { label: "FD & RD", href: "/investment" },
   { label: "Fixed Deposit (FD)", href: "/investment/fd" },
   { label: "Recurring Deposit (RD)", href: "/investment/rd" },
+  { label: "Government Bonds", href: "/government-bonds" },
 ];
 
 /**
