@@ -481,3 +481,23 @@ Work Log:
 
 Stage Summary:
 - All 3 passwords tried (Saroj@#2026, Saroj@#1986, TNLFincorp@#2026) fail auth. Connection format is correct. The database password MUST be reset in the Supabase dashboard — the password being provided is not the one configured on the database.
+
+---
+Task ID: 29
+Agent: main
+Task: Complete Supabase connection — password TNLFincorp@#1986 worked
+
+Work Log:
+- Updated .env with password TNLFincorp@#1986 (URL-encoded: TNLFincorp%40%231986)
+- prisma db push → SUCCESS! All 4 tables created in Supabase (Enquiry, OtpRequest, Post, User)
+- Runtime issue: Prisma Client saw old SQLite DATABASE_URL because a shell env var was overriding .env
+- Fix: unset DATABASE_URL/DIRECT_URL shell env, restart dev server with clean env
+- Verified tables exist in Supabase via raw pg query (4 tables confirmed)
+- Tested enquiry API POST → ok:true, record created with Supabase cuid (cmu6s2qpa...)
+- Tested OTP send API → ok:true
+- GET /api/enquiry → count:1 (record persisted in Supabase)
+- prisma db push → "already in sync" (schema applied successfully)
+- All routes 200, lint 0 errors
+
+Stage Summary:
+- Supabase PostgreSQL is LIVE. App reads/writes through Prisma to Supabase. The shell DATABASE_URL env var was the blocker — it must be unset when starting the dev server so Next.js loads .env correctly. For production (Hostinger), set the Supabase DATABASE_URL as the environment variable.
