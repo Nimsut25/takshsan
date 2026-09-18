@@ -52,3 +52,38 @@ model OtpRequest {
   verified  Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+model InstantLoanApplication {
+  id                     String   @id @default(cuid())
+  applicationReference   String   @unique
+  fullName               String
+  mobileNumber           String
+  email                  String
+  dateOfBirth            String?
+  employmentType         String?
+  monthlyIncome          String?
+  city                   String?
+  state                  String?
+  requestedAmount        String?
+  category               String
+  partnerId              String?
+  partnerName            String?
+  paymentAmount          Decimal? @db.Decimal(10, 2)
+  paymentCurrency        String?  @default("INR")
+  paymentStatus          String   @default("pending")
+  paymentProvider        String?
+  paymentOrderId         String?  @unique
+  paymentTransactionId   String?
+  paymentVerifiedAt      DateTime?
+  verificationStatus     String   @default("pending")
+  partnerAccessUnlocked  Boolean  @default(false)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([mobileNumber])
+  @@index([email])
+  @@index([partnerId])
+  @@index([paymentStatus])
+  @@index([applicationReference])
+  @@index([createdAt])
+}

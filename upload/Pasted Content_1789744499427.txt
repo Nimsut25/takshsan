@@ -1,0 +1,1943 @@
+Modify the existing **TNL Fincorp** React website and implement a complete, premium **Instant Loan marketplace / partner discovery page** with category-based navigation, partner cards, a 2-step application form, ₹49 payment, database storage, payment verification and partner-specific Apply Instantly backlinks.
+
+This is an existing website. **Do NOT rebuild the project from scratch.**
+
+Before changing anything:
+
+* Inspect the existing React project and folder structure.
+* Identify the current routing solution.
+* Identify the current Header/Navbar, Footer, buttons, modals, forms, cards, animations and design system.
+* Identify the existing backend/database/API/payment integration, if any.
+* Reuse existing components and utilities wherever possible.
+* Do not break existing pages or functionality.
+* Keep the implementation modular and data-driven.
+* Keep the entire website responsive on desktop, tablet and mobile.
+
+---
+
+# 1. IMPORTANT EXISTING NAVIGATION REQUIREMENT
+
+The main navigation must contain **Instant Loan as a separate top-level menu item**.
+
+Do NOT put Instant Loan inside the Loans dropdown.
+
+The final primary navigation order should be:
+
+**Home | About Us | Loans | Investment | Instant Loan | Contact**
+
+Therefore:
+
+* Investment comes before Instant Loan.
+* Instant Loan is the **second-last menu item**.
+* Contact remains the final menu item.
+* Instant Loan must directly open:
+
+`/instant-loan`
+
+Do not duplicate Instant Loan elsewhere in the main navigation.
+
+On the `/instant-loan` page, highlight **Instant Loan** as the active navigation item.
+
+Maintain the existing mobile navigation order as well.
+
+---
+
+# 2. CREATE THE INSTANT LOAN MARKETPLACE
+
+Create:
+
+`/instant-loan`
+
+Page title:
+
+**Instant Loan | TNL Fincorp**
+
+This page should feel like a premium fintech/financial-services marketplace.
+
+Design style:
+
+* Modern
+* Premium
+* Trustworthy
+* Professional
+* Clean
+* High-conversion UX
+* Smooth micro-interactions
+* Excellent mobile responsiveness
+* Strong visual hierarchy
+* Elegant financial-tech aesthetic
+
+Do not make it look like a generic AI-generated landing page.
+
+Use the existing TNL Fincorp theme wherever possible.
+
+---
+
+# 3. HERO SECTION
+
+Create a premium hero section.
+
+Main heading:
+
+**Instant Loan**
+
+Primary supporting headline:
+
+**Fast Access to Funds. Simple Digital Process.**
+
+Description:
+
+**Explore loan options from multiple financial partners through a convenient digital application journey. Review applicable terms and complete the process online where supported.**
+
+Primary CTA:
+
+**Explore Loan Partners**
+
+Secondary CTA:
+
+**Check Eligibility**
+
+The hero visual should communicate:
+
+* Digital finance
+* Loan application
+* Partner marketplace
+* Mobile-first financial experience
+* Secure digital process
+
+Use a sophisticated composition such as:
+
+* Smartphone showing a loan application
+* Digital finance dashboard
+* Financial cards
+* Approval/check indicators
+* Abstract fintech graphics
+* Subtle blue/cyan lighting
+* Premium geometric patterns
+
+Avoid:
+
+* Cartoon graphics
+* Excessive 3D
+* Fake documents
+* Fake approval screenshots
+* Misleading “Guaranteed Approval” visuals
+
+Add smooth entrance animation.
+
+---
+
+# 4. CATEGORY SECTION — MUST APPEAR IMMEDIATELY AFTER HERO
+
+Immediately after the hero section, create a prominent section:
+
+## **Choose Your Financial Product**
+
+IMPORTANT:
+
+Initially show **ONLY THREE CATEGORIES**.
+
+Do NOT show individual partner cards directly in this first section.
+
+The three categories are:
+
+### Personal Loan
+
+Icon/image:
+Personal finance / individual borrowing visual
+
+Description:
+
+**Explore personal loan options from participating financial partners.**
+
+Button:
+
+**Explore Personal Loans**
+
+Route:
+
+`/instant-loan/personal-loan`
+
+---
+
+### Business Loan
+
+Icon/image:
+Business finance / entrepreneur visual
+
+Description:
+
+**Explore financing options designed for eligible businesses and self-employed applicants.**
+
+Button:
+
+**Explore Business Loans**
+
+Route:
+
+`/instant-loan/business-loan`
+
+---
+
+### Credit Cards
+
+Icon/image:
+Premium credit card visual
+
+Description:
+
+**Explore credit card options from participating banking and financial partners.**
+
+Button:
+
+**Explore Credit Cards**
+
+Route:
+
+`/instant-loan/credit-cards`
+
+---
+
+Category cards should have:
+
+* Premium design
+* Attractive image/illustration
+* Icon
+* Short description
+* CTA
+* Hover animation
+* Border animation
+* Soft shadow
+* Smooth reveal animation
+* Excellent mobile stacking
+
+When a user clicks a category, navigate to its dedicated sub-page.
+
+Do not use an accordion for categories.
+
+---
+
+# 5. CATEGORY ROUTES
+
+Create these dedicated routes:
+
+`/instant-loan/personal-loan`
+
+`/instant-loan/business-loan`
+
+`/instant-loan/credit-cards`
+
+Use a reusable category-page component rather than duplicating the full page manually.
+
+Example data-driven architecture:
+
+`InstantLoanCategoryPage`
+
+with category data supplied through route configuration.
+
+---
+
+# 6. CATEGORY SUB-PAGE STRUCTURE
+
+Each category sub-page should contain:
+
+### Category Hero
+
+Example:
+
+**Personal Loan Partners**
+
+**Explore available personal loan options from participating financial partners.**
+
+For Business:
+
+**Business Loan Partners**
+
+For Credit Cards:
+
+**Credit Card Partners**
+
+---
+
+### Partner Grid
+
+Display the relevant partner cards for that category.
+
+Desktop:
+
+3 or 4 cards per row depending on existing site width.
+
+Tablet:
+
+2 cards per row.
+
+Mobile:
+
+1 card per row.
+
+Every card should contain:
+
+1. Partner image/logo
+2. Partner name
+3. Product category
+4. Short product description
+5. Key information area
+6. Current action button
+
+Do not invent interest rates, maximum loan amounts, approval percentages, processing times, fees, card limits, rewards or other financial facts that were not supplied.
+
+Create partner data fields so genuine details can be added later.
+
+Example structure:
+
+```js
+{
+  id: "poonawalla",
+  name: "Poonawalla",
+  category: "Personal Loan",
+  logo: "/assets/partners/poonawalla.png",
+  description: "Personal loan application option through the participating partner.",
+  applyLink: "...",
+  unlocked: false
+}
+```
+
+---
+
+# 7. PARTNER IMAGE / LOGO SYSTEM
+
+Every partner card must visually show a partner image/logo.
+
+Use the following system:
+
+* First check whether the project already contains approved partner logos/images.
+* Reuse existing assets where available.
+* Create a dedicated partner asset directory if needed:
+
+`/src/assets/partners/`
+
+or the existing project's equivalent.
+
+Suggested naming:
+
+* poonawalla
+* prefr
+* hero-fincorp
+* dmi-finance
+* unity-sfb
+* incred
+* muthoot
+* protium
+* au-bank
+* federal-bank
+* axis-bank
+* indusind-bank
+* tata-neu
+* sbi
+* bobcard
+* scapia
+* kiwi
+* kredit-pe
+* zagg-pnb
+* tiger-card
+* pop-card
+
+If official logo assets are not already available, create a clean image placeholder area using the partner name rather than fabricating an unofficial logo.
+
+Keep all partner image containers equal in size.
+
+Use:
+
+* object-fit: contain
+* consistent padding
+* rounded border
+* premium background
+* subtle hover effect
+
+---
+
+# 8. EVERY PARTNER CARD — INITIAL STATE
+
+On first visit, every partner card must show:
+
+**Apply Now**
+
+Do NOT immediately expose the external partner backlink.
+
+Clicking:
+
+**Apply Now**
+
+must open the TNL Fincorp application/payment modal.
+
+The partner's external URL must remain hidden until the payment process has successfully completed.
+
+---
+
+# 9. APPLY NOW — TWO-STEP MODAL
+
+Create a premium responsive modal.
+
+When a visitor clicks any partner's **Apply Now**, open a 2-step application process.
+
+The same reusable modal should work for every partner.
+
+The modal should know:
+
+* Selected category
+* Selected partner
+* Partner ID
+* Partner name
+* Partner backlink
+* Application state
+
+Display a progress indicator:
+
+**Step 1 of 2 — Your Information**
+
+**Step 2 of 2 — Verification Payment**
+
+---
+
+# 10. MODAL CLOSE BUTTON — MUST WORK PERFECTLY
+
+The close button must work reliably.
+
+Requirements:
+
+* Click always closes the modal.
+* Close icon has a large enough clickable area.
+* Works on desktop.
+* Works on mobile.
+* Works with keyboard.
+* Pressing Escape closes it.
+* Prevent background interaction while modal is open.
+* Correct z-index.
+* Correct pointer-events.
+* No invisible overlay should block the close button.
+
+Close button visual behavior:
+
+Normal:
+
+* clean circular/rounded button
+* visible icon
+* subtle border
+
+Hover:
+
+* attractive border color animation
+* subtle glow
+* small scale animation
+* slight icon rotation
+
+Active:
+
+* subtle press animation
+
+Do not make the close button oversized.
+
+---
+
+# 11. STEP 1 — COLLECT USER INFORMATION
+
+Modal heading:
+
+**Complete Your Details**
+
+Description:
+
+**Provide your information to continue with the application process.**
+
+Fields:
+
+### Personal Details
+
+* Full Name
+* Mobile Number
+* Email Address
+* Date of Birth
+
+### Professional / Financial Details
+
+* Employment Type
+* Monthly Income
+* City
+* State
+
+### Requested Product Details
+
+* Required Loan Amount
+
+For Credit Card category, replace loan-specific fields where appropriate with:
+
+* Employment Type
+* Monthly Income
+* City
+* State
+* Card requirement / applicable information
+
+Keep the form category-aware.
+
+---
+
+# 12. STEP 1 VALIDATION
+
+Implement robust frontend validation.
+
+Required:
+
+* Full Name
+* Mobile Number
+* Email
+* Date of Birth
+* Employment Type
+* Monthly Income
+* City
+* State
+* Applicable requested amount
+
+Validation:
+
+* Required field validation
+* Proper email format
+* Indian mobile number validation
+* Positive numeric values
+* Income validation
+* Amount validation
+* Date validation
+* Minimum/maximum constraints only when actual business rules exist
+* Helpful inline error messages
+* Disable continue button until the required data is valid
+
+Do not log sensitive user data in the browser console.
+
+Do not store sensitive financial information in localStorage unless there is a specific secure reason.
+
+---
+
+# 13. CONSENT SECTION
+
+Before proceeding to payment, require a checkbox:
+
+**I confirm that the information provided by me is accurate and I agree to the applicable Terms & Conditions, Privacy Policy and consent requirements.**
+
+Links:
+
+**Terms & Conditions**
+
+**Privacy Policy**
+
+Do not pre-check this checkbox.
+
+The user must actively provide consent.
+
+---
+
+# 14. STEP 2 — ₹49 PAYMENT
+
+After Step 1 validation, move to:
+
+## **Step 2 — Complete Basic Verification**
+
+Display:
+
+**Verification Fee: ₹49**
+
+Description:
+
+**A one-time ₹49 payment is required to complete the basic verification/application process for partner access.**
+
+IMPORTANT:
+
+Do NOT state that payment guarantees loan approval.
+
+Do NOT state that payment guarantees disbursement.
+
+Do NOT claim that payment guarantees a higher approval probability unless this statement has been legally/commercially verified and is genuinely part of the authorized product terms.
+
+Use safer wording such as:
+
+**Payment completion unlocks the applicable partner application links. Final approval remains subject to the respective partner's eligibility and assessment criteria.**
+
+Display a summary:
+
+* Selected Partner
+* Product Category
+* Applicant Name
+* Mobile Number
+* Verification Fee: ₹49
+
+Button:
+
+**Pay ₹49 & Continue**
+
+---
+
+# 15. PAYMENT GATEWAY IMPLEMENTATION
+
+Inspect the existing project first.
+
+If TNL Fincorp already has a payment gateway/backend:
+
+* Reuse the existing secure payment infrastructure.
+* Follow the existing architecture.
+* Do not create duplicate payment logic.
+
+If no payment integration currently exists:
+
+Create a clean payment service abstraction such as:
+
+`createVerificationPayment()`
+
+`verifyVerificationPayment()`
+
+The implementation must be prepared for a real payment gateway.
+
+Do NOT place secret payment keys in frontend code.
+
+Do NOT trust frontend-only payment-success flags.
+
+A payment should be considered successful only after **server-side verification** or a trusted payment-provider webhook confirms the transaction.
+
+If the backend is currently unavailable, create the frontend integration point but do not falsely mark the payment as successful.
+
+---
+
+# 16. PAYMENT SUCCESS FLOW
+
+After confirmed successful payment:
+
+1. Verify the payment server-side.
+2. Create/store the application record.
+3. Store payment details.
+4. Mark the verification/application status as successful.
+5. Mark the partner-access state as unlocked.
+6. Close the payment modal or show a success state.
+7. Refresh the partner cards.
+8. Show **Apply Instantly** on every partner card for the same user/application access state.
+
+Success message:
+
+## **Verification Completed Successfully**
+
+**Your application details have been recorded successfully. You can now continue to the selected partner application.**
+
+CTA:
+
+**Continue to Partner**
+
+Do not display:
+
+“Your loan is approved.”
+
+unless a real lender API confirms approval.
+
+---
+
+# 17. POST-PAYMENT PARTNER CARD STATE
+
+This is a critical requirement.
+
+Before successful ₹49 payment:
+
+**Apply Now**
+
+After successful ₹49 payment:
+
+**Apply Instantly**
+
+The unlock must work across the category page.
+
+Example:
+
+User clicks:
+
+Poonawalla → Apply Now → completes form → pays ₹49 successfully.
+
+After payment success:
+
+Poonawalla card shows:
+
+**Apply Instantly**
+
+But the important requirement is:
+
+### The successful ₹49 verification should unlock the partner application state so that the other partner cards can also display:
+
+**Apply Instantly**
+
+The partner cards must NOT require another ₹49 payment individually, unless explicitly configured otherwise.
+
+This should be a **one-time verification/payment per application session/user**, not one payment per partner.
+
+Use a reusable unlock state based on the successful verified application/payment.
+
+---
+
+# 18. PARTNER BUTTON BEHAVIOR AFTER PAYMENT
+
+When the user clicks:
+
+**Apply Instantly**
+
+open the partner's exact configured external backlink.
+
+Use the exact partner URL supplied in the partner data.
+
+Do not replace links with generic URLs.
+
+Do not append extra UTM parameters.
+
+Do not modify the supplied URLs unless required for safe URL encoding by the browser.
+
+Open links safely using the appropriate behavior, for example:
+
+`target="_blank"`
+
+and:
+
+`rel="noopener noreferrer"`
+
+where appropriate.
+
+Track the selected partner ID and click event if the existing analytics architecture supports it.
+
+---
+
+# 19. DATABASE TABLE
+
+Create a NEW database table for Instant Loan application/verification records.
+
+First inspect the project's existing database architecture.
+
+If the project uses Supabase/PostgreSQL, create an appropriate migration/table.
+
+Suggested table:
+
+`instant_loan_applications`
+
+Suggested fields:
+
+```text
+id
+user_id
+application_reference
+full_name
+mobile_number
+email
+date_of_birth
+employment_type
+monthly_income
+city
+state
+requested_amount
+category
+partner_id
+partner_name
+payment_amount
+payment_currency
+payment_status
+payment_provider
+payment_order_id
+payment_transaction_id
+payment_verified_at
+verification_status
+partner_access_unlocked
+created_at
+updated_at
+```
+
+For card applications where `requested_amount` does not apply, allow NULL.
+
+Use suitable database types.
+
+Use timestamps.
+
+Use proper indexes for:
+
+* user_id
+* mobile_number
+* email
+* partner_id
+* payment_status
+* application_reference
+* created_at
+
+Do not store raw payment card numbers, CVV, UPI credentials or other sensitive payment credentials.
+
+---
+
+# 20. DATABASE STATUS MODEL
+
+Use clear statuses.
+
+Suggested:
+
+`payment_status`
+
+Possible values:
+
+* `pending`
+* `paid`
+* `failed`
+* `refunded`
+
+Suggested:
+
+`verification_status`
+
+Possible values:
+
+* `pending`
+* `verified`
+* `failed`
+
+Suggested:
+
+`partner_access_unlocked`
+
+Boolean:
+
+* false
+* true
+
+Only set:
+
+`partner_access_unlocked = true`
+
+after payment verification succeeds.
+
+Do not unlock partner links based purely on frontend state.
+
+---
+
+# 21. APPLICATION REFERENCE NUMBER
+
+Generate a unique application reference.
+
+Example format:
+
+`TNL-IL-20260918-XXXXXX`
+
+Do not expose database internal IDs where unnecessary.
+
+Display the application reference on success.
+
+---
+
+# 22. USER ACCESS / SESSION LOGIC
+
+Inspect the current TNL Fincorp authentication/user architecture.
+
+If users are already authenticated:
+
+* Associate the application with the existing user ID.
+
+If the page supports guest users:
+
+* Use a secure application reference/session mechanism.
+* Do not depend only on localStorage for payment authorization.
+* The backend must remain the source of truth.
+
+When the user returns to a category page after successful payment, check the backend/database payment state.
+
+If a verified successful application exists and the access rule allows partner unlocking:
+
+show:
+
+**Apply Instantly**
+
+rather than:
+
+**Apply Now**
+
+Do not require the user to pay ₹49 again for every partner.
+
+---
+
+# 23. PARTNER DATA — CENTRALIZED CONFIGURATION
+
+Create ONE centralized partner configuration file.
+
+Suggested:
+
+`src/data/instantLoanPartners.js`
+
+or follow the project's existing data folder structure.
+
+Use a structure similar to:
+
+```js
+{
+  id: "poonawalla",
+  name: "Poonawalla",
+  category: "personal-loan",
+  type: "Personal Loan",
+  description: "Personal loan application option through the participating partner.",
+  logo: "/assets/partners/poonawalla.png",
+  applyLink: "EXACT_URL",
+}
+```
+
+Then render the correct cards dynamically.
+
+Do NOT duplicate partner information across multiple React components.
+
+---
+
+# 24. PERSONAL LOAN PARTNERS
+
+Category:
+
+`personal-loan`
+
+Add these partners:
+
+### 1. Poonawalla
+
+Name:
+**Poonawalla**
+
+Category:
+**Personal Loan**
+
+Exact backlink:
+
+```text
+https://instant-pocket-loan.poonawallafincorp.com/?utm_DSA_Code=PDL00142&UTM_Partner_Name=MyMoneyMantra&UTM_Partner_Medium=B2BApp&UTM_Partner_AgentCode=PFLEARN&UTM_Partner_ReferenceID=ENT972306
+```
+
+---
+
+### 2. Prefr
+
+Name:
+**Prefr**
+
+Category:
+**Personal Loan**
+
+Exact backlink:
+
+```text
+https://marketplace.prefr.com/mymoneymantra?utm_source=EARNTRA_972306
+```
+
+---
+
+### 3. Hero Fincorp
+
+Name:
+**Hero Fincorp**
+
+Category:
+**Personal Loan**
+
+Exact backlink:
+
+```text
+https://hipl.onelink.me/1OrE?af_ios_url=https%3A%2F%2Floans.apps.herofincorp.com%2Fen%2Fpersonal-loan&af_android_url=https%3A%2F%2Floans.apps.herofincorp.com%2Fen%2Fpersonal-loan&af_web_dp=https%3A%2F%2Floans.apps.herofincorp.com%2Fen%2Fpersonal-loan&af_xp=custom&pid=Mymoneymantra&is_retargeting=true&af_reengagement_window=30d&c=Mymoneymantra&utm_source=partnership&utm_campaign=mymoneymantra&utm_content=ENT&utm_medium=MMMENT972306
+```
+
+---
+
+### 4. DMI Finance
+
+Name:
+**DMI Finance**
+
+Category:
+**Personal Loan**
+
+Exact backlink:
+
+```text
+https://play.google.com/store/apps/details?id=in.dmifinance.app&referrer=utm_source%3DMymoneymantra%26utm_medium%3D972306%26utm_term%3D1100110011%26utm_campaign%3DEARNTRA
+```
+
+---
+
+### 5. Unity SFB
+
+Name:
+**Unity SFB**
+
+Category:
+**Personal Loan**
+
+Exact backlink:
+
+```text
+https://loans.theunitybank.com/unity-pl-ui/page/exclusion/login/logindetails?utm_source=partnership&utm_medium=mymoneymantra&utm_campaign=ENT-972306
+```
+
+---
+
+### 6. Incred
+
+Name:
+**Incred**
+
+Category:
+**Personal Loan**
+
+Exact backlink:
+
+```text
+https://incredpl.mymoneymantra.com/?btb=true&utm_source=incpl&utm_medium=mmm&utm_campaign=incpl-mmm-972306
+```
+
+---
+
+### 7. Muthoot
+
+Name:
+**Muthoot**
+
+Category:
+**Personal Loan**
+
+Exact backlink:
+
+```text
+https://creditlink.finbox.in/?partnerCode=LS_POIOUY&agentCode=dcdel006&productType=business_loan_emi&agentId=972306
+```
+
+Use the exact supplied URL and do not silently alter its query parameters.
+
+---
+
+# 25. BUSINESS LOAN PARTNERS
+
+Category:
+
+`business-loan`
+
+Add:
+
+### 1. Protium
+
+Name:
+**Protium**
+
+Category:
+**Business Loan**
+
+Exact backlink:
+
+```text
+https://dbl.protium.co.in/utm_source=my_money_mantra&utm_medium=digital&utm_campaign=Earntra_972306
+```
+
+---
+
+### 2. Muthoot BL
+
+Name:
+**Muthoot BL**
+
+Category:
+**Business Loan**
+
+Exact backlink:
+
+```text
+https://creditlink.finbox.in/?partnerCode=LS_POIOUY&agentCode=dcdel006&productType=business_loan_emi&agentId=972306
+```
+
+---
+
+# 26. CREDIT CARD PARTNERS
+
+Category:
+
+`credit-cards`
+
+Add:
+
+### 1. AU Bank
+
+```text
+https://cconboarding.au.bank.in/auccself/utm_source=MMFNT&utm_medium=banner&utm_campaign=MMFNT-display-campaign-ENT-972306
+```
+
+---
+
+### 2. Federal Bank
+
+```text
+https://federalcc.mymoneymantra.com/sms=false&btb=true&utm_source=fedcc&utm_medium=mmm&utm_campaign=fedcc-mmm-972306&utm_term=id
+```
+
+---
+
+### 3. Axis Bank
+
+```text
+https://web.axisbank.co.in/DigitalChannel/WebForm/?ipa68&axisreferralcode=972306
+```
+
+---
+
+### 4. IndusInd Bank
+
+```text
+https://induseasycredit.indusind.bank.in/customer/credit-card/new-lead?utm_source=partnerships&utm_medium=MyMoneyMantra&utm_campaign=credit-card&utm_content=ENT&gclid=972306
+```
+
+---
+
+### 5. Tata Neu
+
+```text
+https://www.tatadigital.com/v2/finance/creditcard/product-detail?utm_source=Partnerships_external&utm_medium=MyMoneyMantra&utm_campaign=EARNTRA_972306
+```
+
+---
+
+### 6. SBI
+
+```text
+https://www.sbicard.com/corecards/?CHN=OMLG&GEMID1=ENT_972306&GEMID2=LGD3
+```
+
+---
+
+### 7. BOBCARD
+
+```text
+https://mycard.bobcard.tech/utm_source=MMM_xyz&utm_medium=EARNTRA&utm_campaign=972306
+```
+
+---
+
+### 8. Scapia
+
+```text
+https://apply.scapia.cards/landing_page?utm_source=RKPL_physical&utm_medium=physical&utm_campaign=EARNTRA&utm_content=forex&utm_term=972306
+```
+
+---
+
+### 9. Kiwi Cards
+
+```text
+https://au-apply.gokiwi.in?utm_source=mmm&utm_campaign=au&utm_medium=&utm_content=&utm_term=972306
+```
+
+---
+
+### 10. Yes Ace from Kredit Pe
+
+Display name:
+
+**Yes Ace from Kredit Pe**
+
+Exact backlink:
+
+```text
+https://www.kredit.pe/invite/mymoneymantra_ace/EARNTRA/972306
+```
+
+---
+
+### 11. Zagg PNB
+
+```text
+https://app.zagg.money/pnb?source=PNB&campaign=mmm&lead=972306
+```
+
+---
+
+### 12. Tiger Card
+
+```text
+https://induseasycredit.indusind.bank.in/customer/credit-card/lead?utm_source=BCTIGER&utm_medium=hpcarousal&utm_campaign=CC-Microsite&gclid=1&utm_content=RKPL_ENT_972306
+```
+
+---
+
+### 13. POP CARD
+
+```text
+https://mmm2-h.getpopcard.co?utm_source=MMM1&utm_medium=EARNTRA&utm_campaign=972306
+```
+
+---
+
+# 27. EXACT LINK PRESERVATION
+
+This is extremely important.
+
+Store the supplied backlinks exactly as provided.
+
+Do not:
+
+* Replace the partner URL
+* Remove UTM parameters
+* Remove query parameters
+* Add unrelated parameters
+* Rewrite tracking IDs
+* Hard-code links separately inside buttons
+* Change partner IDs
+
+The centralized partner data should be the single source of truth.
+
+---
+
+# 28. CATEGORY PAGE CARD UX
+
+Each partner card should contain:
+
+### Top
+
+Partner image/logo
+
+### Middle
+
+Partner name
+
+Category label
+
+Short neutral description
+
+### Bottom
+
+Dynamic action button:
+
+Before successful payment:
+
+**Apply Now**
+
+After successful verified payment:
+
+**Apply Instantly**
+
+Make the button visually prominent.
+
+Hover:
+
+* scale 1.02 or similar subtle movement
+* animated border
+* slight shadow/glow
+* smooth transition
+
+Avoid excessive animations.
+
+---
+
+# 29. PAYMENT STATE BANNER
+
+After successful payment, optionally show a compact banner on the category page:
+
+**Verification Completed**
+
+**Partner applications are now unlocked for your eligible application session.**
+
+Show a small check icon.
+
+Do not show misleading claims like:
+
+**Higher approval guaranteed.**
+
+---
+
+# 30. APPLICATION SUCCESS PAGE / STATE
+
+After successful payment, provide a polished success state.
+
+Include:
+
+**Verification Completed Successfully**
+
+Application Reference:
+`TNL-IL-XXXXXXXX`
+
+Payment:
+**₹49 Paid**
+
+Status:
+**Verified**
+
+Then:
+
+**Continue to Partner**
+
+and:
+
+**Back to Partner List**
+
+If the user arrived from a particular partner card, the primary CTA should point directly to that partner.
+
+---
+
+# 31. BACKEND SECURITY REQUIREMENTS
+
+Do not rely on frontend state for access control.
+
+The backend must verify:
+
+* Payment authenticity
+* Payment amount
+* Payment status
+* Payment transaction/order ID
+* Application reference
+* User/application association
+
+Only after confirmed payment:
+
+`partner_access_unlocked = true`
+
+Prevent:
+
+* Fake success callbacks
+* Duplicate payment processing
+* Duplicate application record creation
+* Replay of old payment IDs
+* Unauthorized partner unlock
+* Client-side manipulation of payment status
+
+Implement idempotency where supported.
+
+---
+
+# 32. DUPLICATE PAYMENT / DUPLICATE APPLICATION PROTECTION
+
+Before creating a new payment or application:
+
+Check whether the user already has a successful verified application under the defined business rule.
+
+If they have already completed the one-time ₹49 verification:
+
+Do not force another ₹49 payment unnecessarily.
+
+Instead show:
+
+**Application already verified**
+
+and directly show:
+
+**Apply Instantly**
+
+This should be backed by the database, not only frontend state.
+
+---
+
+# 33. PAYMENT FAILURE STATE
+
+If payment fails:
+
+Show:
+
+**Payment Unsuccessful**
+
+**Your payment could not be verified. Please try again.**
+
+Buttons:
+
+**Retry Payment**
+
+**Back**
+
+Do not unlock partner links.
+
+---
+
+# 34. PAYMENT PENDING STATE
+
+If payment status is pending:
+
+Show:
+
+**Payment Verification in Progress**
+
+**We are verifying your payment. Please do not close the page.**
+
+Poll the backend only through the secure existing architecture where appropriate.
+
+Do not mark the application as paid until verified.
+
+---
+
+# 35. PARTNER CLICK TRACKING
+
+Create a reusable action:
+
+`handleApplyInstantly(partner)`
+
+Optionally record:
+
+* partner_id
+* partner_name
+* category
+* application_reference
+* clicked_at
+
+Only implement database analytics if the existing project architecture supports it cleanly.
+
+Do not block the external redirect waiting for analytics.
+
+---
+
+# 36. DISCLAIMER / TRANSPARENCY SECTION
+
+Add a professional information section below the partner cards.
+
+Heading:
+
+**Important Information**
+
+Content:
+
+**TNL Fincorp provides this digital interface to help users explore available financial products and partner application options. Loan approval, credit card approval, amount, interest rate, fees, tenure, eligibility and other terms are determined by the respective financial partner according to its applicable criteria and policies.**
+
+Add:
+
+**Completing a ₹49 verification/payment does not guarantee loan or credit card approval, sanction or disbursement.**
+
+Add:
+
+**Users should review the applicable terms, charges, Key Facts Statement (KFS), agreements and privacy information before proceeding.**
+
+Do not use unverified regulatory claims.
+
+---
+
+# 37. FAQ SECTION
+
+Create a premium FAQ accordion.
+
+### What is the ₹49 payment for?
+
+It is a one-time payment used for the basic verification/application workflow defined by TNL Fincorp. The applicable payment terms should be clearly shown before payment.
+
+### Does paying ₹49 guarantee loan approval?
+
+No. Approval remains subject to the respective partner's eligibility and assessment criteria.
+
+### Do I need to pay ₹49 for every partner?
+
+No, under the intended one-time verification flow, a successful verified payment unlocks the applicable partner application links according to the system's access rules.
+
+### What happens after successful payment?
+
+Your application information is recorded, payment is verified and the applicable partner links become available through the **Apply Instantly** buttons.
+
+### Can I apply to multiple partners?
+
+Once the applicable access state is unlocked, the user can open the available partner application links directly from the relevant cards.
+
+### Is my payment information stored?
+
+Do not store card credentials, CVV, UPI PIN or other sensitive payment credentials. Store only the required transaction/payment reference information.
+
+### Does TNL Fincorp approve the loan?
+
+No. The respective financial partner makes the final decision according to its own eligibility and underwriting process.
+
+### Can I use the page on mobile?
+
+Yes. The entire page and application/payment workflow must be fully responsive.
+
+---
+
+# 38. FOOTER / EXISTING WEBSITE
+
+Reuse the existing TNL Fincorp footer.
+
+Do not create a second independent footer.
+
+Ensure:
+
+* Terms & Conditions link works
+* Privacy Policy link works
+* Contact link works
+* Existing footer design remains unchanged
+
+---
+
+# 39. VISUAL DESIGN
+
+Use the existing TNL Fincorp visual identity.
+
+Preferred style:
+
+* Deep navy
+* Dark blue
+* White
+* Light gray
+* Professional blue
+* Subtle cyan accents
+
+Use elegant gradients sparingly.
+
+Partner cards should feel premium.
+
+Suggested UI:
+
+* rounded cards
+* subtle border
+* light shadow
+* soft hover glow
+* clean icons
+* strong whitespace
+* large readable typography
+* excellent spacing
+
+Do not overuse:
+
+* neon
+* giant gradients
+* glassmorphism everywhere
+* spinning elements
+* distracting animations
+* cartoon money graphics
+
+---
+
+# 40. ANIMATION REQUIREMENTS
+
+Use the project's existing animation library where available.
+
+Add:
+
+### Hero
+
+Fade + slide reveal
+
+### Category cards
+
+Staggered entrance
+
+### Partner cards
+
+Viewport reveal
+
+### Hover
+
+Subtle scale and border animation
+
+### Modal
+
+Fade + scale
+
+### Step transition
+
+Smooth horizontal/vertical transition between Step 1 and Step 2
+
+### Payment success
+
+Elegant success animation
+
+### FAQ
+
+Smooth accordion expansion
+
+Respect:
+
+`prefers-reduced-motion`
+
+Do not make animations interfere with usability.
+
+---
+
+# 41. RESPONSIVE REQUIREMENTS
+
+Test:
+
+Desktop:
+
+* 1920px
+* 1440px
+* 1366px
+
+Tablet:
+
+* 1024px
+* 768px
+
+Mobile:
+
+* 430px
+* 414px
+* 390px
+* 375px
+* 360px
+
+Requirements:
+
+* No horizontal overflow
+* No clipped content
+* No overlapping cards
+* No modal overflow
+* No footer overflow
+* No oversized buttons
+* Form fields fit the viewport
+* Category cards stack correctly
+* Partner cards stack correctly
+* External links remain tappable
+* Header/mobile menu continues working
+
+---
+
+# 42. ACCESSIBILITY
+
+Implement:
+
+* semantic HTML
+* proper heading hierarchy
+* label + input relationships
+* keyboard navigation
+* focus indicators
+* accessible modal
+* Escape key support
+* accessible close button
+* proper button semantics
+* accessible accordion
+* ARIA attributes where appropriate
+* adequate contrast
+* screen-reader friendly error messages
+
+---
+
+# 43. SEO
+
+For `/instant-loan`:
+
+Title:
+
+**Instant Loan | TNL Fincorp**
+
+Meta description:
+
+**Explore personal loans, business loans and credit card partner options through TNL Fincorp's convenient digital application journey.**
+
+For category pages, generate dynamic metadata.
+
+Examples:
+
+**Personal Loan Partners | TNL Fincorp**
+
+**Business Loan Partners | TNL Fincorp**
+
+**Credit Card Partners | TNL Fincorp**
+
+Do not add unsupported claims to SEO text.
+
+---
+
+# 44. COMPONENT ARCHITECTURE
+
+Create reusable components such as:
+
+```text
+InstantLoanPage
+InstantLoanHero
+LoanProductCategories
+LoanCategoryCard
+InstantLoanCategoryPage
+PartnerGrid
+PartnerCard
+PartnerLogo
+PartnerApplyButton
+LoanApplicationModal
+ApplicationStepOne
+PaymentStepTwo
+PaymentSummary
+PaymentStatus
+ApplicationSuccess
+InstantLoanFAQ
+InstantLoanDisclaimer
+```
+
+Use the project's existing component folder structure if different.
+
+---
+
+# 45. SUGGESTED DATA FILES
+
+Create:
+
+```text
+src/data/instantLoanCategories.js
+src/data/instantLoanPartners.js
+```
+
+Category config:
+
+```js
+{
+  id: "personal-loan",
+  title: "Personal Loan",
+  route: "/instant-loan/personal-loan",
+  description: "...",
+  image: "...",
+}
+```
+
+Partner config:
+
+```js
+{
+  id: "poonawalla",
+  name: "Poonawalla",
+  category: "personal-loan",
+  productType: "Personal Loan",
+  description: "...",
+  logo: "...",
+  applyLink: "...",
+}
+```
+
+Keep the partner links in one place only.
+
+---
+
+# 46. ROUTER IMPLEMENTATION
+
+Add routes:
+
+```text
+/instant-loan
+/instant-loan/personal-loan
+/instant-loan/business-loan
+/instant-loan/credit-cards
+```
+
+Use the existing router.
+
+Do not create duplicate route definitions.
+
+Add 404-safe handling where appropriate.
+
+---
+
+# 47. FORM DATA FLOW
+
+Use this logical flow:
+
+```text
+User selects category
+        ↓
+Category sub-page
+        ↓
+User selects partner
+        ↓
+Click "Apply Now"
+        ↓
+Step 1: User Information
+        ↓
+Validation + Consent
+        ↓
+Step 2: ₹49 Payment
+        ↓
+Secure Payment
+        ↓
+Server-side Payment Verification
+        ↓
+Store Application Record
+        ↓
+Set partner_access_unlocked = true
+        ↓
+Show "Apply Instantly"
+        ↓
+Open exact partner backlink
+```
+
+---
+
+# 48. VERY IMPORTANT BUSINESS LOGIC
+
+The following rules must be implemented exactly:
+
+### Before payment
+
+Every partner card shows:
+
+**Apply Now**
+
+### After one successful verified ₹49 payment
+
+Every applicable partner card shows:
+
+**Apply Instantly**
+
+### Apply Instantly
+
+The button opens that specific partner's configured backlink.
+
+### Second payment
+
+Do not charge ₹49 again if the same user/application already has a valid verified one-time access record under the defined business rule.
+
+### Approval
+
+Never tell the user that payment itself guarantees approval.
+
+Final approval belongs to the respective partner.
+
+---
+
+# 49. ERROR HANDLING
+
+Implement polished errors for:
+
+* API failure
+* Database failure
+* Payment creation failure
+* Payment verification failure
+* Timeout
+* Network unavailable
+* Invalid application data
+* Duplicate transaction
+* Unauthorized action
+* Partner link missing
+* Partner configuration error
+
+Never expose raw database errors to users.
+
+Show user-friendly messages.
+
+Log technical errors safely on the server where appropriate.
+
+---
+
+# 50. LOADING STATES
+
+Implement loading states for:
+
+* form submission
+* payment initialization
+* payment verification
+* application record creation
+* partner access verification
+
+Disable duplicate clicks during loading.
+
+Example:
+
+`Pay ₹49 & Continue` → `Processing Payment...`
+
+Do not allow accidental double payment.
+
+---
+
+# 51. PARTNER DETAILS
+
+Because detailed financial terms were not supplied for every partner, do NOT invent:
+
+* Interest rates
+* APR
+* Loan amount ranges
+* Fees
+* Tenure
+* Rewards
+* Credit limits
+* Approval chances
+* Processing time
+* Eligibility scores
+* Cashback
+* Guaranteed approval
+* Guaranteed disbursement
+
+Use neutral descriptions such as:
+
+**Explore the application option available through this participating partner.**
+
+Create optional fields so verified business information can be added later.
+
+---
+
+# 52. SECURITY / PRIVACY
+
+Do not expose:
+
+* API secret keys
+* Payment secret keys
+* Database service-role keys
+* Internal credentials
+
+Do not store:
+
+* CVV
+* Card number
+* UPI PIN
+* Payment credentials
+
+Use environment variables for secrets.
+
+Do not place sensitive configuration in public React source files.
+
+---
+
+# 53. FINAL TESTING
+
+After implementation:
+
+1. Run the development server.
+2. Confirm the website compiles successfully.
+3. Fix all TypeScript/JavaScript errors.
+4. Fix all lint errors where practical.
+5. Check browser console errors.
+6. Verify Header navigation.
+7. Verify Instant Loan appears between Investment and Contact.
+8. Verify `/instant-loan`.
+9. Verify all three category cards.
+10. Verify all three category routes.
+11. Verify every partner card.
+12. Verify every partner logo/image container.
+13. Verify every Apply Now button.
+14. Verify modal opening.
+15. Verify modal close button.
+16. Verify Escape key.
+17. Verify Step 1 validation.
+18. Verify consent requirement.
+19. Verify ₹49 payment flow.
+20. Verify payment failure behavior.
+21. Verify payment pending behavior.
+22. Verify successful payment verification.
+23. Verify database record creation.
+24. Verify partner access unlock.
+25. Verify Apply Instantly state.
+26. Verify every individual partner backlink.
+27. Verify mobile responsiveness.
+28. Verify no horizontal overflow.
+29. Verify existing website pages still work.
+30. Verify existing header/footer remain functional.
+
+---
+
+# 54. FINAL IMPLEMENTATION QUALITY
+
+The finished feature should feel like a polished:
+
+**TNL Fincorp Financial Partner Marketplace**
+
+with the following customer journey:
+
+**Instant Loan → Choose Category → Choose Partner → Apply Now → Enter Information → Pay ₹49 → Verification → Apply Instantly → Partner Website**
+
+The UI must be professional, easy to understand and trustworthy.
+
+Do not use misleading financial promises.
+
+Do not fabricate partner terms.
+
+Do not make payment success dependent only on frontend state.
+
+Make the system modular so that new loan/card partners can later be added simply by adding one new partner object to the central configuration file.
+
+At the end, provide a concise implementation report containing:
+
+* Files created
+* Files modified
+* Routes added
+* Database table/migration created
+* Payment integration status
+* Backend/API changes
+* Partner configuration location
+* Number of partners added by category
+* Any required environment variables
+* Any remaining integration point that requires real payment credentials/backend configuration
+* Any errors or regressions fixed

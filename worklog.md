@@ -551,3 +551,57 @@ Verification:
 
 Stage Summary:
 - Government Bonds page live at /government-bonds. Premium educational investment page with navy/gold accents, sharing TNL Fincorp design system. No misleading financial claims. Fully responsive.
+
+---
+Task ID: 2
+Agent: api-builder
+Task: Build Instant Loan API routes (apply, payment create/verify, status)
+
+Work Log:
+- Read worklog.md, existing enquiry API pattern, prisma schema, instant-loan-data.ts and db.ts to understand conventions.
+- Created `src/app/api/instant-loan/apply/route.ts` (POST): zod validation (fullName min 2, 10-digit IN mobile regex, email format, category required); generates `TNL-IL-YYYYMMDD-XXXXXX` reference using unambiguous alphabet; checks for existing unlocked app on the same mobile and short-circuits with `alreadyVerified: true`; otherwise creates record with `paymentStatus="pending"`, `verificationStatus="pending"`, `partnerAccessUnlocked=false`; retry loop on Prisma P2002 to handle rare reference collisions; catches all errors and returns friendly messages.
+- Created `src/app/api/instant-loan/payment/create/route.ts` (POST): zod-validated `{ applicationReference }`; 404 if application not found; returns `alreadyPaid: true` if already paid+unlocked; `createVerificationPayment()` seam clearly marked as the integration point for a real payment gateway (Razorpay/Cashfree/etc.) with a worked example in comments; generates `TNLPAY-<timestamp>-<random>` order id, persists to `paymentOrderId` with P2002 retry; uses `VERIFICATION_FEE` constant from `instant-loan-data.ts`.
+- Created `src/app/api/instant-loan/payment/verify/route.ts` (POST): zod-validated `{ applicationReference, orderId, paymentId?, signature? }`; 404 if application not found; idempotent for already-unlocked apps; verifies stored `paymentOrderId` matches the incoming `orderId`; `verifyWithGateway()` seam clearly marked as the server-side signature-check integration point with a strong warning comment that frontend-supplied flags must NEVER be trusted and real verification must be server-side; on success sets `paymentStatus="paid"`, `verificationStatus="verified"`, `partnerAccessUnlocked=true`, `paymentVerifiedAt=now`, `paymentTransactionId="TXN-<timestamp>-<random>"`; refuses to flip flags if gateway returns `verified:false` (400 response).
+- Created `src/app/api/instant-loan/status/route.ts` (GET): query `?mobile=XXXXXXXXXX`; zod-validated against the same IN mobile regex; finds most recent application for this mobile with `partnerAccessUnlocked=true AND verificationStatus="verified" AND paymentStatus="paid"`; returns `{ ok, unlocked, applicationReference }` so the frontend can toggle partner cards between "Apply Now" vs "Apply Instantly".
+- Ran `bun run lint` — 0 errors (only pre-existing benign warning in `enquiry-form.tsx` about react-hook-form watch).
+- Wrote work record at `/home/z/my-project/agent-ctx/2-api-builder.md`.
+
+Stage Summary:
+- src/app/api/instant-loan/apply/route.ts (POST — create application, handle alreadyVerified short-circuit)
+- src/app/api/instant-loan/payment/create/route.ts (POST — create ₹49 order, gateway integration seam)
+- src/app/api/instant-loan/payment/verify/route.ts (POST — server-side verify seam, unlock partner access)
+- src/app/api/instant-loan/status/route.ts (GET — mobile unlocked-status check)
+
+---
+Task ID: 32
+Agent: main
+Task: Build complete Instant Loan marketplace with partner discovery, 2-step application, ₹49 payment, database storage
+
+Work Log:
+- Added "Instant Loan" to navbar (between Investment and Contact) for both desktop + mobile
+- Created src/lib/instant-loan-data.ts: centralized config with 3 categories + 22 partners (7 personal, 2 business, 13 credit cards) with EXACT backlinks preserved, FAQs, disclaimer, VERIFICATION_FEE=49
+- Added InstantLoanApplication Prisma model (25 fields + 6 indexes) → pushed to Supabase successfully
+- Created 4 API routes (via subagent): /api/instant-loan/apply (creates record + reference), /payment/create (creates order), /payment/verify (verifies + unlocks), /status (checks unlock)
+- Created frontend components:
+  - partner-card.tsx: premium card with Apply Now / Apply Instantly states
+  - loan-application-modal.tsx: 2-step modal (Step 1: user info form with validation + consent; Step 2: ₹49 payment summary + process; success/error/pending states)
+  - instant-loan-page.tsx: marketplace with hero + 3 category cards + how-it-works + FAQ + disclaimer + CTA
+  - instant-loan-category-page.tsx: reusable category page with partner grid + unlock banner + FAQ + modal
+- Created routes: /instant-loan + /instant-loan/[category] (3 static params: personal-loan, business-loan, credit-cards)
+- Fixed lint error (setState in effect → queueMicrotask)
+
+Verification:
+- All 4 routes return 200 (/instant-loan, /instant-loan/personal-loan, /instant-loan/business-loan, /instant-loan/credit-cards)
+- Nav order: Home | About Us | Loans | Investment | Instant Loan | Contact ✓
+- Personal loan: 7 partners with Apply Now buttons ✓
+- Business loan: 2 partners ✓
+- Credit cards: 13 partners ✓
+- Apply Now modal opens with Step 1 form + disabled Continue button (needs valid data + consent) ✓
+- Close button works (modal closes, no stuck overlay) ✓
+- API /apply creates record in Supabase (TNL-IL-20260918-XXXXXX reference) ✓
+- API /status checks unlock state ✓
+- Mobile 390px: no horizontal scroll ✓
+- Lint: 0 errors, 1 pre-existing benign warning
+
+Stage Summary:
+- Complete Instant Loan marketplace live. 22 partners across 3 categories with exact backlinks. 2-step application modal with ₹49 payment flow. Database storage in Supabase. One-time payment unlocks all partners. Payment gateway integration point clearly marked for production.
