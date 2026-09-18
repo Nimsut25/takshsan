@@ -501,3 +501,25 @@ Work Log:
 
 Stage Summary:
 - Supabase PostgreSQL is LIVE. App reads/writes through Prisma to Supabase. The shell DATABASE_URL env var was the blocker — it must be unset when starting the dev server so Next.js loads .env correctly. For production (Hostinger), set the Supabase DATABASE_URL as the environment variable.
+
+---
+Task ID: 30
+Agent: main
+Task: Solve deployment problems — fix build, env, and verify production
+
+Work Log:
+- Identified 3 deployment blockers: (1) missing government-bonds files causing module-not-found, (2) shell env var DATABASE_URL=SQLite overriding .env, (3) need to verify next build
+- Fix 1: Removed broken /government-bonds route (files were lost; nav dropdown doesn't link to it). Build no longer fails on missing module.
+- Fix 2: Created .env.production (copy of .env with Supabase creds) so `next build` loads Supabase env. Created .env.example with placeholders. Updated .gitignore (already has .env* with !.env.example).
+- Fix 3: Ran `next build` with correct env → SUCCESS. 17 pages compiled, all static pages generated. Standalone output created in .next/standalone/.
+- Copied .next/static + public/ to .next/standalone/ (required for standalone serving).
+- Started production server (NODE_ENV=production bun .next/standalone/server.js) with Supabase env.
+- Verified ALL 11 routes return 200 in production mode.
+- Verified enquiry API writes to Supabase (ok:true, Supabase ID cmu6u0caf...). Count: 3 records.
+- No production errors.
+- Created start-dev.sh (unsets stale shell env, starts dev server).
+- Created DEPLOYMENT.md with full Hostinger deployment guide.
+- Lint: 0 errors, 1 pre-existing benign warning.
+
+Stage Summary:
+- Build succeeds. Production server runs. All routes 200. Supabase DB reads/writes work in production. Deployment-ready with guide.
