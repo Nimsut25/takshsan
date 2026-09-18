@@ -426,3 +426,21 @@ Verification:
 
 Stage Summary:
 - All requested polish applied. Process sections centered + synchronized animation, 6+ reviews in endless carousels, trust counters animate, loan-type cards are premium with Apply Now buttons opening a reusable 3D LoanApplyModal. Two-wheeler concept fully removed. Production-ready.
+
+---
+Task ID: 26
+Agent: main
+Task: Complete Supabase connection with provided credentials
+
+Work Log:
+- User provided: project URL, publishable key, project ref (qxpmwnoinjzqhkjhhokz), region (ap-northeast-2), DB password (Saroj@#2026)
+- URL-encoded password: Saroj@#2026 → Saroj%40%232026 (@ → %40, # → %23)
+- Fixed prisma/schema.prisma (had reverted to sqlite): provider=postgresql, directUrl=env("DIRECT_URL")
+- Configured .env with Supabase Session pooler URLs (postgres.[project-ref] username format required by pooler)
+- prisma generate → SUCCESS (Prisma Client v6.19.2 for postgresql)
+- prisma db push → REACHES Supabase (DNS + pooler respond, tenant identified) but P1000 Authentication failed
+- Tested all username formats: postgres.[ref] (correct, tenant identified but auth fails), postgres alone (ENOIDENTIFIER no tenant), direct db.xxx.supabase.co (unreachable)
+- Conclusion: connection format is correct; the password "Saroj@#2026" is being rejected by Supabase
+
+Stage Summary:
+- Configuration complete and correct. Prisma connects to Supabase but auth fails — the database password needs to be verified/reset in the Supabase dashboard.
