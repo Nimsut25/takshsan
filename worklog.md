@@ -464,3 +464,20 @@ Work Log:
 
 Stage Summary:
 - Configuration is 100% correct. The password "Saroj@#1986" is being rejected by Supabase. User must reset the database password in the Supabase dashboard.
+
+---
+Task ID: 28
+Agent: main
+Task: Attempt Supabase connection with password TNLFincorp@#2026
+
+Work Log:
+- Updated .env with TNLFincorp@#2026 (URL-encoded: TNLFincorp%40%232026)
+- prisma generate → SUCCESS
+- prisma db push → P1000 auth failed
+- Raw pg test with unencoded password → "password authentication failed for user postgres"
+- Tested 8 variations — all fail
+- Supabase REST API returns 401 "Secret API key required" (publishable key can't access REST — needs service role key, which is expected)
+- Cleaned up pg package
+
+Stage Summary:
+- All 3 passwords tried (Saroj@#2026, Saroj@#1986, TNLFincorp@#2026) fail auth. Connection format is correct. The database password MUST be reset in the Supabase dashboard — the password being provided is not the one configured on the database.
