@@ -309,8 +309,10 @@ export function LoanApplicationModal({
                   <div className="grid gap-4 sm:grid-cols-2">
                     <Field label="Employment Type" error={errors.employmentType} required>
                       <Select value={form.employmentType} onValueChange={(v) => set("employmentType", v)}>
-                        <SelectTrigger className="h-11 w-full rounded-xl border-primary/15"><SelectValue placeholder="Select" /></SelectTrigger>
-                        <SelectContent>{EMPLOYMENT.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
+                        <SelectTrigger className="h-11 w-full rounded-xl border-primary/15 bg-white"><SelectValue placeholder="Select" /></SelectTrigger>
+                        <SelectContent position="popper" className="z-[300] max-h-[200px]" sideOffset={6}>
+                          {EMPLOYMENT.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}
+                        </SelectContent>
                       </Select>
                     </Field>
                     <Field label="Monthly Income" error={errors.monthlyIncome} required>
