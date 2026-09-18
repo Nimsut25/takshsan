@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { z } from "zod";
 import crypto from "crypto";
+import Razorpay from "razorpay";
 
 /**
  * POST /api/instant-loan/payment/verify
@@ -10,7 +11,8 @@ import crypto from "crypto";
  * On success it unlocks partner application links (partnerAccessUnlocked = true).
  *
  * SECURITY: The signature is verified using RAZORPAY_KEY_SECRET. The frontend
- * is untrusted — partner access is ONLY unlocked after a valid signature check.
+ * is untrusted — partner access is ONLY unlocked after a valid signature check
+ * or a confirmed payment fetch from Razorpay's server API.
  */
 
 const verifySchema = z.object({
@@ -26,15 +28,13 @@ const verifySchema = z.object({
     .max(120),
   razorpayPaymentId: z.string().trim().max(120).optional().nullable(),
   razorpaySignature: z.string().trim().max(500).optional().nullable(),
-  // Legacy fields for backward compat
   paymentId: z.string().trim().max(120).optional().nullable(),
   signature: z.string().trim().max(500).optional().nullable(),
 });
 
 /**
- * Real Razorpay signature verification.
- * Razorpay sends: razorpay_order_id + "|" + razorpay_payment_id
- * HMAC-SHA256 with RAZORPAY_KEY_SECRET → must match razorpay_signature.
+ * Verify the Razorpay signature: HMAC-SHA256 of "order_id|payment_id" using
+ * the key secret, compared against the signature returned by checkout.
  */
 function verifyRazorpaySignature(params: {
   orderId: string;
@@ -54,6 +54,31 @@ function verifyRazorpaySignature(params: {
     .digest("hex");
 
   return expectedSignature === params.signature;
+}
+
+/**
+ * Fallback: fetch the payment from Razorpay's server API to confirm it was
+ * actually captured for this order. This is used when the signature check
+ * fails (e.g., key rotation) as a secondary verification method.
+ */
+async function fetchPaymentFromRazorpay(
+  paymentId: string
+): Promise<{ captured: boolean; orderId: string | null } | null> {
+  const keyId = process.env.RAZORPAY_KEY_ID;
+  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  if (!keyId || !keySecret) return null;
+
+  try {
+    const rzp = new Razorpay({ key_id: keyId, key_secret: keySecret });
+    const payment = await rzp.payments.fetch(paymentId);
+    return {
+      captured: (payment as { status?: string; order_id?: string }).status === "captured",
+      orderId: (payment as { order_id?: string }).order_id ?? null,
+    };
+  } catch (err) {
+    console.error("Razorpay payment fetch failed:", err);
+    return null;
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -87,7 +112,6 @@ export async function POST(req: NextRequest) {
       signature,
     } = parsed.data;
 
-    // Use the Razorpay-specific fields, falling back to legacy field names
     const finalPaymentId = razorpayPaymentId || paymentId;
     const finalSignature = razorpaySignature || signature;
 
@@ -119,7 +143,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ── Verify the order id matches what we created ──
+    // ── Verify the order id matches ──
     if (!application.paymentOrderId) {
       return NextResponse.json(
         {
@@ -142,9 +166,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Server-side Razorpay signature verification ──
-    // If we have paymentId + signature, do real verification.
-    // If not (e.g. test mode without a real payment), we cannot verify.
     if (!finalPaymentId || !finalSignature) {
       return NextResponse.json(
         {
@@ -157,11 +178,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const isVerified = verifyRazorpaySignature({
+    // ── Primary verification: signature check ──
+    let isVerified = verifyRazorpaySignature({
       orderId,
       paymentId: finalPaymentId,
       signature: finalSignature,
     });
+
+    // ── Fallback: fetch payment from Razorpay API ──
+    // If signature check fails, try fetching the payment directly from
+    // Razorpay's server API to confirm it was captured for this order.
+    if (!isVerified) {
+      console.log("Signature check failed, trying Razorpay API fetch fallback...");
+      const paymentInfo = await fetchPaymentFromRazorpay(finalPaymentId);
+      if (paymentInfo && paymentInfo.captured && paymentInfo.orderId === orderId) {
+        console.log("Razorpay API fetch confirmed payment captured for this order");
+        isVerified = true;
+      }
+    }
 
     if (!isVerified) {
       return NextResponse.json(

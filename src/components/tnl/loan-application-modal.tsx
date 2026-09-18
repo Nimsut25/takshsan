@@ -118,15 +118,13 @@ export function LoanApplicationModal({
       setAppRef(applyData.applicationReference);
 
       if (applyData.alreadyVerified) {
-        // already paid — skip to success
         localStorage.setItem("tnl_il_unlocked", "true");
         localStorage.setItem("tnl_il_mobile", form.mobileNumber);
         setStep("success");
         return;
       }
 
-      // 2. Create payment order
-      setStep("pending");
+      // 2. Create payment order (stay on Step 2 — don't switch to pending yet)
       const createRes = await fetch("/api/instant-loan/payment/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -161,12 +159,13 @@ export function LoanApplicationModal({
         document.head.appendChild(script);
       });
 
-      // Open Razorpay checkout and wait for the payment response
+      // Open Razorpay checkout — stay on Step 2 while checkout is open
+      // Only switch to "pending" AFTER the checkout closes and we're verifying
       const paymentResult = await new Promise<{
         razorpayPaymentId: string;
         razorpaySignature: string;
       }>((resolve, reject) => {
-        const rzp = new (window as unknown as { Razorpay: new (opts: Record<string, unknown>) => { open: () => void } }).Razorpay({
+        const rzpOpts: Record<string, unknown> = {
           key: razorpayKeyId,
           amount: createData.amount * 100, // paise
           currency: createData.currency || "INR",
@@ -179,7 +178,7 @@ export function LoanApplicationModal({
             email: form.email,
           },
           theme: { color: "#3866f3" },
-          handler: (response: { razorpay_payment_id: string; razorpay_signature: string }) => {
+          handler: (response: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
             resolve({
               razorpayPaymentId: response.razorpay_payment_id,
               razorpaySignature: response.razorpay_signature,
@@ -190,12 +189,14 @@ export function LoanApplicationModal({
               reject(new Error("Payment was cancelled. Please complete the payment to unlock partner access."));
             },
           },
-        });
+        };
+        const rzp = new (window as unknown as { Razorpay: new (opts: Record<string, unknown>) => { open: () => void } }).Razorpay(rzpOpts);
         rzp.open();
       });
 
-      // 4. Verify payment server-side with the real Razorpay signature
+      // 4. Now switch to "pending" while we verify server-side
       setStep("pending");
+
       const verifyRes = await fetch("/api/instant-loan/payment/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
