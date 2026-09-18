@@ -142,18 +142,73 @@ export function LoanApplicationModal({
         return;
       }
 
-      // 3. Verify payment (simulated — real gateway integration point)
+      // 3. Open Razorpay checkout with the real order
+      const razorpayKeyId = createData.razorpayKeyId;
+      if (!razorpayKeyId) {
+        throw new Error("Payment gateway key not configured. Please contact support.");
+      }
+
+      // Load Razorpay checkout script if not already loaded
+      await new Promise<void>((resolve, reject) => {
+        if ((window as unknown as { Razorpay?: unknown }).Razorpay) {
+          resolve();
+          return;
+        }
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("Failed to load payment gateway. Please check your connection."));
+        document.head.appendChild(script);
+      });
+
+      // Open Razorpay checkout and wait for the payment response
+      const paymentResult = await new Promise<{
+        razorpayPaymentId: string;
+        razorpaySignature: string;
+      }>((resolve, reject) => {
+        const rzp = new (window as unknown as { Razorpay: new (opts: Record<string, unknown>) => { open: () => void } }).Razorpay({
+          key: razorpayKeyId,
+          amount: createData.amount * 100, // paise
+          currency: createData.currency || "INR",
+          name: "TNL Fincorp",
+          description: "Instant Loan Verification Fee",
+          order_id: createData.orderId,
+          prefill: {
+            name: form.fullName,
+            contact: form.mobileNumber,
+            email: form.email,
+          },
+          theme: { color: "#3866f3" },
+          handler: (response: { razorpay_payment_id: string; razorpay_signature: string }) => {
+            resolve({
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature,
+            });
+          },
+          modal: {
+            ondismiss: () => {
+              reject(new Error("Payment was cancelled. Please complete the payment to unlock partner access."));
+            },
+          },
+        });
+        rzp.open();
+      });
+
+      // 4. Verify payment server-side with the real Razorpay signature
+      setStep("pending");
       const verifyRes = await fetch("/api/instant-loan/payment/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           applicationReference: applyData.applicationReference,
           orderId: createData.orderId,
+          razorpayPaymentId: paymentResult.razorpayPaymentId,
+          razorpaySignature: paymentResult.razorpaySignature,
         }),
       });
       const verifyData = await verifyRes.json();
       if (!verifyRes.ok || !verifyData.ok || !verifyData.verified) {
-        throw new Error("Payment verification failed");
+        throw new Error(verifyData.message || "Payment verification failed");
       }
 
       // Success

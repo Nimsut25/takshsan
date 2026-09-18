@@ -2,33 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { z } from "zod";
 import { VERIFICATION_FEE } from "@/lib/instant-loan-data";
+import Razorpay from "razorpay";
 
 /**
  * POST /api/instant-loan/payment/create
  *
- * Creates a payment order for the ₹49 verification fee.
- *
- * ╔══════════════════════════════════════════════════════════════════════╗
- * ║  PAYMENT GATEWAY INTEGRATION POINT                                    ║
- * ║  ---------------------------                                          ║
- * ║  This route is the single abstraction point where a real payment     ║
- * ║  gateway (Razorpay / Cashfree / PhonePe / PayU / etc.) should be     ║
- * ║  wired in. The function `createVerificationPayment()` below is the   ║
- * ║  intended seam:                                                      ║
- * ║                                                                      ║
- * ║    async function createVerificationPayment(order) {                 ║
- * ║      // e.g. Razorpay: instance.orders.create({ amount: 4900, ... }) ║
- * ║      return { gatewayOrderId, gatewayProvider, rawResponse };        ║
- * ║    }                                                                 ║
- * ║                                                                      ║
- * ║  The returned `gatewayOrderId` must be persisted on the application  ║
- * ║  record (the `paymentOrderId` field) so that the /verify route can   ║
- * ║  match it against the gateway callback / signature check.            ║
- * ║                                                                      ║
- * ║  For now, with no gateway configured, we simulate the order creation ║
- * ║  so the frontend can be developed end-to-end. DO NOT ship this       ║
- * ║  simulation to production.                                            ║
- * ╚══════════════════════════════════════════════════════════════════════╝
+ * Creates a REAL Razorpay payment order for the ₹49 verification fee.
+ * The order is created server-side using the secret key. The frontend
+ * receives the order ID and opens the Razorpay checkout modal.
  */
 
 const createSchema = z.object({
@@ -39,23 +20,18 @@ const createSchema = z.object({
     .max(60),
 });
 
-/** Generate a unique order id like `TNLPAY-1730000000000-A3F9K2`. */
-function generatePaymentOrderId(now = new Date()): string {
-  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let suffix = "";
-  for (let i = 0; i < 6; i++) {
-    suffix += alphabet[Math.floor(Math.random() * alphabet.length)];
+/** Lazily-initialised Razorpay instance (server-side only). */
+function getRazorpay(): Razorpay | null {
+  const keyId = process.env.RAZORPAY_KEY_ID;
+  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  if (!keyId || !keySecret) {
+    console.error("Razorpay keys not configured in environment");
+    return null;
   }
-  return `TNLPAY-${now.getTime()}-${suffix}`;
+  return new Razorpay({ key_id: keyId, key_secret: keySecret });
 }
 
-/**
- * Integration seam for the real payment gateway. Replace this body with the
- * real SDK call once a gateway account is provisioned. The function must
- * return at minimum a `gatewayOrderId` (the gateway's own order id) which
- * will be stored on the InstantLoanApplication row.
- */
-async function createVerificationPayment(_application: {
+async function createVerificationPayment(application: {
   applicationReference: string;
   fullName: string;
   mobileNumber: string;
@@ -63,21 +39,24 @@ async function createVerificationPayment(_application: {
 }): Promise<{
   gatewayOrderId: string;
   gatewayProvider: string;
-}> {
-  // TODO(gateway): call Razorpay/Cashfree/etc. here.
-  // Example (Razorpay):
-  //   const order = await razorpay.orders.create({
-  //     amount: VERIFICATION_FEE * 100, // paise
-  //     currency: "INR",
-  //     receipt: applicationReference,
-  //     notes: { applicationReference, mobile, email },
-  //   });
-  //   return { gatewayOrderId: order.id, gatewayProvider: "razorpay" };
+} | null> {
+  const rzp = getRazorpay();
+  if (!rzp) return null;
 
-  // SIMULATED (no real gateway yet) — replace before production.
+  const order = await rzp.orders.create({
+    amount: VERIFICATION_FEE * 100, // Razorpay expects paise
+    currency: "INR",
+    receipt: application.applicationReference,
+    notes: {
+      applicationReference: application.applicationReference,
+      mobile: application.mobileNumber,
+      email: application.email,
+    },
+  });
+
   return {
-    gatewayOrderId: generatePaymentOrderId(),
-    gatewayProvider: "tnl-simulated",
+    gatewayOrderId: order.id,
+    gatewayProvider: "razorpay",
   };
 }
 
@@ -132,46 +111,45 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // ── Create the gateway order ──
-    const { gatewayOrderId, gatewayProvider } = await createVerificationPayment({
+    // ── Create the real Razorpay order ──
+    const paymentData = await createVerificationPayment({
       applicationReference: application.applicationReference,
       fullName: application.fullName,
       mobileNumber: application.mobileNumber,
       email: application.email,
     });
 
-    // Persist the gateway order id (with a retry in case of a unique
-    // constraint collision on `paymentOrderId`).
-    let updated = application;
-    for (let attempt = 0; attempt < 3; attempt++) {
-      try {
-        updated = await db.instantLoanApplication.update({
-          where: { id: application.id },
-          data: {
-            paymentOrderId: gatewayOrderId,
-            paymentProvider: gatewayProvider,
-            paymentAmount: VERIFICATION_FEE,
-            paymentCurrency: "INR",
-          },
-        });
-        break;
-      } catch (err: unknown) {
-        const code = (err as { code?: string } | null)?.code ?? "";
-        if (code !== "P2002" && attempt === 2) {
-          throw err;
-        }
-      }
+    if (!paymentData) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message:
+            "Payment gateway is not configured. Please contact support to complete your verification.",
+        },
+        { status: 503 }
+      );
     }
+
+    // Persist the gateway order id
+    await db.instantLoanApplication.update({
+      where: { id: application.id },
+      data: {
+        paymentOrderId: paymentData.gatewayOrderId,
+        paymentProvider: paymentData.gatewayProvider,
+        paymentAmount: VERIFICATION_FEE,
+        paymentCurrency: "INR",
+      },
+    });
 
     return NextResponse.json({
       ok: true,
-      orderId: gatewayOrderId,
+      orderId: paymentData.gatewayOrderId,
       amount: VERIFICATION_FEE,
       currency: "INR",
-      provider: gatewayProvider,
-      applicationReference: updated.applicationReference,
-      message:
-        "Payment order created. In production, this would redirect to the payment gateway.",
+      provider: "razorpay",
+      razorpayKeyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+      applicationReference: application.applicationReference,
+      message: "Razorpay payment order created successfully.",
     });
   } catch (err) {
     console.error("instant-loan/payment/create error:", err);

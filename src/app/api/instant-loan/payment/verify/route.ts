@@ -1,33 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { z } from "zod";
+import crypto from "crypto";
 
 /**
  * POST /api/instant-loan/payment/verify
  *
- * Verifies a payment for an InstantLoanApplication. On success it unlocks
- * the partner application links (`partnerAccessUnlocked = true`) and flips
- * the application to the verified state.
+ * Verifies a Razorpay payment using server-side signature verification.
+ * On success it unlocks partner application links (partnerAccessUnlocked = true).
  *
- * ╔══════════════════════════════════════════════════════════════════════╗
- * ║  SERVER-SIDE VERIFICATION — DO NOT TRUST THE FRONTEND                 ║
- * ║  ----------------------------------------------------                 ║
- * ║  In production this route MUST perform the gateway's own server-side  ║
- * ║  verification (e.g. Razorpay signature check using                   ║
- * ║  `razorpay_payment_id` + `razorpay_order_id` + `razorpay_signature`  ║
- * ║  against `RAZORPAY_KEY_SECRET`, or the equivalent Cashfree/PayU      ║
- * ║  webhook signature verification). The `paymentVerifiedAt`,           ║
- * ║  `paymentStatus = "paid"`, `verificationStatus = "verified"` and     ║
- * ║  `partnerAccessUnlocked = true` flags may only be set after a        ║
- * ║  successful server-side signature check or a verified webhook.       ║
- * ║                                                                      ║
- * ║  NEVER flip these flags based on a frontend-supplied boolean. The    ║
- * ║  frontend is untrusted.                                              ║
- * ║                                                                      ║
- * ║  For now, with no real gateway configured, we simulate a successful  ║
- * ║  verification so the frontend flow can be developed. DO NOT ship     ║
- * ║  this simulation to production.                                      ║
- * ╚══════════════════════════════════════════════════════════════════════╝
+ * SECURITY: The signature is verified using RAZORPAY_KEY_SECRET. The frontend
+ * is untrusted — partner access is ONLY unlocked after a valid signature check.
  */
 
 const verifySchema = z.object({
@@ -41,45 +24,36 @@ const verifySchema = z.object({
     .trim()
     .min(4, "Order id is required")
     .max(120),
-  // Optional fields a real gateway would send back. We accept but ignore
-  // them for the simulation — in production these become inputs to the
-  // signature check.
+  razorpayPaymentId: z.string().trim().max(120).optional().nullable(),
+  razorpaySignature: z.string().trim().max(500).optional().nullable(),
+  // Legacy fields for backward compat
   paymentId: z.string().trim().max(120).optional().nullable(),
   signature: z.string().trim().max(500).optional().nullable(),
 });
 
-/** Generate a transaction id like `TXN-1730000000000-A3F9K2`. */
-function generateTransactionId(now = new Date()): string {
-  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let suffix = "";
-  for (let i = 0; i < 6; i++) {
-    suffix += alphabet[Math.floor(Math.random() * alphabet.length)];
-  }
-  return `TXN-${now.getTime()}-${suffix}`;
-}
-
 /**
- * Integration seam for the real payment gateway verification. Replace this
- * body with the gateway's server-side signature check. Must return
- * `{ verified: true }` ONLY when the gateway confirms the payment.
+ * Real Razorpay signature verification.
+ * Razorpay sends: razorpay_order_id + "|" + razorpay_payment_id
+ * HMAC-SHA256 with RAZORPAY_KEY_SECRET → must match razorpay_signature.
  */
-async function verifyWithGateway(_params: {
+function verifyRazorpaySignature(params: {
   orderId: string;
-  paymentId?: string | null;
-  signature?: string | null;
-}): Promise<{ verified: boolean; transactionId?: string }> {
-  // TODO(gateway): perform real verification here.
-  // Example (Razorpay):
-  //   const body = `${orderId}|${paymentId}`;
-  //   const expected = crypto
-  //     .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
-  //     .update(body)
-  //     .digest("hex");
-  //   if (expected !== signature) return { verified: false };
-  //   return { verified: true, transactionId: paymentId };
+  paymentId: string;
+  signature: string;
+}): boolean {
+  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  if (!keySecret) {
+    console.error("RAZORPAY_KEY_SECRET not configured");
+    return false;
+  }
 
-  // SIMULATED (no real gateway yet) — replace before production.
-  return { verified: true, transactionId: generateTransactionId() };
+  const body = `${params.orderId}|${params.paymentId}`;
+  const expectedSignature = crypto
+    .createHmac("sha256", keySecret)
+    .update(body)
+    .digest("hex");
+
+  return expectedSignature === params.signature;
 }
 
 export async function POST(req: NextRequest) {
@@ -104,7 +78,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { applicationReference, orderId, paymentId, signature } = parsed.data;
+    const {
+      applicationReference,
+      orderId,
+      razorpayPaymentId,
+      razorpaySignature,
+      paymentId,
+      signature,
+    } = parsed.data;
+
+    // Use the Razorpay-specific fields, falling back to legacy field names
+    const finalPaymentId = razorpayPaymentId || paymentId;
+    const finalSignature = razorpaySignature || signature;
 
     const application = await db.instantLoanApplication.findUnique({
       where: { applicationReference },
@@ -157,10 +142,28 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Server-side gateway verification ──
-    const result = await verifyWithGateway({ orderId, paymentId, signature });
-    if (!result.verified) {
-      // Do NOT flip any flags. Return 400 so the frontend can show an error.
+    // ── Server-side Razorpay signature verification ──
+    // If we have paymentId + signature, do real verification.
+    // If not (e.g. test mode without a real payment), we cannot verify.
+    if (!finalPaymentId || !finalSignature) {
+      return NextResponse.json(
+        {
+          ok: false,
+          verified: false,
+          message:
+            "Payment verification requires the Razorpay payment ID and signature. Please complete the payment through the Razorpay checkout.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const isVerified = verifyRazorpaySignature({
+      orderId,
+      paymentId: finalPaymentId,
+      signature: finalSignature,
+    });
+
+    if (!isVerified) {
       return NextResponse.json(
         {
           ok: false,
@@ -174,7 +177,6 @@ export async function POST(req: NextRequest) {
 
     // ── Persist the verified state ──
     const now = new Date();
-    const transactionId = result.transactionId ?? generateTransactionId(now);
 
     const updated = await db.instantLoanApplication.update({
       where: { id: application.id },
@@ -183,7 +185,7 @@ export async function POST(req: NextRequest) {
         verificationStatus: "verified",
         partnerAccessUnlocked: true,
         paymentVerifiedAt: now,
-        paymentTransactionId: transactionId,
+        paymentTransactionId: finalPaymentId,
       },
     });
 
@@ -192,7 +194,7 @@ export async function POST(req: NextRequest) {
       verified: true,
       applicationReference: updated.applicationReference,
       partnerAccessUnlocked: true,
-      transactionId,
+      transactionId: finalPaymentId,
       message:
         "Payment verified successfully. Partner application links are now unlocked.",
     });
