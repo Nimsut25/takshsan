@@ -29,6 +29,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.9,
     },
+    ...["life-insurance", "general-insurance", "motor-insurance"].map((slug) => ({
+      url: `${base}/${slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
     ...[
       "personal-loan",
       "business-loan",

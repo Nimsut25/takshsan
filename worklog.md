@@ -650,3 +650,30 @@ Verification:
 
 Stage Summary:
 - Complete bond application workflow: Apply Now → 6-step form → validation → Razorpay payment → server-side verification → certificate generation → certificate display + PDF download. Database table `Bonds` in Supabase. All 5 bond types supported.
+
+---
+Task ID: 34
+Agent: main
+Task: Create 3 premium insurance pages (Life, General, Motor) with navigation
+
+Work Log:
+- Generated 3 hero images: insurance-life-hero.jpg, insurance-general-hero.jpg, insurance-motor-hero.jpg
+- Added INSURANCE_DROPDOWN to site-data.ts (Life Insurance, General Insurance, Motor Insurance)
+- Added Insurance dropdown to navbar (desktop + mobile) between Investment and Instant Loan. Nav order: Home | About Us | Loans | Investment | Insurance | Instant Loan | Contact
+- Created src/lib/insurance-data.ts: comprehensive typed content for all 3 pages (hero, benefits 6 each, types/categories, process 7 steps, factors, coverage/add-ons for motor, claim process for motor, 10 FAQs each, CTA, disclaimer). All content educationally accurate — no guaranteed claims.
+- Created src/components/sections/insurance-page.tsx: reusable InsurancePage component (accepts slug, resolves data internally to avoid icon serialization). Renders: hero with floating cards, benefits grid, types grid, process timeline (reuses LoanProcess), factors grid, coverage/add-ons (motor), claim process (motor), FAQ accordion, CTA, disclaimer.
+- Created 3 route files: /life-insurance, /general-insurance, /motor-insurance with SEO metadata (unique titles, descriptions, canonical, OG)
+- Updated sitemap with 3 insurance routes
+- Fixed serialization issue (pass slug string, not data object with icon functions)
+
+Verification:
+- All 3 routes return 200 (/life-insurance, /general-insurance, /motor-insurance)
+- Navigation: Insurance dropdown has all 3 items (browser-verified)
+- Life Insurance: title "Life Insurance | TNL Fincorp", all sections present (hero, why consider, types, how it works, factors, FAQ, CTA)
+- General Insurance: title "General Insurance | TNL Fincorp", all sections present
+- Motor Insurance: title "Motor Insurance | TNL Fincorp", all sections present (types, coverage, add-ons, how to buy, claim process, premium factors, FAQ)
+- Mobile 390px: no horizontal scroll
+- Lint: 0 errors, 1 pre-existing benign warning
+
+Stage Summary:
+- 3 premium insurance pages live. Reusable InsurancePage component driven by insurance-data.ts. Each page has unique hero image, content and visual identity while sharing the TNL Fincorp design system. No misleading claims. Fully responsive.
