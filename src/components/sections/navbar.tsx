@@ -17,7 +17,6 @@ import {
   HEADER_NAV_LINKS,
   LOAN_DROPDOWN,
   INVEST_DROPDOWN,
-  INSURANCE_DROPDOWN,
   NAV_LINKS,
 } from "@/lib/site-data";
 import { useModalStore } from "@/lib/modal-store";
@@ -29,7 +28,6 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [loansOpen, setLoansOpen] = useState(false);
   const [investOpen, setInvestOpen] = useState(false);
-  const [insuranceOpen, setInsuranceOpen] = useState(false);
   const openEnquiry = useModalStore((s) => s.openEnquiry);
 
   useEffect(() => {
@@ -123,15 +121,6 @@ export function Navbar() {
             open={investOpen}
             onOpenChange={setInvestOpen}
             items={INVEST_DROPDOWN}
-            onNavigate={go}
-          />
-
-          {/* Insurance dropdown */}
-          <Dropdown
-            label="Insurance"
-            open={insuranceOpen}
-            onOpenChange={setInsuranceOpen}
-            items={INSURANCE_DROPDOWN}
             onNavigate={go}
           />
 
@@ -256,20 +245,12 @@ export function Navbar() {
                   onNavigate={go}
                 />
 
-                {/* Insurance accordion */}
-                <MobileAccordion
-                  label="Insurance"
-                  index="05"
-                  items={INSURANCE_DROPDOWN}
-                  onNavigate={go}
-                />
-
                 {/* Instant Loan */}
                 <li>
                   <MobileLink
                     label="Instant Loan"
                     href="/instant-loan"
-                    index="06"
+                    index="05"
                     onClick={() => go("/instant-loan")}
                   />
                 </li>
@@ -279,7 +260,7 @@ export function Navbar() {
                   <MobileLink
                     label="Why Choose Us"
                     href="/#why"
-                    index="07"
+                    index="06"
                     onClick={() => go("/#why")}
                   />
                 </li>
@@ -287,7 +268,7 @@ export function Navbar() {
                   <MobileLink
                     label="How It Works"
                     href="/#how"
-                    index="08"
+                    index="07"
                     onClick={() => go("/#how")}
                   />
                 </li>
@@ -295,7 +276,7 @@ export function Navbar() {
                   <MobileLink
                     label="FAQ"
                     href="/#faq"
-                    index="09"
+                    index="08"
                     onClick={() => go("/#faq")}
                   />
                 </li>
@@ -303,7 +284,7 @@ export function Navbar() {
                   <MobileLink
                     label="Contact"
                     href="/#contact"
-                    index="10"
+                    index="09"
                     onClick={() => go("/#contact")}
                   />
                 </li>

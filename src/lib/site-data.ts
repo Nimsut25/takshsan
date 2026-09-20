@@ -85,10 +85,6 @@ export const INVEST_DROPDOWN = [
   { label: "Fixed Deposit (FD)", href: "/investment/fd" },
   { label: "Recurring Deposit (RD)", href: "/investment/rd" },
   { label: "Government Bonds", href: "/government-bonds" },
-];
-
-/** Insurance dropdown items (desktop hover + mobile accordion). */
-export const INSURANCE_DROPDOWN = [
   { label: "Life Insurance", href: "/life-insurance" },
   { label: "General Insurance", href: "/general-insurance" },
   { label: "Motor Insurance", href: "/motor-insurance" },
