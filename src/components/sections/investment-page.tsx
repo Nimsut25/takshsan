@@ -97,13 +97,23 @@ export function InvestmentPage({
                   <Phone className="size-4" />
                   {COMPANY.phone}
                 </a>
-                <a
-                  href="#benefits"
-                  className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-4 py-2.5 text-sm font-semibold text-foreground/80 transition-colors hover:bg-primary/5"
-                >
-                  Learn More
-                  <ChevronRight className="size-4" />
-                </a>
+                {slug === "fd" ? (
+                  <a
+                    href="/fd/apply"
+                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-royal to-sky px-5 py-2.5 text-sm font-semibold text-white shadow-glow transition-transform hover:-translate-y-0.5"
+                  >
+                    <Sparkles className="size-4" />
+                    Apply Now for FD
+                  </a>
+                ) : (
+                  <a
+                    href="#benefits"
+                    className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-4 py-2.5 text-sm font-semibold text-foreground/80 transition-colors hover:bg-primary/5"
+                  >
+                    Learn More
+                    <ChevronRight className="size-4" />
+                  </a>
+                )}
               </div>
             </Reveal>
           </div>
