@@ -148,8 +148,8 @@ export function InvestmentPage({
         </div>
 
         {/* ───── APPLY PANEL (consent + OTP + Apply Now) ───── */}
-        {/* FD page: apply panel removed per request. RD page keeps it. */}
-        {slug !== "fd" && (
+        {/* FD & RD pages: apply panel removed per request. */}
+        {slug !== "fd" && slug !== "rd" && (
         <div id="apply" className="relative mx-auto mt-14 max-w-4xl px-6 lg:px-8">
           <Reveal direction="up">
             <div className="overflow-hidden rounded-3xl border border-primary/10 bg-white shadow-soft">
