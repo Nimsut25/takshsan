@@ -105,6 +105,14 @@ export function InvestmentPage({
                     <Sparkles className="size-4" />
                     Apply Now for FD
                   </a>
+                ) : slug === "rd" ? (
+                  <a
+                    href="/rd/apply"
+                    className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-royal to-sky px-5 py-2.5 text-sm font-semibold text-white shadow-glow transition-transform hover:-translate-y-0.5"
+                  >
+                    <Sparkles className="size-4" />
+                    Apply Now for RD
+                  </a>
                 ) : (
                   <a
                     href="#benefits"

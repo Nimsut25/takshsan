@@ -295,3 +295,118 @@ model FD {
   @@index([fdAccountNo])
   @@index([createdAt])
 }
+
+/// Recurring Deposit application table (exact name "RD")
+model RD {
+  id                        String   @id @default(cuid())
+  applicationNo             String   @unique
+  applicationDate           DateTime @default(now())
+  userId                    String?
+
+  // Applicant
+  applicantName             String
+  fatherHusbandName         String?
+  dateOfBirth               String?
+  gender                    String?
+  panNo                     String?
+  aadhaarIdNo               String?
+  mobile                    String
+  email                     String
+  residentialAddress        String?
+  city                      String?
+  state                     String?
+  pin                       String?
+
+  // Occupation
+  occupation                String?
+  employerBusinessName      String?
+  annualIncome              String?
+
+  // RD Details
+  depositAmount             Decimal? @db.Decimal(12, 2)
+  amountInWords             String?
+  tenureMonths              Int?
+  tenureYears               Int?
+  interestRate              Decimal? @db.Decimal(5, 2)
+  interestPaymentOption     String?
+  depositType               String?
+  depositDate               DateTime?
+  maturityDate              DateTime?
+  maturityAmount            Decimal? @db.Decimal(14, 2)
+
+  // Maturity Instructions
+  maturityInstruction       String?
+  bankAccountNo             String?
+  bankName                  String?
+  branch                    String?
+  ifscCode                  String?
+
+  // Nominee
+  nomineeName               String?
+  nomineeRelationship       String?
+  nomineeDateOfBirth        String?
+  nomineeAddress            String?
+  nomineeMobile             String?
+
+  // Joint Applicant
+  jointApplicantName        String?
+  jointApplicantRelationship String?
+  jointApplicantPan         String?
+  jointApplicantMobile      String?
+  modeOfOperation           String?
+  jointApplicantEnabled     Boolean  @default(false)
+
+  // Documents Checklist
+  panDocument               Boolean  @default(false)
+  aadhaarDocument           Boolean  @default(false)
+  addressProofDocument      Boolean  @default(false)
+  photographDocument        Boolean  @default(false)
+  bankAccountProofDocument  Boolean  @default(false)
+  kycDocuments              Boolean  @default(false)
+  otherDocuments            String?
+
+  // Declaration / Signature
+  declarationAccepted       Boolean  @default(false)
+  applicantSignature        String?
+  jointApplicantSignature   String?
+
+  // Payment
+  paymentStatus             String   @default("pending")
+  paymentOrderId            String?  @unique
+  paymentTransactionId      String?
+  paymentAmount             Decimal? @db.Decimal(10, 2)
+  paymentDate               DateTime?
+  paymentProviderReference  String?
+
+  // Certificate
+  certificateNo             String?  @unique
+  rdAccountNo               String?  @unique
+  certificateIssueDate      DateTime?
+  certificateGenerated      Boolean  @default(false)
+  certificateGeneratedAt    DateTime?
+  certificatePdfUrl         String?
+
+  // Office / Admin
+  customerId                String?
+  rdReceiptNo               String?
+  kycVerified               String?
+  documentsVerifiedBy       String?
+  depositReceived           String?
+  interestRateApproved      Decimal? @db.Decimal(5, 2)
+  authorizedOfficerName     String?
+  officerSignature          String?
+  officeSeal                String?
+  status                    String   @default("draft")
+
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  @@index([applicationNo])
+  @@index([userId])
+  @@index([mobile])
+  @@index([email])
+  @@index([paymentOrderId])
+  @@index([paymentStatus])
+  @@index([rdAccountNo])
+  @@index([createdAt])
+}

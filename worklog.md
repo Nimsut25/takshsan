@@ -752,3 +752,30 @@ Verification:
 
 Stage Summary:
 - Complete FD application workflow: Apply Now → 10-step form → validation → review → Razorpay payment → server-side verification → FD account number + certificate generation → certificate display + PDF download. Database table "FD" in Supabase.
+
+---
+Task ID: 2rd
+Agent: rd-api-builder
+Task: Create 4 RD API route files (apply, payment/create, payment/verify, certificate) following the existing FD pattern
+
+Work Log:
+- Read /home/z/my-project/worklog.md and reviewed previous agent records in /agent-ctx (2-api-builder, 2fd-fd-api-builder, 3b-bonds-api-builder).
+- Read the 4 FD route files (`src/app/api/fd/apply/route.ts`, `payment/create/route.ts`, `payment/verify/route.ts`, `certificate/route.ts`) to understand the established pattern: zod validation with union transforms, server-computed maturity, Indian numbering words, Razorpay order create/verify flow with signature + API-fetch fallback, certificate masking of PAN/Aadhaar/bank account, idempotency for already-paid applications, generic error responses that never leak DB internals.
+- Confirmed the RD Prisma model in `prisma/schema.prisma` has identical structure to FD but uses `rdAccountNo` (unique, indexed) and `rdReceiptNo` instead of `fdAccountNo`/`fdReceiptNo`. Prisma client exposes it as `db.rD`.
+- Created directories `src/app/api/rd/{apply,payment/create,payment/verify,certificate}`.
+- Wrote the 4 route files adapting the FD pattern for RD:
+  1. `src/app/api/rd/apply/route.ts` (POST) — zod schema with z.union([z.number(), z.string()]).transform() for depositAmount, tenureYears, tenureMonths, interestRate. depositDate optional with `.default(() => new Date().toISOString())`. Application number `RD-APP-2026-XXXXXX` (collision-checked against db.rD). Maturity amount computed with the standard RD formula `monthlyDeposit × (((1+i)^n - 1) / i) × (1+i)` where `i = rate/12/100` and `n = tenureYears*12 + tenureMonths`; guarded the `i === 0` case to avoid divide-by-zero (falls back to monthlyDeposit × n). Maturity date = depositDate + total months via setMonth. Amount-in-words computed from the monthly deposit using the Indian numbering system. Persists to db.rD with `paymentStatus="pending"`, `status="submitted"`.
+  2. `src/app/api/rd/payment/create/route.ts` (POST) — Body `{ applicationNo }`. Looks up db.rD; if already paid + certificateGenerated, returns idempotent `{ alreadyPaid: true, rdAccountNo, certificateNo }`. Otherwise computes payment amount server-side from `depositAmount`, creates a real Razorpay order (paise), persists `paymentOrderId`/`paymentAmount`/`paymentStatus="processing"`, returns `orderId`, `amount`, `currency`, `razorpayKeyId`.
+  3. `src/app/api/rd/payment/verify/route.ts` (POST) — Body `{ applicationNo, orderId, razorpayPaymentId, razorpaySignature }`. Verifies HMAC-SHA256 signature (timing-safe) with Razorpay API-fetch fallback (same as FD). On success generates `rdAccountNo = "RD-2026-XXXXXX"` and `certificateNo = "RDC-2026-XXXXXXXX"` (both collision-checked against db.rD), sets `certificateGenerated = true`, `paymentStatus = "paid"`, `status = "certificate_generated"`. Idempotent on re-verify.
+  4. `src/app/api/rd/certificate/route.ts` (GET) — Query `?applicationNo=RD-APP-2026-XXXXXX`. Returns full certificate JSON only when `certificateGenerated === true`; otherwise 404 with payment status. Masks PAN (`ABCDE****4X`), Aadhaar (`XXXX-XXXX-1234`), bank account (`XXXX1234`). Returns `rdAccountNo` and `rdReceiptNo` (RD-specific fields) instead of the FD equivalents.
+- Ran `bun run lint`: 0 errors. (Only a pre-existing warning in `enquiry-form.tsx` unrelated to this task.)
+- Verified dev.log shows no errors after the new routes were added; existing pages (`/investment/rd`, `/investment/fd`, `/`) still compile and serve 200.
+
+Files Created:
+- src/app/api/rd/apply/route.ts
+- src/app/api/rd/payment/create/route.ts
+- src/app/api/rd/payment/verify/route.ts
+- src/app/api/rd/certificate/route.ts
+
+Stage Summary:
+- All 4 RD API routes are implemented and lint-clean, mirroring the FD routes' security posture (server-side amount/maturity computation, signature + API-fetch payment verification, idempotency, masked sensitive fields, no raw DB errors leaked). They are ready to be wired into the RD application UI flow on `/investment/rd`. The Razorpay env vars (RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, NEXT_PUBLIC_RAZORPAY_KEY_ID) are reused from the existing FD setup.
