@@ -16,11 +16,8 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  /** Display name of the product (e.g. "Fixed Deposit"). */
   productName: string;
-  /** Slug used for analytics / labelling (e.g. "fd" / "rd"). */
   productSlug: string;
-  /** Optional className for the outer wrapper. */
   className?: string;
 };
 
@@ -29,7 +26,7 @@ export function ApplyWithConsent({
   productSlug,
   className,
 }: Props) {
-  const [consent, setConsent] = useState(true); // selected by default
+  const [consent, setConsent] = useState(true);
   const [verifiedMobile, setVerifiedMobile] = useState<string | null>(null);
   const [applying, setApplying] = useState(false);
   const { toast } = useToast();
@@ -45,29 +42,15 @@ export function ApplyWithConsent({
     if (!canApply) return;
     setApplying(true);
     try {
-      // Simulate a brief submission to make the CTA feel responsive.
       await new Promise((r) => setTimeout(r, 350));
-
       toast({
         title: "Application received",
         description: `Your ${productName} application request has been received. Our team will contact you shortly.`,
       });
-
-      // Analytics hook: tag the click with the product slug.
-      if (typeof window !== "undefined") {
-        const w = window as unknown as {
-          dataLayer?: Record<string, unknown>[];
-        };
-        w.dataLayer?.push({
-          event: "apply_now",
-          product: productSlug,
-          mobile: verifiedMobile,
-        });
-      }
     } finally {
       setApplying(false);
     }
-  }, [canApply, productName, productSlug, toast, verifiedMobile]);
+  }, [canApply, productName, toast]);
 
   const consentBlocked = !consent;
 
@@ -79,7 +62,6 @@ export function ApplyWithConsent({
       data-consent={consent ? "true" : "false"}
     >
       <div className="space-y-4">
-        {/* Header */}
         <div className="flex items-start gap-3">
           <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-royal to-sky text-white shadow-glow">
             <Sparkles className="h-5 w-5" />
@@ -94,13 +76,11 @@ export function ApplyWithConsent({
           </div>
         </div>
 
-        {/* OTP verification block */}
         <OtpVerification
           productName={productName}
           onVerified={handleVerified}
         />
 
-        {/* Consent checkbox — selected by default */}
         <div className="flex items-start gap-2.5 rounded-xl border border-border/70 bg-white/60 px-3.5 py-3">
           <Checkbox
             id={`consent-${productSlug}`}
@@ -113,24 +93,17 @@ export function ApplyWithConsent({
             className="text-xs leading-relaxed font-normal text-muted-foreground cursor-pointer"
           >
             I agree to the{" "}
-            <a
-              href="/terms"
-              className="font-medium text-royal hover:text-sky underline-offset-2 hover:underline"
-            >
+            <a href="/terms" className="font-medium text-royal hover:text-sky underline-offset-2 hover:underline">
               Terms &amp; Conditions
             </a>{" "}
             and{" "}
-            <a
-              href="/privacy"
-              className="font-medium text-royal hover:text-sky underline-offset-2 hover:underline"
-            >
+            <a href="/privacy" className="font-medium text-royal hover:text-sky underline-offset-2 hover:underline">
               Privacy Policy
             </a>
             .
           </Label>
         </div>
 
-        {/* Apply Now CTA */}
         <div className="space-y-2">
           <BrandButton
             type="button"
@@ -161,7 +134,6 @@ export function ApplyWithConsent({
             )}
           </BrandButton>
 
-          {/* Helper / blocker hints */}
           <div className="flex flex-col gap-1 text-[11px]">
             {!isVerified && (
               <p className="inline-flex items-center gap-1.5 text-muted-foreground">
