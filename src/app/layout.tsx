@@ -54,14 +54,14 @@ export const metadata: Metadata = {
     siteName: "TNL Fincorp",
     locale: "en_IN",
     type: "website",
-    images: [{ url: "/images/hero.jpg", width: 1344, height: 768, alt: "TNL Fincorp loans & investment solutions" }],
+    images: [{ url: "/images/hero-new.png", width: 1344, height: 768, alt: "TNL Fincorp loans & investment solutions" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "TNL Fincorp | Loans & Investment Solutions",
     description:
       "Loan assistance & investment solutions across Personal, Business, Home, LAP, Auto, Education Loans plus FD & RD.",
-    images: ["/images/hero.jpg"],
+    images: ["/images/hero-new.png"],
   },
   icons: {
     icon: "/tnl-logo.jpeg",
@@ -77,7 +77,7 @@ const jsonLd = {
   name: "TNL Fincorp",
   description:
     "TNL Fincorp provides financial loan solutions, loan assistance and investment options across Personal, Business, Home, Loan Against Property, Auto and Education Loans, plus Fixed Deposit (FD) and Recurring Deposit (RD) investment assistance.",
-  image: `${SITE_URL}/images/hero.jpg`,
+  image: `${SITE_URL}/images/hero-new.png`,
   url: SITE_URL,
   telephone: "+91-9427979991",
   address: {

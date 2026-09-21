@@ -194,7 +194,7 @@ function HeroVisual() {
       <div className="relative overflow-hidden rounded-[2rem] border border-white/60 shadow-glow">
         <div className="aspect-[4/5] w-full sm:aspect-[5/5] lg:aspect-[4/4.4] relative">
           <Image
-            src="/images/hero.jpg"
+            src="/images/hero-new.png"
             alt="TNL Fincorp consultant advising a customer on loan solutions"
             fill
             priority

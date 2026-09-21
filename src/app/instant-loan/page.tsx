@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Instant Loan | TNL Fincorp",
     description:
       "Explore personal loans, business loans and credit card partner options through TNL Fincorp's convenient digital application journey.",
-    images: [{ url: "/images/hero.jpg", width: 1344, height: 768, alt: "Instant Loan" }],
+    images: [{ url: "/images/hero-new.png", width: 1344, height: 768, alt: "Instant Loan" }],
   },
 };
 

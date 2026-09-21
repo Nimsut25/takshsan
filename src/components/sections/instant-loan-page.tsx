@@ -41,7 +41,7 @@ export function InstantLoanPage() {
           <Reveal direction="left" delay={0.1} className="relative">
             <div className="relative mx-auto w-full max-w-md lg:max-w-none">
               <div className="relative overflow-hidden rounded-[2rem] border border-white/60 shadow-glow">
-                <div className="relative aspect-[4/4.2] w-full"><Image src="/images/hero.jpg" alt="Instant loan digital application" fill priority sizes="(max-width: 1024px) 90vw, 50vw" className="object-cover" /></div>
+                <div className="relative aspect-[4/4.2] w-full"><Image src="/images/hero-new.png" alt="Instant loan digital application" fill priority sizes="(max-width: 1024px) 90vw, 50vw" className="object-cover" /></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/40 via-transparent to-transparent" />
                 <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/30" />
               </div>
