@@ -280,7 +280,7 @@ export function InvestmentPage({
             eyebrow="Safety & Security"
             title="It's Super Safe"
             highlight="& Secure"
-            description="Deposit safety depends on the respective bank/institution and applicable regulations."
+            description="Deposit safety depends on the applicable FD/RD scheme and prevailing regulations."
           />
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {[
@@ -297,7 +297,7 @@ export function InvestmentPage({
               {
                 icon: Phone,
                 title: "Guided by TNL Fincorp",
-                desc: "We provide guidance and application support only — we are not the deposit-taking institution.",
+                desc: "We provide guidance and application support only — we are the provider of FD & RD facilities.",
               },
             ].map((s, i) => (
               <Reveal key={s.title} direction="up" delay={i * 0.08}>

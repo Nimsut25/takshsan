@@ -12,7 +12,7 @@ import { RD_PRODUCT } from "@/lib/investment-data";
 export const metadata: Metadata = {
   title: "Recurring Deposit (RD)",
   description:
-    "Build your savings with Recurring Deposits at TNL Fincorp. Understand RD options, estimate maturity and get guidance on documentation and booking with banks.",
+    "Build your savings with Recurring Deposits at TNL Fincorp. Understand RD options, estimate maturity and get guidance on documentation and booking with TNL Fincorp.",
   alternates: { canonical: "/investment/rd" },
   openGraph: {
     title: "Recurring Deposit (RD) | TNL Fincorp",

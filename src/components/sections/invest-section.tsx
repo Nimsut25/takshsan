@@ -28,7 +28,7 @@ export function InvestSection() {
           eyebrow="Investment Solutions"
           title="Grow Your Savings with"
           highlight="FD & RD"
-          description="Disciplined saving made simple. Explore Fixed Deposit and Recurring Deposit options with banks — book directly and earn indicative interest over a tenure you choose."
+          description="Disciplined saving made simple. Explore Fixed Deposit and Recurring Deposit facilities provided by TNL Fincorp — book directly and earn indicative interest over a tenure you choose."
         />
 
         <StaggerGroup
@@ -46,7 +46,7 @@ export function InvestSection() {
         <Reveal direction="up" className="mt-8">
           <p className="text-center text-[11px] leading-relaxed text-muted-foreground">
             FD &amp; RD products are booked directly with the respective
-            bank/institution. Interest rates are indicative and may change.
+            TNL Fincorp. Interest rates are indicative and may change.
             TNL Fincorp provides guidance and application support only.
           </p>
         </Reveal>

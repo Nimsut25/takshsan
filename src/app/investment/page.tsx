@@ -218,7 +218,7 @@ export default function InvestmentPage() {
             </Reveal>
             <Reveal direction="up" className="mt-6">
               <p className="text-center text-xs text-muted-foreground">
-                Both products are booked directly with the bank/institution.
+                Both products are booked through TNL Fincorp.
                 TNL Fincorp provides guidance and application support only.
               </p>
             </Reveal>
@@ -310,7 +310,7 @@ export default function InvestmentPage() {
               eyebrow="Safety & Disclaimer"
               title="Guided, transparent"
               highlight="& secure"
-              description="Deposit safety depends on the respective bank/institution and applicable regulations."
+              description="Deposit safety depends on the applicable FD/RD scheme and prevailing regulations."
             />
             <Reveal direction="up" className="mt-10">
               <div className="flex gap-3 rounded-2xl border border-primary/10 bg-secondary/40 p-5">

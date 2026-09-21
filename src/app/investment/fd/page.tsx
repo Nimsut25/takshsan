@@ -12,7 +12,7 @@ import { FD_PRODUCT } from "@/lib/investment-data";
 export const metadata: Metadata = {
   title: "Fixed Deposit (FD)",
   description:
-    "Invest in Fixed Deposits with TNL Fincorp. Understand FD options, estimate maturity and get guidance on documentation and booking with banks.",
+    "Invest in Fixed Deposits with TNL Fincorp. Understand FD options, estimate maturity and get guidance on documentation and booking with TNL Fincorp.",
   alternates: { canonical: "/investment/fd" },
   openGraph: {
     title: "Fixed Deposit (FD) | TNL Fincorp",
