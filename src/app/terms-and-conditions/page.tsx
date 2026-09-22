@@ -28,7 +28,7 @@ const sections = [
   { id: "suspension", heading: "Suspension or Termination", body: <P>Access may be restricted or suspended where necessary for security, legal compliance, misuse, or other legitimate reasons.</P> },
   { id: "governing-law", heading: "Governing Law and Jurisdiction", body: <P><Placeholder>APPLICABLE STATE/COUNTRY AND JURISDICTION — TO BE CONFIRMED</Placeholder></P> },
   { id: "changes-to-terms", heading: "Changes to Terms", body: <P>TNL Fincorp may update these Terms from time to time. The latest version will be published on the website.</P> },
-  { id: "contact", heading: "Contact Information", body: <><P><Strong>TNL Fincorp</Strong></P><P>Address: <Placeholder>REGISTERED OFFICE ADDRESS</Placeholder></P><P>Email: <Placeholder>OFFICIAL EMAIL ADDRESS</Placeholder></P><P>Phone: <Placeholder>PHONE NUMBER</Placeholder></P></> },
+  { id: "contact", heading: "Contact Information", body: <><P><Strong>TNL Fincorp</Strong></P><P>Address: 34 Madhuban, Sumukh Circle, Nr. Happy Villy International School, Dindoli, Surat, Gujarat, India.</P><P>Email: care@tnlfincorp.in</P><P>Phone: +91 94279 79991</P></> },
 ];
 
 export default function TermsPage() {

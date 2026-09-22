@@ -19,7 +19,7 @@ const sections = [
   { id: "documents", heading: "Documents", body: <P>If documents are uploaded or submitted, correction or resubmission may be possible subject to applicable procedures and verification.</P> },
   { id: "financial-transactions", heading: "Financial Transactions", body: <P>Financial transactions cannot necessarily be "returned" in the same way as physical products. Any cancellation, redemption, withdrawal, or reversal will be governed by the applicable product terms, application documents, agreements, applicable laws/regulations, and relevant financial institution/service provider procedures.</P> },
   { id: "how-to-request", heading: "How to Request Assistance", body: <><P>To request assistance:</P><UL><li>Step 1: Contact TNL Fincorp</li><li>Step 2: Provide application/transaction reference</li><li>Step 3: Explain the issue</li><li>Step 4: Provide supporting information/documents where required</li><li>Step 5: Wait for review and further instructions</li></UL></> },
-  { id: "contact", heading: "Contact", body: <><P>Email: <Placeholder>OFFICIAL EMAIL ADDRESS</Placeholder></P><P>Phone: <Placeholder>PHONE NUMBER</Placeholder></P></> },
+  { id: "contact", heading: "Contact", body: <><P>Email: care@tnlfincorp.in</P><P>Phone: +91 94279 79991</P></> },
   { id: "exceptions", heading: "Exceptions", body: <P>Certain products/services may have separate cancellation, withdrawal, redemption, or dispute procedures. Please review the applicable product terms for specific guidance.</P> },
   { id: "updates", heading: "Updates", body: <P>TNL Fincorp may update this policy when business processes or legal requirements change.</P> },
 ];
