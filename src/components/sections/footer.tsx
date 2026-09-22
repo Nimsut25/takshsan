@@ -231,12 +231,18 @@ export function Footer() {
       <div className="relative border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-5 pb-24 text-xs text-white/55 sm:flex-row sm:pb-5 lg:px-8">
           <p>© {COMPANY.year} TNL Fincorp. All Rights Reserved.</p>
-          <div className="flex items-center gap-5">
-            <a href="#" className="transition-colors hover:text-white">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+            <a href="/privacy-policy" className="transition-colors hover:text-white">
               Privacy Policy
             </a>
-            <a href="#" className="transition-colors hover:text-white">
+            <a href="/terms-and-conditions" className="transition-colors hover:text-white">
               Terms &amp; Conditions
+            </a>
+            <a href="/refund-policy" className="transition-colors hover:text-white">
+              Refund Policy
+            </a>
+            <a href="/return-policy" className="transition-colors hover:text-white">
+              Return Policy
             </a>
             <a href="#" className="transition-colors hover:text-white">
               Disclaimer
