@@ -26,7 +26,6 @@ const sections = [
   { id: "liability", heading: "Limitation of Liability", body: <P>To the extent permitted by applicable law, TNL Fincorp shall not be liable for indirect, incidental, or consequential damages arising from the use of the website. This does not exclude rights that cannot legally be excluded.</P> },
   { id: "indemnification", heading: "Indemnification", body: <P>Users agree to indemnify TNL Fincorp against losses or claims arising from misuse of the website or violation of these Terms, to the extent permitted by applicable law.</P> },
   { id: "suspension", heading: "Suspension or Termination", body: <P>Access may be restricted or suspended where necessary for security, legal compliance, misuse, or other legitimate reasons.</P> },
-  { id: "governing-law", heading: "Governing Law and Jurisdiction", body: <P><Placeholder>APPLICABLE STATE/COUNTRY AND JURISDICTION — TO BE CONFIRMED</Placeholder></P> },
   { id: "changes-to-terms", heading: "Changes to Terms", body: <P>TNL Fincorp may update these Terms from time to time. The latest version will be published on the website.</P> },
   { id: "contact", heading: "Contact Information", body: <><P><Strong>TNL Fincorp</Strong></P><P>Address: 34 Madhuban, Sumukh Circle, Nr. Happy Villy International School, Dindoli, Surat, Gujarat, India.</P><P>Email: care@tnlfincorp.in</P><P>Phone: +91 94279 79991</P></> },
 ];
