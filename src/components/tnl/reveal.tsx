@@ -1,39 +1,35 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 type Direction = "up" | "down" | "left" | "right" | "scale" | "fade";
 
 const offset = 28;
 
-const variants: Record<Direction, Variants> = {
-  fade: {
-    hidden: { opacity: 0 },
-    show: { opacity: 1 },
-  },
-  up: {
-    hidden: { opacity: 0, y: offset },
-    show: { opacity: 1, y: 0 },
-  },
-  down: {
-    hidden: { opacity: 0, y: -offset },
-    show: { opacity: 1, y: 0 },
-  },
-  left: {
-    hidden: { opacity: 0, x: offset },
-    show: { opacity: 1, x: 0 },
-  },
-  right: {
-    hidden: { opacity: 0, x: -offset },
-    show: { opacity: 1, x: 0 },
-  },
-  scale: {
-    hidden: { opacity: 0, scale: 0.92 },
-    show: { opacity: 1, scale: 1 },
-  },
+const hiddenStyles: Record<Direction, React.CSSProperties> = {
+  fade: { opacity: 0 },
+  up: { opacity: 0, transform: `translateY(${offset}px)` },
+  down: { opacity: 0, transform: `translateY(-${offset}px)` },
+  left: { opacity: 0, transform: `translateX(${offset}px)` },
+  right: { opacity: 0, transform: `translateX(-${offset}px)` },
+  scale: { opacity: 0, transform: "scale(0.92)" },
 };
 
+const visibleStyles: React.CSSProperties = {
+  opacity: 1,
+  transform: "none",
+};
+
+/**
+ * Reveal — scroll-triggered entrance animation.
+ *
+ * Uses a CSS-transition + IntersectionObserver approach (via useScrollReveal)
+ * instead of framer-motion's whileInView, which was unreliable in this
+ * environment (animations not triggering, leaving content at opacity:0).
+ *
+ * Respects prefers-reduced-motion (content shows immediately).
+ */
 export function Reveal({
   children,
   direction = "up",
@@ -51,24 +47,34 @@ export function Reveal({
   once?: boolean;
   amount?: number;
 }) {
+  const { ref, visible } = useScrollReveal<HTMLDivElement>({
+    threshold: amount,
+    once,
+  });
+
   return (
-    <motion.div
+    <div
+      ref={ref}
       className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once, amount }}
-      variants={variants[direction]}
-      transition={{ duration, delay, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        transitionProperty: "opacity, transform",
+        transitionDuration: `${duration}s`,
+        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+        transitionDelay: `${delay}s`,
+        ...(visible ? visibleStyles : hiddenStyles[direction]),
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
+/**
+ * StaggerGroup — container that reveals as a group.
+ */
 export function StaggerGroup({
   children,
   className,
-  stagger = 0.12,
   once = true,
   amount = 0.15,
 }: {
@@ -78,40 +84,59 @@ export function StaggerGroup({
   once?: boolean;
   amount?: number;
 }) {
+  const { ref, visible } = useScrollReveal<HTMLDivElement>({
+    threshold: amount,
+    once,
+  });
+
   return (
-    <motion.div
+    <div
+      ref={ref}
       className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once, amount }}
-      variants={{
-        hidden: {},
-        show: { transition: { staggerChildren: stagger } },
+      style={{
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
       }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
+/**
+ * StaggerItem — child of StaggerGroup. Uses CSS transition with a delay.
+ */
 export function StaggerItem({
   children,
   className,
   direction = "up",
   duration = 0.6,
+  stagger = 0,
 }: {
   children: ReactNode;
   className?: string;
   direction?: Direction;
   duration?: number;
+  stagger?: number;
 }) {
+  const { ref, visible } = useScrollReveal<HTMLDivElement>({
+    threshold: 0.1,
+    once: true,
+  });
+
   return (
-    <motion.div
+    <div
+      ref={ref}
       className={className}
-      variants={variants[direction]}
-      transition={{ duration, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        transitionProperty: "opacity, transform",
+        transitionDuration: `${duration}s`,
+        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+        transitionDelay: `${stagger}s`,
+        ...(visible ? visibleStyles : hiddenStyles[direction]),
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

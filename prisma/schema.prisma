@@ -410,3 +410,56 @@ model RD {
   @@index([rdAccountNo])
   @@index([createdAt])
 }
+
+// ============================================================
+// MSME — MSME loan applications (new /msme-loans route)
+// ============================================================
+
+model Msme {
+  id                          String   @id @default(cuid())
+  applicationNumber           String   @unique
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+  status                      String   @default("Pending Review")
+
+  fullName                    String
+  fatherHusbandName           String?
+  dateOfBirth                 String?
+  gender                      String?
+  panNumber                   String?
+  aadhaarId                   String?
+  mobileNumber                String
+  email                       String
+  residentialAddress          String?
+  city                        String?
+  state                       String?
+  pinCode                     String?
+
+  businessName                String
+  businessType                String?
+  businessRegistrationNumber  String?
+  natureOfBusiness            String?
+  businessAddress             String?
+  businessCity                String?
+  businessState               String?
+  businessPinCode             String?
+  yearsInBusiness             String?
+  annualTurnover              String?
+
+  loanType                    String?
+  requiredLoanAmount          String
+  preferredLoanTenure         String?
+  loanPurpose                 String?
+  existingLoan                String?
+  existingMonthlyEmi          String?
+  preferredContactTime        String?
+  additionalRemarks           String?
+
+  consent                     Boolean  @default(false)
+
+  @@index([applicationNumber])
+  @@index([email])
+  @@index([mobileNumber])
+  @@index([status])
+  @@index([createdAt])
+}

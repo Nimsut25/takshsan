@@ -133,6 +133,14 @@ export function Navbar() {
           </Link>
 
           <Link
+            href="/msme-loans"
+            onClick={() => go("/msme-loans")}
+            className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
+          >
+            MSME
+          </Link>
+
+          <Link
             href="/#contact"
             onClick={() => go("/#contact")}
             className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
@@ -255,12 +263,22 @@ export function Navbar() {
                   />
                 </li>
 
+                {/* MSME Loans */}
+                <li>
+                  <MobileLink
+                    label="MSME Loans"
+                    href="/msme-loans"
+                    index="06"
+                    onClick={() => go("/msme-loans")}
+                  />
+                </li>
+
                 {/* Remaining quick links */}
                 <li>
                   <MobileLink
                     label="Why Choose Us"
                     href="/#why"
-                    index="06"
+                    index="07"
                     onClick={() => go("/#why")}
                   />
                 </li>
@@ -268,7 +286,7 @@ export function Navbar() {
                   <MobileLink
                     label="How It Works"
                     href="/#how"
-                    index="07"
+                    index="08"
                     onClick={() => go("/#how")}
                   />
                 </li>
@@ -276,7 +294,7 @@ export function Navbar() {
                   <MobileLink
                     label="FAQ"
                     href="/#faq"
-                    index="08"
+                    index="09"
                     onClick={() => go("/#faq")}
                   />
                 </li>
@@ -284,7 +302,7 @@ export function Navbar() {
                   <MobileLink
                     label="Contact"
                     href="/#contact"
-                    index="09"
+                    index="10"
                     onClick={() => go("/#contact")}
                   />
                 </li>
