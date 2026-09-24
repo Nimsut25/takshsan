@@ -779,3 +779,18 @@ Files Created:
 
 Stage Summary:
 - All 4 RD API routes are implemented and lint-clean, mirroring the FD routes' security posture (server-side amount/maturity computation, signature + API-fetch payment verification, idempotency, masked sensitive fields, no raw DB errors leaked). They are ready to be wired into the RD application UI flow on `/investment/rd`. The Razorpay env vars (RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, NEXT_PUBLIC_RAZORPAY_KEY_ID) are reused from the existing FD setup.
+
+---
+Task ID: 46
+Agent: main
+Task: Delete the complete MSME page perfectly — including the page, components, API routes, images, data files, and all related content.
+
+Work Log:
+- Searched the entire project for MSME-related files: src/app/msme/, src/app/api/msme/, src/components/sections/msme/, src/components/tnl/msme/, src/lib/msme-data.ts, public/images/msme/, Prisma MsmeApplication model, navbar MSME link.
+- Found that ALL MSME files were already removed (the directories and files no longer exist). The Prisma schema has no MsmeApplication model. The navbar has no MSME link. The public/images/msme/ folder is gone.
+- The only remaining "MSME" text references are legitimate mentions inside the business loan page content (src/lib/loan-page-data.ts and src/lib/site-data.ts) — e.g., "Suitable for MSMEs, professionals and enterprises" — which are part of the business loan descriptions and should stay (they are not part of the MSME page).
+- Started dev server. Verified: /msme returns HTTP 404 (page not found), /api/msme/apply returns HTTP 404, homepage returns HTTP 200. The MSME page is completely gone.
+- Ran `bun run lint` → 0 errors (1 pre-existing warning, unchanged).
+
+Stage Summary:
+- MSME page completely deleted: route (/msme → 404), API (/api/msme/apply → 404), all components, data files, images, Prisma model, and navbar link all removed. No MSME-specific files remain anywhere in the project. The site still works correctly (homepage 200, lint clean). Legitimate "MSME" text references in business loan content were preserved.
