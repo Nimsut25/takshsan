@@ -838,3 +838,40 @@ Stage Summary:
 - 6 realistic MSME business images generated. Reused existing design system (Navbar, Footer, BrandButton, Reveal, Accordion, brand colors). Added MSME link to navbar (desktop + mobile).
 - Fixed 2 critical infrastructure issues: recreated deleted Carousel component + recreated deleted use-scroll-reveal hook + rewrote Reveal to use it (fixes invisible-content bug site-wide again).
 - Lint clean (0 errors). Dev server running, /msme-loans 200. Browser-verified desktop + mobile + full apply flow. No existing functionality broken.
+
+---
+Task ID: 48
+Agent: main
+Task: Redesign ONLY the desktop/laptop header into a premium 2-row fintech layout matching the reference. Row 1 = blue gradient utility bar with geometric corner decorations + utility items right. Row 2 = white nav bar with logo left, nav+Login+Apply for Loan right. Keep ALL mobile/tablet code unchanged.
+
+Work Log:
+- NOTE: Reference image "ChatGPT Image Sep 24, 2026, 10_11_13 AM.png" was NOT received on the server (upload folder only had older files). Proceeded using the user's extremely detailed textual spec.
+- Read existing navbar.tsx: single-row fixed header with logo+name left, desktop nav (Home, About Us, Loans dropdown, Investment dropdown, Instant Loan, MSME, Contact) + phone + Apply for Loan right, mobile Sheet menu with accordion. Removed unused NAV_LINKS import.
+- Rewrote navbar.tsx into 2-row desktop structure:
+  • ROW 1 (desktop only, `hidden lg:block`): slim 36px (h-9) blue gradient bar (navy → #1d3fcc → royal) with geometric corner decorations:
+    - LEFT corner: 3 layered clip-path angular shapes (sky/30 gradient, skewed accent line, cyan-brand/15 triangle) — premium fintech angular design
+    - RIGHT corner: 3 matching clip-path curved/angled shapes (sky/25 gradient, skewed accent line, cyan-brand/12 shape) — balanced mirror of left
+    - Content: phone (+91 94279 79991) + email (care@tnlfincorp.in) right-aligned with separators, NO Login button (per spec "Do not duplicate these buttons in Row 1")
+  • ROW 2 (all breakpoints, but white bg is lg-only): clean white/light-blue gradient (white → #f6f9ff → #eef3ff) on desktop with soft blurred accent shapes near edges (hidden on mobile). Contains:
+    - LEFT: existing TNL Fincorp logo (/tnl-logo.jpeg, unchanged) + company name "TNL Fincorp" (navy + gradient-brand, unchanged)
+    - RIGHT (ml-auto): existing desktop nav (Home, About Us, Loans ▾, Investment ▾, Instant Loan, MSME, Contact) with EXACT same hover animation (after: gradient underline scale-x 0→100) + Login button (outline, LogIn icon) + Apply for Loan (BrandButton, unchanged design)
+  • Mobile/tablet (< lg): Row 1 hidden, Row 2 shows single-row transparent/glass header with logo + phone/Apply (sm) + hamburger — ALL mobile code (Sheet, MobileLink, MobileAccordion, social icons, mobile menu items/indices) preserved exactly as-is
+- Dropdown panel fix retained from previous task: anchored left-0 (not centered) with z-[60] to prevent right-edge clipping
+- Mobile background behavior preserved: `max-lg:bg-transparent` (not scrolled) / `max-lg:glass` (scrolled) — desktop always has the white gradient
+- Login button: added to Row 2 (desktop only, lg:flex) as an outline button with LogIn icon → links to /#contact. Not duplicated in Row 1.
+- Removed duplicate Login from Row 1 after VLM caught it (spec says "Do not duplicate these buttons in Row 1")
+- Ran `bun run lint` → 0 errors (1 pre-existing warning)
+- Verified with Agent Browser (VLM + DOM + interactive):
+  • Desktop 1440px: 2 rows confirmed. Row 1 = blue gradient, phone+email right-aligned, NO Login (not duplicated). Row 2 = white, logo+name LEFT (once only), nav menus RIGHT (Home, About Us, Loans, Investment, Instant Loan, MSME, Contact), Login + Apply for Loan at far RIGHT. Geometric corner decorations visible on Row 1. ✓
+  • Login button count: 1 (Row 2 only, not in Row 1). ✓
+  • Loans dropdown: opens on hover, shows all 6 items (Personal, Business, Home, Auto, Education, LAP). ✓
+  • Nav alignment: logo ends at x=295, nav starts at x=326 (clean 31px gap, nav pushed right via ml-auto). ✓
+  • Mobile 390px: Row 1 hidden (lg:block), single-row header with logo + hamburger, NO horizontal overflow. ✓
+  • No console errors. ✓
+
+Stage Summary:
+- Desktop header redesigned into premium 2-row fintech layout: Row 1 (blue gradient utility bar with geometric clip-path corner decorations + phone/email right) + Row 2 (white gradient nav bar with logo left, nav+Login+Apply for Loan right). Login NOT duplicated in Row 1.
+- ALL existing functionality preserved: logo image, company name colors, all menu items, dropdowns, hover animations, Apply for Loan button design, routes/links.
+- ALL mobile/tablet code untouched: single-row header, Sheet menu, MobileAccordion, MobileLink, social icons, phone CTA — exactly as before.
+- Geometric corner decorations created with CSS clip-path (not images): left angular layered shapes + right curved/angled shapes, premium fintech appearance.
+- Lint clean (0 errors). Dev server running. Browser-verified desktop + mobile. No existing pages/components disturbed.

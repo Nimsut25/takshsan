@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronDown, Menu, Phone, Sparkles, X } from "lucide-react";
+import { ChevronDown, LogIn, Mail, Menu, Phone, Sparkles, X } from "lucide-react";
 import Link from "next/link";
 import {
   Sheet,
@@ -17,7 +17,6 @@ import {
   HEADER_NAV_LINKS,
   LOAN_DROPDOWN,
   INVEST_DROPDOWN,
-  NAV_LINKS,
 } from "@/lib/site-data";
 import { useModalStore } from "@/lib/modal-store";
 import { cn } from "@/lib/utils";
@@ -66,281 +65,380 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled
-          ? "glass border-b border-white/40 shadow-soft"
-          : "bg-transparent"
+        scrolled ? "shadow-soft" : ""
       )}
     >
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-[4.5rem] sm:px-6 lg:px-8">
-        {/* Brand — name only, no sub-tagline */}
-        <Link
-          href="/"
-          onClick={() => go("/#home")}
-          className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
-        >
-          <span className="relative grid size-10 place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-royal to-sky shadow-glow sm:size-11">
-            <Image
-              src="/tnl-logo.jpeg"
-              alt="TNL Fincorp logo"
-              fill
-              sizes="44px"
-              className="object-cover"
-            />
-            <span className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/30 rounded-xl" />
-          </span>
-          <span className="font-display text-lg font-extrabold tracking-tight text-navy sm:text-xl">
-            TNL<span className="text-gradient-brand"> Fincorp</span>
-          </span>
-        </Link>
+      {/* ============================================================ */}
+      {/* ROW 1 — TOP UTILITY BAR (DESKTOP ONLY — lg:block)             */}
+      {/* Blue gradient + geometric corner decorations.                 */}
+      {/* Utility links (phone, email, login) aligned RIGHT.            */}
+      {/* ============================================================ */}
+      <div className="relative hidden overflow-hidden bg-gradient-to-r from-navy via-[#1d3fcc] to-royal lg:block">
+        {/* Geometric angular decorative shapes — LEFT corner */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 left-0 w-44 bg-gradient-to-r from-sky/30 to-transparent"
+          style={{ clipPath: "polygon(0 0, 100% 0, 65% 100%, 0 100%)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 left-14 w-px bg-white/10"
+          style={{ transform: "skewX(-16deg)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 left-24 w-24 bg-gradient-to-r from-cyan-brand/15 to-transparent"
+          style={{ clipPath: "polygon(0 0, 100% 0, 50% 100%, 0 100%)" }}
+        />
 
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-1 lg:flex">
-          {HEADER_NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => go(link.href)}
-              className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
-            >
-              {link.label}
-            </Link>
-          ))}
+        {/* Geometric curved/angled decorative shapes — RIGHT corner */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-0 w-52 bg-gradient-to-l from-sky/25 to-transparent"
+          style={{ clipPath: "polygon(35% 0, 100% 0, 100% 100%, 0 100%)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-16 w-px bg-white/10"
+          style={{ transform: "skewX(-16deg)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-28 w-28 bg-gradient-to-l from-cyan-brand/12 to-transparent"
+          style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 0 100%)" }}
+        />
 
-          {/* Loans dropdown */}
-          <Dropdown
-            label="Loans"
-            open={loansOpen}
-            onOpenChange={setLoansOpen}
-            items={LOAN_DROPDOWN}
-            onNavigate={go}
-          />
-
-          {/* Investment dropdown */}
-          <Dropdown
-            label="Investment"
-            open={investOpen}
-            onOpenChange={setInvestOpen}
-            items={INVEST_DROPDOWN}
-            onNavigate={go}
-          />
-
-          <Link
-            href="/instant-loan"
-            onClick={() => go("/instant-loan")}
-            className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
-          >
-            Instant Loan
-          </Link>
-
-          <Link
-            href="/msme-loans"
-            onClick={() => go("/msme-loans")}
-            className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
-          >
-            MSME
-          </Link>
-
-          <Link
-            href="/#contact"
-            onClick={() => go("/#contact")}
-            className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
-          >
-            Contact
-          </Link>
-        </div>
-
-        {/* Desktop actions */}
-        <div className="hidden items-center gap-2 sm:flex">
+        {/* Utility content — RIGHT aligned */}
+        <div className="relative mx-auto flex h-9 max-w-7xl items-center justify-end gap-5 px-8 text-[12.5px] font-medium text-white/90">
           <a
             href={COMPANY.phoneHref}
-            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-3.5 py-2 text-sm font-semibold text-royal transition-colors hover:bg-primary/5"
+            className="group inline-flex items-center gap-1.5 transition-colors hover:text-white"
           >
-            <Phone className="size-4" />
-            <span className="hidden lg:inline">{COMPANY.phone}</span>
-            <span className="lg:hidden">Call</span>
+            <Phone className="size-3.5 text-sky/90 transition-transform group-hover:scale-110" />
+            <span>{COMPANY.phone}</span>
           </a>
-          <BrandButton
-            onClick={() => openEnquiry()}
-            size="md"
-            className="hidden sm:inline-flex"
-            data-cursor-magnetic
+          <span className="h-3 w-px bg-white/20" aria-hidden />
+          <a
+            href={COMPANY.emailHref}
+            className="group inline-flex items-center gap-1.5 transition-colors hover:text-white"
           >
-            <Sparkles className="size-4" />
-            Apply for Loan
-          </BrandButton>
+            <Mail className="size-3.5 text-sky/90 transition-transform group-hover:scale-110" />
+            <span>{COMPANY.email}</span>
+          </a>
+        </div>
+      </div>
+
+      {/* ============================================================ */}
+      {/* ROW 2 — MAIN NAVIGATION BAR                                  */}
+      {/* White/light background on desktop; transparent on mobile.    */}
+      {/* Logo + company name LEFT · nav + actions RIGHT.              */}
+      {/* ============================================================ */}
+      <div
+        className={cn(
+          "relative border-b border-primary/10 transition-all duration-300",
+          // Desktop: light gradient background; Mobile: inherits header bg
+          "lg:bg-gradient-to-r lg:from-white lg:via-[#f6f9ff] lg:to-[#eef3ff]",
+          // Mobile: keep existing transparent/glass behavior
+          !scrolled ? "max-lg:bg-transparent" : "max-lg:glass max-lg:border-white/40"
+        )}
+      >
+        {/* Soft geometric accent shapes (desktop only) */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 hidden overflow-hidden lg:block">
+          <div className="absolute -left-16 -top-12 size-36 rounded-full bg-royal/8 blur-2xl" />
+          <div className="absolute -right-20 -top-16 size-44 rounded-full bg-sky/8 blur-2xl" />
         </div>
 
-        {/* Mobile trigger */}
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden size-10 rounded-full border border-primary/15 bg-white/70"
-              aria-label="Open menu"
-            >
-              <Menu className="size-5 text-navy" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent
-            side="right"
-            className="tnl-nav-sheet flex w-[88%] max-w-[24rem] flex-col border-l-primary/15 bg-gradient-to-b from-white to-[#f4f7ff] p-0"
+        <nav className="relative mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:h-[4.5rem] sm:px-6 lg:px-8">
+          {/* Brand — logo + company name (LEFT, appears only once) */}
+          <Link
+            href="/"
+            onClick={() => go("/#home")}
+            className="flex items-center gap-2.5 transition-opacity hover:opacity-90"
           >
-            <SheetTitle className="sr-only">TNL Fincorp Navigation</SheetTitle>
+            <span className="relative grid size-10 place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-royal to-sky shadow-glow sm:size-11">
+              <Image
+                src="/tnl-logo.jpeg"
+                alt="TNL Fincorp logo"
+                fill
+                sizes="44px"
+                className="object-cover"
+              />
+              <span className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/30 rounded-xl" />
+            </span>
+            <span className="font-display text-lg font-extrabold tracking-tight text-navy sm:text-xl">
+              TNL<span className="text-gradient-brand"> Fincorp</span>
+            </span>
+          </Link>
 
-            {/* Header (sticky, close always visible) */}
-            <div className="flex shrink-0 items-center justify-between border-b border-primary/10 px-5 py-4">
-              <span className="flex items-center gap-2.5">
-                <span className="relative grid size-9 place-items-center overflow-hidden rounded-lg bg-gradient-to-br from-royal to-sky">
-                  <Image
-                    src="/tnl-logo.jpeg"
-                    alt="TNL Fincorp"
-                    fill
-                    sizes="36px"
-                    className="object-cover"
-                  />
-                </span>
-                <span className="font-display font-extrabold text-navy">
-                  TNL<span className="text-gradient-brand"> Fincorp</span>
-                </span>
-              </span>
-              <button
-                onClick={() => setOpen(false)}
-                className="grid size-9 shrink-0 place-items-center rounded-full bg-secondary text-foreground transition-colors hover:bg-primary/10 hover:text-royal"
-                aria-label="Close menu"
+          {/* Desktop nav — aligned RIGHT (ml-auto) */}
+          <div className="ml-auto hidden items-center gap-1 lg:flex">
+            {HEADER_NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => go(link.href)}
+                className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
               >
-                <X className="size-5" />
-              </button>
-            </div>
+                {link.label}
+              </Link>
+            ))}
 
-            {/* Scrollable navigation list — scrolls only when needed */}
-            <nav
-              className="tnl-scrollbar flex-1 overflow-y-auto px-4 py-4"
-              aria-label="Mobile navigation"
+            {/* Loans dropdown */}
+            <Dropdown
+              label="Loans"
+              open={loansOpen}
+              onOpenChange={setLoansOpen}
+              items={LOAN_DROPDOWN}
+              onNavigate={go}
+            />
+
+            {/* Investment dropdown */}
+            <Dropdown
+              label="Investment"
+              open={investOpen}
+              onOpenChange={setInvestOpen}
+              items={INVEST_DROPDOWN}
+              onNavigate={go}
+            />
+
+            <Link
+              href="/instant-loan"
+              onClick={() => go("/instant-loan")}
+              className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
             >
-              <ul className="flex flex-col gap-1.5">
-                {/* Home + About Us */}
-                <li>
-                  <MobileLink
-                    label="Home"
-                    href="/#home"
-                    index="01"
-                    onClick={() => go("/#home")}
-                  />
-                </li>
-                <li>
-                  <MobileLink
-                    label="About Us"
-                    href="/#about"
-                    index="02"
-                    onClick={() => go("/#about")}
-                  />
-                </li>
+              Instant Loan
+            </Link>
 
-                {/* Loans accordion */}
-                <MobileAccordion
-                  label="Loans"
-                  index="03"
-                  items={LOAN_DROPDOWN}
-                  onNavigate={go}
-                />
+            <Link
+              href="/msme-loans"
+              onClick={() => go("/msme-loans")}
+              className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
+            >
+              MSME
+            </Link>
 
-                {/* Investment accordion */}
-                <MobileAccordion
-                  label="Investment"
-                  index="04"
-                  items={INVEST_DROPDOWN}
-                  onNavigate={go}
-                />
+            <Link
+              href="/#contact"
+              onClick={() => go("/#contact")}
+              className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
+            >
+              Contact
+            </Link>
+          </div>
 
-                {/* Instant Loan */}
-                <li>
-                  <MobileLink
-                    label="Instant Loan"
-                    href="/instant-loan"
-                    index="05"
-                    onClick={() => go("/instant-loan")}
-                  />
-                </li>
+          {/* Desktop actions — Login + Apply for Loan (RIGHT side of Row 2) */}
+          <div className="hidden items-center gap-2 lg:flex">
+            <Link
+              href="/#contact"
+              onClick={() => go("/#contact")}
+              className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-white/80 px-4 py-2 text-sm font-semibold text-royal transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/45 hover:bg-white hover:shadow-soft"
+            >
+              <LogIn className="size-4" />
+              Login
+            </Link>
+            <BrandButton
+              onClick={() => openEnquiry()}
+              size="md"
+              data-cursor-magnetic
+            >
+              <Sparkles className="size-4" />
+              Apply for Loan
+            </BrandButton>
+          </div>
 
-                {/* MSME Loans */}
-                <li>
-                  <MobileLink
-                    label="MSME Loans"
-                    href="/msme-loans"
-                    index="06"
-                    onClick={() => go("/msme-loans")}
-                  />
-                </li>
+          {/* Mobile actions — phone + Apply for Loan (tablet only, sm to lg) */}
+          <div className="ml-auto flex items-center gap-2 lg:hidden">
+            <a
+              href={COMPANY.phoneHref}
+              className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/70 px-3.5 py-2 text-sm font-semibold text-royal transition-colors hover:bg-primary/5 sm:inline-flex"
+            >
+              <Phone className="size-4" />
+              <span className="hidden sm:inline">{COMPANY.phone}</span>
+              <span className="sm:hidden">Call</span>
+            </a>
+            <BrandButton
+              onClick={() => openEnquiry()}
+              size="md"
+              className="hidden sm:inline-flex"
+              data-cursor-magnetic
+            >
+              <Sparkles className="size-4" />
+              Apply for Loan
+            </BrandButton>
+          </div>
 
-                {/* Remaining quick links */}
-                <li>
-                  <MobileLink
-                    label="Why Choose Us"
-                    href="/#why"
-                    index="07"
-                    onClick={() => go("/#why")}
-                  />
-                </li>
-                <li>
-                  <MobileLink
-                    label="How It Works"
-                    href="/#how"
-                    index="08"
-                    onClick={() => go("/#how")}
-                  />
-                </li>
-                <li>
-                  <MobileLink
-                    label="FAQ"
-                    href="/#faq"
-                    index="09"
-                    onClick={() => go("/#faq")}
-                  />
-                </li>
-                <li>
-                  <MobileLink
-                    label="Contact"
-                    href="/#contact"
-                    index="10"
-                    onClick={() => go("/#contact")}
-                  />
-                </li>
-              </ul>
-            </nav>
-
-            {/* Bottom area — CTAs + social (pinned, never scrolls away) */}
-            <div className="mt-auto shrink-0 space-y-4 border-t border-primary/10 bg-white/60 p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
-              <BrandButton
-                onClick={() => {
-                  setOpen(false);
-                  openEnquiry();
-                }}
-                size="lg"
-                className="w-full"
+          {/* Mobile trigger */}
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="lg:hidden size-10 rounded-full border border-primary/15 bg-white/70"
+                aria-label="Open menu"
               >
-                <Sparkles className="size-4" />
-                Apply for Loan
-              </BrandButton>
-              <a
-                href={COMPANY.phoneHref}
-                className="flex w-full items-center justify-center gap-2 rounded-full border border-primary/20 bg-white py-3 text-sm font-semibold text-royal"
-              >
-                <Phone className="size-4" />
-                {COMPANY.phone}
-              </a>
+                <Menu className="size-5 text-navy" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="tnl-nav-sheet flex w-[88%] max-w-[24rem] flex-col border-l-primary/15 bg-gradient-to-b from-white to-[#f4f7ff] p-0"
+            >
+              <SheetTitle className="sr-only">TNL Fincorp Navigation</SheetTitle>
 
-              {/* Social */}
-              <div className="space-y-2.5 pt-1 text-center">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                  Follow / Connect With Us
-                </p>
-                <SocialIcons />
+              {/* Header (sticky, close always visible) */}
+              <div className="flex shrink-0 items-center justify-between border-b border-primary/10 px-5 py-4">
+                <span className="flex items-center gap-2.5">
+                  <span className="relative grid size-9 place-items-center overflow-hidden rounded-lg bg-gradient-to-br from-royal to-sky">
+                    <Image
+                      src="/tnl-logo.jpeg"
+                      alt="TNL Fincorp"
+                      fill
+                      sizes="36px"
+                      className="object-cover"
+                    />
+                  </span>
+                  <span className="font-display font-extrabold text-navy">
+                    TNL<span className="text-gradient-brand"> Fincorp</span>
+                  </span>
+                </span>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="grid size-9 shrink-0 place-items-center rounded-full bg-secondary text-foreground transition-colors hover:bg-primary/10 hover:text-royal"
+                  aria-label="Close menu"
+                >
+                  <X className="size-5" />
+                </button>
               </div>
-            </div>
-          </SheetContent>
-        </Sheet>
-      </nav>
+
+              {/* Scrollable navigation list — scrolls only when needed */}
+              <nav
+                className="tnl-scrollbar flex-1 overflow-y-auto px-4 py-4"
+                aria-label="Mobile navigation"
+              >
+                <ul className="flex flex-col gap-1.5">
+                  {/* Home + About Us */}
+                  <li>
+                    <MobileLink
+                      label="Home"
+                      href="/#home"
+                      index="01"
+                      onClick={() => go("/#home")}
+                    />
+                  </li>
+                  <li>
+                    <MobileLink
+                      label="About Us"
+                      href="/#about"
+                      index="02"
+                      onClick={() => go("/#about")}
+                    />
+                  </li>
+
+                  {/* Loans accordion */}
+                  <MobileAccordion
+                    label="Loans"
+                    index="03"
+                    items={LOAN_DROPDOWN}
+                    onNavigate={go}
+                  />
+
+                  {/* Investment accordion */}
+                  <MobileAccordion
+                    label="Investment"
+                    index="04"
+                    items={INVEST_DROPDOWN}
+                    onNavigate={go}
+                  />
+
+                  {/* Instant Loan */}
+                  <li>
+                    <MobileLink
+                      label="Instant Loan"
+                      href="/instant-loan"
+                      index="05"
+                      onClick={() => go("/instant-loan")}
+                    />
+                  </li>
+
+                  {/* MSME Loans */}
+                  <li>
+                    <MobileLink
+                      label="MSME Loans"
+                      href="/msme-loans"
+                      index="06"
+                      onClick={() => go("/msme-loans")}
+                    />
+                  </li>
+
+                  {/* Remaining quick links */}
+                  <li>
+                    <MobileLink
+                      label="Why Choose Us"
+                      href="/#why"
+                      index="07"
+                      onClick={() => go("/#why")}
+                    />
+                  </li>
+                  <li>
+                    <MobileLink
+                      label="How It Works"
+                      href="/#how"
+                      index="08"
+                      onClick={() => go("/#how")}
+                    />
+                  </li>
+                  <li>
+                    <MobileLink
+                      label="FAQ"
+                      href="/#faq"
+                      index="09"
+                      onClick={() => go("/#faq")}
+                    />
+                  </li>
+                  <li>
+                    <MobileLink
+                      label="Contact"
+                      href="/#contact"
+                      index="10"
+                      onClick={() => go("/#contact")}
+                    />
+                  </li>
+                </ul>
+              </nav>
+
+              {/* Bottom area — CTAs + social (pinned, never scrolls away) */}
+              <div className="mt-auto shrink-0 space-y-4 border-t border-primary/10 bg-white/60 p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+                <BrandButton
+                  onClick={() => {
+                    setOpen(false);
+                    openEnquiry();
+                  }}
+                  size="lg"
+                  className="w-full"
+                >
+                  <Sparkles className="size-4" />
+                  Apply for Loan
+                </BrandButton>
+                <a
+                  href={COMPANY.phoneHref}
+                  className="flex w-full items-center justify-center gap-2 rounded-full border border-primary/20 bg-white py-3 text-sm font-semibold text-royal"
+                >
+                  <Phone className="size-4" />
+                  {COMPANY.phone}
+                </a>
+
+                {/* Social */}
+                <div className="space-y-2.5 pt-1 text-center">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                    Follow / Connect With Us
+                  </p>
+                  <SocialIcons />
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </nav>
+      </div>
     </header>
   );
 }
@@ -379,16 +477,17 @@ function Dropdown({
         />
       </button>
 
-      {/* Panel */}
+      {/* Panel — anchored left to avoid right-edge clipping, z-[60] above content */}
       <div
         className={cn(
-          "absolute left-1/2 top-full z-50 -translate-x-1/2 pt-2 transition-all duration-300",
+          "absolute left-0 top-full z-[60] pt-2 transition-all duration-300",
           open
             ? "pointer-events-auto translate-y-0 opacity-100"
             : "pointer-events-none -translate-y-1 opacity-0"
         )}
       >
-        <div className="min-w-[15rem] origin-top scale-95 overflow-hidden rounded-2xl border border-primary/10 bg-white/95 p-1.5 shadow-glow backdrop-blur-xl transition-transform duration-300 [.tnl-cursor--hover_&]:scale-100 data-[state=open]:scale-100"
+        <div
+          className="min-w-[15rem] origin-top overflow-hidden rounded-2xl border border-primary/10 bg-white/95 p-1.5 shadow-glow backdrop-blur-xl transition-transform duration-300"
           style={{ transform: open ? "scale(1)" : "scale(0.95)" }}
         >
           {items.map((item) => (
