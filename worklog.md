@@ -875,3 +875,43 @@ Stage Summary:
 - ALL mobile/tablet code untouched: single-row header, Sheet menu, MobileAccordion, MobileLink, social icons, phone CTA — exactly as before.
 - Geometric corner decorations created with CSS clip-path (not images): left angular layered shapes + right curved/angled shapes, premium fintech appearance.
 - Lint clean (0 errors). Dev server running. Browser-verified desktop + mobile. No existing pages/components disturbed.
+
+---
+Task ID: 49
+Agent: main
+Task: Update desktop header — Row 1: replace utility items with only Career/MSME/Customer Services/CIBIL Score + Login (moved from Row 2). Row 2: remove MSME and Contact menus, remove Login (now in Row 1). Keep mobile/tablet unchanged.
+
+Work Log:
+- Checked existing routes: /career and /cibil-score did NOT exist. Created both as clean on-brand LegalPage pages so the utility links work without 404:
+  • src/app/career/page.tsx — "Careers at TNL Fincorp" (why join, what we look for, roles, perks, how to apply, contact)
+  • src/app/cibil-score/page.tsx — "CIBIL Score & Credit Health" (what is CIBIL, what affects it, score ranges, how to improve, how we help, contact)
+- Verified homepage has #contact section (src/components/sections/contact.tsx → id="contact").
+- Updated src/components/sections/navbar.tsx:
+  • Imports: added Briefcase, Building2, Gauge, Headphones icons; removed unused Mail import.
+  • Row 1 (desktop only): replaced phone + email with exactly 4 utility menus + Login, all right-aligned with separators:
+    1. Career (Briefcase icon) → /career
+    2. MSME (Building2 icon) → /msme-loans
+    3. Customer Services (Headphones icon) → /#contact (scrolls to homepage Contact section)
+    4. CIBIL Score (Gauge icon) → /cibil-score
+    5. Login (LogIn icon, white/10 pill) → /#contact (moved from Row 2, NOT duplicated)
+  • Row 2 desktop nav: removed MSME link and Contact link. Remaining: Home, About Us, Loans ▾, Investment ▾, Instant Loan. Hover animation unchanged (gradient underline scale-x).
+  • Row 2 desktop actions: removed Login button (now in Row 1 only). Only Apply for Loan (BrandButton, unchanged design) remains.
+  • Mobile/tablet code untouched: Sheet menu, MobileAccordion, MobileLink, all mobile menu items (including MSME Loans at index 06, Contact at index 10), social icons, phone CTA — exactly as before. Mobile actions (phone + Apply for Loan sm+) preserved.
+- Ran `bun run lint` → 0 errors (1 pre-existing warning).
+- Verified with Agent Browser (DOM + VLM + interactive):
+  • Desktop 1440px Row 1: exactly [Career, MSME, Customer Services, CIBIL Score, Login] — no phone, no email. ✓
+  • Desktop Row 2 nav: [Home, About Us, Loans, Investment, Instant Loan] — no MSME, no Contact. ✓
+  • Login count: 1 (Row 1 only, not in Row 2). ✓
+  • Apply for Loan: 1 visible on desktop (Row 2). ✓
+  • Customer Services href: /#contact (scrolls to homepage Contact section). ✓
+  • VLM confirmed: Row 1 has exactly 5 items (Career, MSME, Customer Services, CIBIL Score, Login); Row 2 has Home, About Us, Loans, Investment, Instant Loan, Apply for Loan; no MSME/Contact/Login in Row 2; logo once on left. ✓
+  • Mobile 390px: Row 1 hidden (display:none), single-row header with logo + hamburger, no horizontal overflow. ✓
+  • All routes return 200: /career (200), /cibil-score (200), /msme-loans (200). ✓
+  • No new console errors (1 pre-existing hydration warning, unchanged).
+
+Stage Summary:
+- Desktop header restructured per spec: Row 1 = [Career] [MSME] [Customer Services] [CIBIL Score] [Login] right-aligned with icons; Row 2 = [logo+name] left + [Home, About Us, Loans, Investment, Instant Loan] + [Apply for Loan] right. MSME and Contact removed from Row 2. Login moved from Row 2 to Row 1 (not duplicated).
+- Customer Services → /#contact (homepage Contact section). Career → /career (new page). CIBIL Score → /cibil-score (new page). MSME → /msme-loans (existing).
+- All existing preserved: header background, geometric corner decorations, logo image, company name colors, Apply for Loan button design, menu hover animation, dropdown functionality, routes.
+- Mobile/tablet completely unchanged (Row 1 hidden on mobile, hamburger menu with all items intact).
+- Lint clean (0 errors). Dev server running. Browser-verified desktop + mobile. No existing pages disturbed.

@@ -1,7 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronDown, LogIn, Mail, Menu, Phone, Sparkles, X } from "lucide-react";
+import {
+  Briefcase,
+  Building2,
+  ChevronDown,
+  Gauge,
+  Headphones,
+  LogIn,
+  Menu,
+  Phone,
+  Sparkles,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import {
   Sheet,
@@ -108,23 +119,54 @@ export function Navbar() {
           style={{ clipPath: "polygon(50% 0, 100% 0, 100% 100%, 0 100%)" }}
         />
 
-        {/* Utility content — RIGHT aligned */}
+        {/* Utility content — RIGHT aligned.
+            ONLY Career, MSME, Customer Services, CIBIL Score + Login. */}
         <div className="relative mx-auto flex h-9 max-w-7xl items-center justify-end gap-5 px-8 text-[12.5px] font-medium text-white/90">
-          <a
-            href={COMPANY.phoneHref}
+          <Link
+            href="/career"
+            onClick={() => go("/career")}
             className="group inline-flex items-center gap-1.5 transition-colors hover:text-white"
           >
-            <Phone className="size-3.5 text-sky/90 transition-transform group-hover:scale-110" />
-            <span>{COMPANY.phone}</span>
-          </a>
+            <Briefcase className="size-3.5 text-sky/90 transition-transform group-hover:scale-110" />
+            <span>Career</span>
+          </Link>
           <span className="h-3 w-px bg-white/20" aria-hidden />
-          <a
-            href={COMPANY.emailHref}
+          <Link
+            href="/msme-loans"
+            onClick={() => go("/msme-loans")}
             className="group inline-flex items-center gap-1.5 transition-colors hover:text-white"
           >
-            <Mail className="size-3.5 text-sky/90 transition-transform group-hover:scale-110" />
-            <span>{COMPANY.email}</span>
-          </a>
+            <Building2 className="size-3.5 text-sky/90 transition-transform group-hover:scale-110" />
+            <span>MSME</span>
+          </Link>
+          <span className="h-3 w-px bg-white/20" aria-hidden />
+          <Link
+            href="/#contact"
+            onClick={() => go("/#contact")}
+            className="group inline-flex items-center gap-1.5 transition-colors hover:text-white"
+          >
+            <Headphones className="size-3.5 text-sky/90 transition-transform group-hover:scale-110" />
+            <span>Customer Services</span>
+          </Link>
+          <span className="h-3 w-px bg-white/20" aria-hidden />
+          <Link
+            href="/cibil-score"
+            onClick={() => go("/cibil-score")}
+            className="group inline-flex items-center gap-1.5 transition-colors hover:text-white"
+          >
+            <Gauge className="size-3.5 text-sky/90 transition-transform group-hover:scale-110" />
+            <span>CIBIL Score</span>
+          </Link>
+          <span className="h-3 w-px bg-white/20" aria-hidden />
+          {/* Login — moved from Row 2 to Row 1 (rightmost) */}
+          <Link
+            href="/#contact"
+            onClick={() => go("/#contact")}
+            className="group inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-[12.5px] font-semibold text-white ring-1 ring-inset ring-white/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/20"
+          >
+            <LogIn className="size-3.5 text-sky/90 transition-transform group-hover:scale-110" />
+            <span>Login</span>
+          </Link>
         </div>
       </div>
 
@@ -208,34 +250,11 @@ export function Navbar() {
             >
               Instant Loan
             </Link>
-
-            <Link
-              href="/msme-loans"
-              onClick={() => go("/msme-loans")}
-              className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
-            >
-              MSME
-            </Link>
-
-            <Link
-              href="/#contact"
-              onClick={() => go("/#contact")}
-              className="relative rounded-full px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:text-royal after:absolute after:inset-x-4 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:rounded-full after:bg-gradient-to-r after:from-royal after:to-sky after:transition-transform hover:after:scale-x-100"
-            >
-              Contact
-            </Link>
           </div>
 
-          {/* Desktop actions — Login + Apply for Loan (RIGHT side of Row 2) */}
+          {/* Desktop actions — Apply for Loan only (RIGHT side of Row 2).
+              Login has been moved to Row 1 (top utility bar). */}
           <div className="hidden items-center gap-2 lg:flex">
-            <Link
-              href="/#contact"
-              onClick={() => go("/#contact")}
-              className="inline-flex items-center gap-1.5 rounded-full border border-primary/25 bg-white/80 px-4 py-2 text-sm font-semibold text-royal transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/45 hover:bg-white hover:shadow-soft"
-            >
-              <LogIn className="size-4" />
-              Login
-            </Link>
             <BrandButton
               onClick={() => openEnquiry()}
               size="md"
