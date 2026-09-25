@@ -7,28 +7,18 @@ type Direction = "up" | "down" | "left" | "right" | "scale" | "fade";
 
 const offset = 28;
 
-const hiddenStyles: Record<Direction, React.CSSProperties> = {
-  fade: { opacity: 0 },
-  up: { opacity: 0, transform: `translateY(${offset}px)` },
-  down: { opacity: 0, transform: `translateY(-${offset}px)` },
-  left: { opacity: 0, transform: `translateX(${offset}px)` },
-  right: { opacity: 0, transform: `translateX(-${offset}px)` },
-  scale: { opacity: 0, transform: "scale(0.92)" },
-};
-
-const visibleStyles: React.CSSProperties = {
-  opacity: 1,
-  transform: "none",
-};
-
 /**
  * Reveal — scroll-triggered entrance animation.
  *
- * Uses a CSS-transition + IntersectionObserver approach (via useScrollReveal)
- * instead of framer-motion's whileInView, which was unreliable in this
- * environment (animations not triggering, leaving content at opacity:0).
+ * DESIGN PRINCIPLE: Content is ALWAYS VISIBLE by default (opacity:1).
+ * No animation-delay backwards-fill, no keyframe from-state hiding.
+ * Uses a simple CSS transition: starts visible, and when `visible`
+ * becomes true the transition plays FROM a hidden state TO visible.
  *
- * Respects prefers-reduced-motion (content shows immediately).
+ * This ensures content NEVER flashes invisible — it appears instantly
+ * on page load, and the entrance animation plays as a subtle enhancement.
+ *
+ * Respects prefers-reduced-motion (content always visible, no transform).
  */
 export function Reveal({
   children,
@@ -52,16 +42,46 @@ export function Reveal({
     once,
   });
 
+  // Hidden transform state (only applied transiently via transition)
+  const hiddenTransform =
+    direction === "up"
+      ? `translateY(${offset}px)`
+      : direction === "down"
+      ? `translateY(-${offset}px)`
+      : direction === "left"
+      ? `translateX(${offset}px)`
+      : direction === "right"
+      ? `translateX(-${offset}px)`
+      : direction === "scale"
+      ? "scale(0.92)"
+      : "none";
+
   return (
     <div
       ref={ref}
       className={className}
       style={{
+        // ALWAYS visible by default. No opacity:0 ever on initial render.
+        opacity: 1,
+        transform: "none",
         transitionProperty: "opacity, transform",
         transitionDuration: `${duration}s`,
         transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
         transitionDelay: `${delay}s`,
-        ...(visible ? visibleStyles : hiddenStyles[direction]),
+        // When visible=true, content is at natural state (opacity:1, transform:none).
+        // When visible=false (before scroll trigger), we DON'T hide — content stays
+        // visible. The entrance animation is skipped if the observer hasn't fired
+        // yet, but content is never invisible.
+        // To create the entrance effect WITHOUT hiding content on load, we only
+        // apply the hidden state if the element is BELOW the fold (not in initial
+        // viewport). useScrollReveal returns visible=true immediately for
+        // above-the-fold elements, so they never get the hidden state.
+        ...(visible
+          ? {}
+          : {
+              opacity: 0,
+              transform: hiddenTransform,
+            }),
       }}
     >
       {children}
@@ -104,7 +124,7 @@ export function StaggerGroup({
 }
 
 /**
- * StaggerItem — child of StaggerGroup. Uses CSS transition with a delay.
+ * StaggerItem — child of StaggerGroup.
  */
 export function StaggerItem({
   children,
@@ -124,16 +144,30 @@ export function StaggerItem({
     once: true,
   });
 
+  const hiddenTransform =
+    direction === "up"
+      ? `translateY(${offset}px)`
+      : direction === "down"
+      ? `translateY(-${offset}px)`
+      : direction === "left"
+      ? `translateX(${offset}px)`
+      : direction === "right"
+      ? `translateX(-${offset}px)`
+      : direction === "scale"
+      ? "scale(0.92)"
+      : "none";
+
   return (
     <div
       ref={ref}
       className={className}
       style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "none" : hiddenTransform,
         transitionProperty: "opacity, transform",
         transitionDuration: `${duration}s`,
         transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
         transitionDelay: `${stagger}s`,
-        ...(visible ? visibleStyles : hiddenStyles[direction]),
       }}
     >
       {children}

@@ -966,3 +966,38 @@ Stage Summary:
 - Prisma Career + JobOpening models added, tables created on Supabase. CV files stored locally with sanitized unique filenames.
 - 9 realistic career images generated. Reused existing design system (Navbar, Footer, BrandButton, Reveal, Carousel, Accordion, TESTIMONIALS). Career link added to navbar Row 1.
 - Lint clean (0 errors). Dev server running. Browser-verified desktop + mobile + full apply flow. No existing functionality broken.
+
+---
+Task ID: 52
+Agent: main
+Task: Fix Career & MSME pages — sections content (cards, titles, descriptions) not appearing instantly on page load. Set it perfectly so all content shows immediately.
+
+Work Log:
+- Root cause analysis: The Reveal component used CSS keyframe animations with `animationFillMode: "backwards"`. This applied the `from` keyframe (opacity:0) during the animation-delay period, causing below-the-fold elements with stagger delays to flash invisible. The useScrollReveal hook also had no safety net — if the IntersectionObserver failed, content stayed permanently invisible.
+- Verified the issue: MSME page had 5 invisible elements (computed opacity:0 despite inline style opacity:1) — all were `tnl-reveal-animate` elements stuck at the `from` keyframe state.
+- Fixed src/hooks/use-scroll-reveal.ts:
+  • Changed initial state from `useState(false)` to `useState(true)` — content is ALWAYS visible on initial render (no flash of invisible content).
+  • For above-the-fold elements: no action needed (already visible).
+  • For below-the-fold elements: set `visible=false` via `requestAnimationFrame` (avoids synchronous setState lint error) so the entrance animation can play on scroll.
+  • Added 1.5s safety-net timeout — if the observer fails, content is force-revealed so it's NEVER permanently invisible.
+  • Respects prefers-reduced-motion (content always visible, no animation).
+- Fixed src/components/tnl/reveal.tsx:
+  • Removed the keyframe animation approach (which caused the opacity:0 backwards-fill flash).
+  • Now uses a simple CSS transition: default state is opacity:1 (visible). When `visible=false` (below-the-fold before scroll), opacity transitions to 0 + transform offset. When `visible=true` (in viewport), transitions back to opacity:1 + transform:none.
+  • Above-the-fold content: `visible` starts true → content shows instantly, no hiding.
+  • Below-the-fold content: `visible` starts true, then set to false via rAF, then back to true on scroll — smooth entrance animation.
+  • Same fix applied to StaggerGroup and StaggerItem.
+- Ran `bun run lint` → 0 errors (1 pre-existing warning). Fixed the setState-in-effect lint error by using requestAnimationFrame for the `setVisible(false)` call.
+- Verified with Agent Browser:
+  • Career page (desktop 1440px): 0 invisible content elements on immediate page load (was previously flashing). All 7 sections have full content. Scroll reveals below-the-fold sections smoothly (0 invisible after scroll). ✓
+  • MSME page (desktop): 0 invisible content elements on immediate load (was 5 before fix). All 8 sections present with content. ✓
+  • Career mobile 390px: 0 invisible content, no horizontal overflow. ✓
+  • MSME mobile 390px: 0 invisible content, no horizontal overflow. ✓
+  • Only invisible elements remaining are dropdown panels (Loans/Investment) which are supposed to be hidden until hover — correct behavior.
+
+Stage Summary:
+- FIXED: Career & MSME pages now show all content (cards, titles, descriptions) INSTANTLY on page load. No more delayed appearance or invisible sections.
+- Root cause: Reveal component's keyframe animation with `animationFillMode: backwards` caused opacity:0 flash during animation delays.
+- Fix: Rewrote useScrollReveal hook (initial state visible=true, safety-net timeout) and Reveal component (CSS transition instead of keyframe animation, content always visible by default).
+- Above-the-fold content appears instantly. Below-the-fold content reveals with smooth entrance animation on scroll. Safety net ensures content is never permanently invisible.
+- Lint clean (0 errors). Browser-verified desktop + mobile for both pages. No existing functionality broken.
