@@ -915,3 +915,18 @@ Stage Summary:
 - All existing preserved: header background, geometric corner decorations, logo image, company name colors, Apply for Loan button design, menu hover animation, dropdown functionality, routes.
 - Mobile/tablet completely unchanged (Row 1 hidden on mobile, hamburger menu with all items intact).
 - Lint clean (0 errors). Dev server running. Browser-verified desktop + mobile. No existing pages disturbed.
+
+---
+Task ID: 50
+Agent: main
+Task: Delete the Career page and CIBIL Score page.
+
+Work Log:
+- Deleted src/app/career/ directory (page.tsx — "Careers at TNL Fincorp").
+- Deleted src/app/cibil-score/ directory (page.tsx — "CIBIL Score & Credit Health").
+- Updated src/components/sections/navbar.tsx Row 1 utility bar: removed the Career link (Briefcase icon → /career) and CIBIL Score link (Gauge icon → /cibil-score) since they pointed to the now-deleted routes and would 404. Removed unused Briefcase and Gauge icon imports. Row 1 now contains: MSME, Customer Services, Login (right-aligned with separators). Comment updated to reflect removal.
+- Ran `bun run lint` → 0 errors (1 pre-existing warning).
+- Verified: /career returns HTTP 404, /cibil-score returns HTTP 404, homepage returns HTTP 200. No broken links remain in the navbar.
+
+Stage Summary:
+- Career page (/career) and CIBIL Score page (/cibil-score) completely deleted. Their navbar links removed from Row 1 to prevent 404s. Row 1 utility bar now has MSME, Customer Services, Login. Lint clean. Site works correctly.
