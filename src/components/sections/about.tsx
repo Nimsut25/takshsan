@@ -153,6 +153,70 @@ export function About() {
               </div>
             </div>
           </Reveal>
+
+          {/* Company Registration Details — Takshsan Nidhi Limited */}
+          <Reveal direction="up" delay={0.25}>
+            <div className="mt-8 rounded-2xl border border-primary/10 bg-gradient-to-br from-[#f6f9ff] to-white p-5 shadow-soft sm:p-6">
+              <div className="flex items-center gap-2.5">
+                <span className="grid size-9 place-items-center rounded-xl bg-gradient-to-br from-royal to-sky text-white shadow-glow">
+                  <FileText className="size-5" />
+                </span>
+                <h3 className="font-display text-base font-bold text-navy sm:text-lg">
+                  Company Registration Details
+                </h3>
+              </div>
+
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                <span className="font-semibold text-navy">TAKSHSAN NIDHI LIMITED</span> having CIN{" "}
+                <span className="font-semibold text-royal">U65929GJ2017PLC095007</span> is a{" "}
+                <span className="font-semibold text-navy">9 years, 8 months &amp; 20 days</span> old
+                Public company incorporated with MCA on{" "}
+                <span className="font-semibold text-navy">5th January, 2017</span>. TAKSHSAN NIDHI
+                LIMITED is listed in the class of Public company and classified as a Non-govt
+                company. This company is registered at the Registrar of Companies (ROC),
+                RoC-Ahmedabad with an Authorized Share Capital of{" "}
+                <span className="font-semibold text-navy">₹50,00,000</span> and a paid-up capital of{" "}
+                <span className="font-semibold text-navy">₹10,92,400</span>.
+              </p>
+
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                The company has{" "}
+                <span className="font-semibold text-navy">7 directors / key management personnel</span>:
+                Shubham Jay Shankarbhai Maurya, Lalbahadur Samarjit Mourya, Ramesh Kumar,
+                Kamalashankar Baliram Maurya, Saroj Kumar Pal, Manoj Kumar Pal and Kulbhushan S Pandey.
+                TAKSHSAN NIDHI LTD company registration number is{" "}
+                <span className="font-semibold text-navy">095007</span> and its Corporate
+                Identification Number (CIN) provided by MCA is{" "}
+                <span className="font-semibold text-royal">U65929GJ2017PLC095007</span>.
+              </p>
+
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                As per MCA records, TAKSHSAN NIDHI LIMITED is involved in activities such as other
+                credit activities including pawn shops n.e.c. (Un-incorporated financial institutions
+                in class 6599).
+              </p>
+
+              {/* Quick facts grid */}
+              <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <div className="rounded-xl border border-primary/10 bg-white p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">CIN</p>
+                  <p className="mt-0.5 font-display text-xs font-bold text-navy">U65929GJ2017PLC095007</p>
+                </div>
+                <div className="rounded-xl border border-primary/10 bg-white p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Incorporated</p>
+                  <p className="mt-0.5 font-display text-xs font-bold text-navy">5 Jan 2017</p>
+                </div>
+                <div className="rounded-xl border border-primary/10 bg-white p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">ROC</p>
+                  <p className="mt-0.5 font-display text-xs font-bold text-navy">RoC-Ahmedabad</p>
+                </div>
+                <div className="rounded-xl border border-primary/10 bg-white p-3">
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Directors</p>
+                  <p className="mt-0.5 font-display text-xs font-bold text-navy">7</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

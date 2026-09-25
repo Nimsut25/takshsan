@@ -1001,3 +1001,24 @@ Stage Summary:
 - Fix: Rewrote useScrollReveal hook (initial state visible=true, safety-net timeout) and Reveal component (CSS transition instead of keyframe animation, content always visible by default).
 - Above-the-fold content appears instantly. Below-the-fold content reveals with smooth entrance animation on scroll. Safety net ensures content is never permanently invisible.
 - Lint clean (0 errors). Browser-verified desktop + mobile for both pages. No existing functionality broken.
+
+---
+Task ID: 53
+Agent: main
+Task: Add Takshsan Nidhi Limited company registration details to the homepage About Us section.
+
+Work Log:
+- Read src/components/sections/about.tsx — existing About section with SectionHeading, company description, 4 feature cards, and CTA button.
+- Added a new "Company Registration Details" subsection after the CTA button (inside the right content column), containing:
+  • Header with FileText icon + "Company Registration Details" title
+  • 3 paragraphs with the exact company details provided by the user:
+    - Paragraph 1: TAKSHSAN NIDHI LIMITED, CIN U65929GJ2017PLC095007, 9 years 8 months 20 days old Public company, incorporated 5th January 2017, registered at ROC RoC-Ahmedabad, Authorized Share Capital ₹50,00,000, paid-up capital ₹10,92,400.
+    - Paragraph 2: 7 directors/key management personnel (Shubham Jay Shankarbhai Maurya, Lalbahadur Samarjit Mourya, Ramesh Kumar, Kamalashankar Baliram Maurya, Saroj Kumar Pal, Manoj Kumar Pal, Kulbhushan S Pandey), registration number 095007, CIN U65929GJ2017PLC095007.
+    - Paragraph 3: MCA activity classification (Other credit activities including pawn shops n.e.c., Un-incorporated financial institutions in class 6599).
+  • Quick facts grid (4 cards): CIN, Incorporated date, ROC, Directors count — for easy scanning.
+  • Styled with the existing design system: gradient card background (from-[#f6f9ff] to-white), border, shadow-soft, royal/sky accent icon, navy/royal text highlights for key values.
+- Ran `bun run lint` → 0 errors (1 pre-existing warning).
+- Verified with Agent Browser: scrolled to #about section, confirmed all key details present (TAKSHSAN NIDHI LIMITED, CIN, incorporation date, age, authorized/paid-up capital, 7 directors, all director names, RoC-Ahmedabad, registration number, MCA activity).
+
+Stage Summary:
+- Company registration details for TAKSHSAN NIDHI LIMITED added to the homepage About Us section as a professional "Company Registration Details" card with full text + quick-facts grid. All details (CIN, incorporation date, age, capital, directors, ROC, registration number, MCA activity) verified present and visible. Lint clean. No existing content modified.
