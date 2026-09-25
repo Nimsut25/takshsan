@@ -1022,3 +1022,27 @@ Work Log:
 
 Stage Summary:
 - Company registration details for TAKSHSAN NIDHI LIMITED added to the homepage About Us section as a professional "Company Registration Details" card with full text + quick-facts grid. All details (CIN, incorporation date, age, capital, directors, ROC, registration number, MCA activity) verified present and visible. Lint clean. No existing content modified.
+
+---
+Task ID: 54
+Agent: main
+Task: Set the homepage About Us section design & layout perfectly.
+
+Work Log:
+- Reviewed current About section via screenshot + VLM analysis. Issues identified: unbalanced 2-column layout (right column too long due to company details card making it overflow past the image), excessive gaps, poor vertical rhythm, image aspect ratio too tall.
+- Redesigned src/components/sections/about.tsx with a cleaner 2-part layout:
+  • TOP SECTION (2-column, balanced): Image left (aspect 4/3.6 — shorter, more natural) with floating experience card + quote bubble. Content right: SectionHeading + 2 intro paragraphs + 4 feature cards (2x2 grid) + CTA button. Tightened spacing (mt-4/mt-3/mt-6 instead of mt-5/mt-4/mt-8) for better vertical rhythm.
+  • BOTTOM SECTION (full-width Company Registration Details card): Moved the company details OUT of the right column into a full-width card below the 2-column section. This balances the layout — the right column no longer overflows past the image. The card has:
+    - Header bar with gradient (navy→royal→sky) + FileText icon + "Company Registration Details" title + "TAKSHSAN NIDHI LIMITED — MCA Registered Public Company" subtitle
+    - 2-column body (desktop): left = 3 description paragraphs with all company details (CIN, incorporation date, age, capital, directors, ROC, registration number, MCA activity); right = 4 quick-fact cards (CIN, Incorporated, ROC, Directors) with icons
+    - On mobile: stacks to single column (description first, then quick facts in 2-col grid)
+  • Added decorative blurred accent shapes on both sides (left bottom + right top) for premium feel.
+  • Added new icon imports: Building2, Calendar, Hash, UsersRound for the quick-fact cards.
+- Ran `bun run lint` → 0 errors (1 pre-existing warning).
+- Verified with Agent Browser (VLM + DOM):
+  • Desktop 1440px: VLM confirms "well-balanced" 2-column layout (image left, content right ~45/55 split), company details card "well-structured" with header bar + 2-column body. Clean alignment, polished. ✓
+  • Mobile 390px: no horizontal overflow, company details present, stacks cleanly. ✓
+  • All company details verified present (TAKSHSAN NIDHI LIMITED, CIN, etc.). ✓
+
+Stage Summary:
+- About Us section redesigned with perfect layout: balanced 2-column top (image + intro/features/CTA) + full-width company registration details card below. Fixed the imbalance caused by the company details being in the right column. Tightened spacing, improved image aspect ratio, added gradient header bar to company card, 2-column body (description + quick facts). Premium, polished, responsive. Lint clean. No existing content removed — all company details preserved.
