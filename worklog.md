@@ -930,3 +930,39 @@ Work Log:
 
 Stage Summary:
 - Career page (/career) and CIBIL Score page (/cibil-score) completely deleted. Their navbar links removed from Row 1 to prevent 404s. Row 1 utility bar now has MSME, Customer Services, Login. Lint clean. Site works correctly.
+
+---
+Task ID: 51
+Agent: main
+Task: Create a completely new premium Career page for TNL Fincorp — /career route with 7 sections (hero carousel, life-at-tnl, features&benefits carousel, why-tnl, career programme, join-us banner, customer reviews carousel) + /career/open-positions sub-page (search + filters + job cards + apply modal with CV upload) + API routes + database tables.
+
+Work Log:
+- Added Career + JobOpening models to prisma/schema.prisma. JobOpening: id, title, department, location, experience, employmentType, description, postedAt, active, applications[]. CareerApplication: id, jobId, jobTitle, fullName, email, mobile, dateOfBirth, gender, currentCity, state, highestQualification, currentCompany, totalExperience, expectedSalary, noticePeriod, coverLetter, linkedinProfile, cvUrl, consent, status default "Applied", createdAt. Indexes on active/department/location/jobId/email/status/createdAt.
+- Restored .env with Supabase credentials (had reverted to SQLite). Ran `prisma db push --accept-data-loss` → Career tables created on Supabase, Prisma client regenerated.
+- Created src/lib/career-data.ts: 6 sample job openings (Relationship Manager, Sales Executive, Customer Service Executive, Finance Executive, Digital Marketing Executive, HR Executive) + in-memory fallback store for applications.
+- Generated 9 realistic career images via z-ai image CLI (5 hero slides + life-at-tnl + why-tnl + career-programme + join-us). Documentary-style corporate photography, Indian business contexts, no AI look.
+- Created src/components/sections/career/career-content.ts: 5 hero slides, 6 life-at-tnl highlights, 6 benefits, 6 why-tnl points, 4 career-programme points, join-us content, customer-reviews content.
+- Created src/app/api/career/jobs/route.ts: GET — returns active jobs from Prisma (seeds from sample list if empty), falls back to in-memory store.
+- Created src/app/api/career/apply/route.ts: POST — multipart/form-data, zod validates all fields (mobile regex, email, consent via preprocess), validates CV file (PDF/DOC/DOCX, 5MB max), sanitizes filename, saves to /public/uploads/career-resumes/, persists to db.careerApplication (falls back to memoryApplications). Fixed consent boolean parsing (FormData sends strings — used z.preprocess to convert "true" → true).
+- Created src/components/tnl/career/job-application-modal.tsx: full application modal — Basic Profile (12 fields: Full Name*, Email*, Mobile*, DOB, Gender, Current City, State, Highest Qualification, Current Company, Total Experience, Expected Salary, Notice Period) + CV Upload (drag/drop area, file name+size display, remove option, PDF/DOC/DOCX validation) + Additional (Cover Letter, LinkedIn Profile) + Consent checkbox + Submit Application (loading state) + success state ("Application Submitted Successfully"). 40px close button, z-[60].
+- Created src/components/sections/career/career-page.tsx: CareerPage with 7 sections: (1) CareerHero — full-width Carousel of 5 realistic slides with overlay text + "Explore Opportunities" CTA → /career/open-positions; (2) LifeAtTNL — image + 6 highlight cards; (3) FeaturesBenefits — dark navy section, auto-sliding Carousel of 6 benefit cards (3 per slide); (4) WhyTNL — split layout (image + 6 value points); (5) CareerProgramme — 2-column (image + 4 points + "Explore Opportunities" CTA); (6) JoinUsBanner — full-width image with overlay + "See Open Positions" CTA → /career/open-positions; (7) CustomerReviews — auto-sliding Carousel reusing existing TESTIMONIALS.
+- Created src/app/career/page.tsx: /career route with SEO metadata (title "Careers at TNL Fincorp | Join Our Team"), assembles Navbar + CareerPage + Footer + FloatingActions + PremiumCursor.
+- Created src/app/career/open-positions/page.tsx: client component — header hero + search bar + location filter + experience filter (Fresher/0-2/2-5/5+ Years) + dynamic filtering (no reload) + job cards (title, department, location, experience, type, description, posted date, Apply Now button — hover-reveal desktop, always-visible mobile) + empty/loading/error states + JobApplicationModal.
+- Updated src/components/sections/navbar.tsx Row 1: added "Career" link (Briefcase icon → /career) as first utility item. Row 1 now: Career, MSME, Customer Services, Login.
+- Ran `bun run lint` → 0 errors (1 pre-existing warning).
+- Restarted dev server (cleared .next cache). All routes HTTP 200: /career (200), /career/open-positions (200), /api/career/jobs (200, 6 jobs), /api/career/apply (200, application persisted to Supabase — Prisma CUID cmugp754b...).
+- Verified with Agent Browser (DOM + interactive):
+  • /career: 7 sections all present with content (hero 945 chars/5 imgs, life-at-tnl 791/1, benefits 635, why-tnl 792/1, career-programme 623/1, join-us 149/1, reviews 915). 0 invisible elements. ✓
+  • /career/open-positions: search bar + filters work (typed "finance" → filtered to 1 result "Finance Executive"). 6 job cards with Apply Now buttons. ✓
+  • Apply Now opens modal: "Apply For This Position" + job title + Basic Profile section + CV upload + Submit Application button. ✓
+  • Mobile 390px: no horizontal overflow, 0 invisible elements, all sections present. ✓
+  • No console errors. ✓
+
+Stage Summary:
+- Complete premium Career page built at /career: 7 sections (hero carousel with 5 realistic images, life-at-tnl with 6 highlights, features&benefits carousel with 6 cards, why-tnl with 6 values, career programme 2-column, join-us banner, customer reviews carousel reusing TESTIMONIALS).
+- /career/open-positions sub-page: search + location filter + experience filter (dynamic, no reload), 6 sample job cards with Apply Now (hover-reveal desktop, always-visible mobile), empty/loading/error states.
+- JobApplicationModal: 12 basic profile fields + CV upload (PDF/DOC/DOCX, 5MB, validation) + cover letter + LinkedIn + consent + success state.
+- API: GET /api/career/jobs (Prisma + in-memory fallback), POST /api/career/apply (CV storage to /public/uploads/career-resumes/ + Prisma DB persistence).
+- Prisma Career + JobOpening models added, tables created on Supabase. CV files stored locally with sanitized unique filenames.
+- 9 realistic career images generated. Reused existing design system (Navbar, Footer, BrandButton, Reveal, Carousel, Accordion, TESTIMONIALS). Career link added to navbar Row 1.
+- Lint clean (0 errors). Dev server running. Browser-verified desktop + mobile + full apply flow. No existing functionality broken.

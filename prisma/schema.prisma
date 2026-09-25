@@ -463,3 +463,56 @@ model Msme {
   @@index([status])
   @@index([createdAt])
 }
+
+// ============================================================
+// CAREER — job openings + applications
+// ============================================================
+
+model JobOpening {
+  id             String   @id @default(cuid())
+  title          String
+  department     String
+  location       String
+  experience     String
+  employmentType String   @default("Full-time")
+  description    String
+  postedAt       DateTime @default(now())
+  active         Boolean  @default(true)
+
+  applications   CareerApplication[]
+
+  @@index([active])
+  @@index([department])
+  @@index([location])
+}
+
+model CareerApplication {
+  id                  String   @id @default(cuid())
+  jobId               String?
+  jobTitle            String
+  fullName            String
+  email               String
+  mobile              String
+  dateOfBirth         String?
+  gender              String?
+  currentCity         String?
+  state               String?
+  highestQualification String?
+  currentCompany      String?
+  totalExperience     String?
+  expectedSalary      String?
+  noticePeriod        String?
+  coverLetter         String?
+  linkedinProfile     String?
+  cvUrl               String
+  consent             Boolean  @default(false)
+  status              String   @default("Applied")
+  createdAt           DateTime @default(now())
+
+  job                 JobOpening? @relation(fields: [jobId], references: [id], onDelete: SetNull)
+
+  @@index([jobId])
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}

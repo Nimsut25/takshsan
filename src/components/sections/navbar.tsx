@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import {
+  Briefcase,
   Building2,
   ChevronDown,
   Headphones,
@@ -118,8 +119,17 @@ export function Navbar() {
         />
 
         {/* Utility content — RIGHT aligned.
-            MSME, Customer Services + Login. (Career & CIBIL Score pages removed.) */}
+            Career, MSME, Customer Services + Login. */}
         <div className="relative mx-auto flex h-9 max-w-7xl items-center justify-end gap-5 px-8 text-[12.5px] font-medium text-white/90">
+          <Link
+            href="/career"
+            onClick={() => go("/career")}
+            className="group inline-flex items-center gap-1.5 transition-colors hover:text-white"
+          >
+            <Briefcase className="size-3.5 text-sky/90 transition-transform group-hover:scale-110" />
+            <span>Career</span>
+          </Link>
+          <span className="h-3 w-px bg-white/20" aria-hidden />
           <Link
             href="/msme-loans"
             onClick={() => go("/msme-loans")}
