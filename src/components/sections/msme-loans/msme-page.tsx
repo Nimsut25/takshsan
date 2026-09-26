@@ -494,13 +494,13 @@ function MsmeLoanAvailable() {
 
   return (
     <section className="relative">
-      <div className="bg-gradient-to-b from-white to-[#f6f9ff] pt-20 sm:pt-24">
+      <div className="bg-gradient-to-b from-white to-[#f6f9ff] pt-20 pb-10 sm:pt-24 sm:pb-12">
         <Reveal direction="up" className="mx-auto max-w-3xl px-6 text-center lg:px-8">
           <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-royal">
             <Building2 className="size-3.5" />
             {MSME_LOAN_PURPOSE.eyebrow}
           </span>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             {MSME_LOAN_PURPOSE.title}
           </h2>
         </Reveal>

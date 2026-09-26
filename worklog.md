@@ -1066,3 +1066,19 @@ Work Log:
 
 Stage Summary:
 - Career & MSME page section titles now use the same font color (text-foreground) and font style (font-bold, no font-display) as other pages (homepage About, investment pages, etc. that use SectionHeading). Titles on dark backgrounds use text-white. Hero h1 and card h3 titles left unchanged (already consistent). Lint clean. Browser-verified computed styles match.
+
+---
+Task ID: 56
+Agent: main
+Task: On MSME page Business Purposes section, set the title margin perfectly to look professional.
+
+Work Log:
+- Identified the issue: The "Loan Can Be Available For" section heading container had `pt-20 sm:pt-24` (top padding) but NO bottom padding — the title was touching the carousel immediately below with no separation, looking cramped and unprofessional.
+- Fixed src/components/sections/msme-loans/msme-page.tsx MsmeLoanAvailable section:
+  • Added `pb-10 sm:pb-12` bottom padding to the heading container (creates clean separation between title and carousel).
+  • Changed h2 `mt-4` to `mt-5` (slightly more space between eyebrow badge and title for better visual hierarchy).
+- Ran `bun run lint` → 0 errors (1 pre-existing warning).
+- Verified with Agent Browser + VLM: "spacing is adequate" (20-30px between title and carousel), "balanced and professional". ✓
+
+Stage Summary:
+- Business Purposes section title margin fixed: added bottom padding (pb-10 sm:pb-12) so the title has clean separation from the carousel below, and increased eyebrow-to-title spacing (mt-5). Now looks polished and professional. Lint clean. Browser-verified.
