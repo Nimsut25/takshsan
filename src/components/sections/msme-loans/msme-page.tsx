@@ -173,7 +173,7 @@ function MsmeAbout() {
               <Building2 className="size-3.5" />
               {MSME_ABOUT.eyebrow}
             </span>
-            <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               {MSME_ABOUT.title}
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -216,7 +216,7 @@ function MsmeBenefits() {
             <Sparkles className="size-3.5" />
             {MSME_BENEFITS.eyebrow}
           </span>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             {MSME_BENEFITS.title}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -255,7 +255,7 @@ function MsmeLoanTypes({ onApply }: { onApply: () => void }) {
             <Building2 className="size-3.5" />
             {MSME_LOAN_TYPES.eyebrow}
           </span>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             {MSME_LOAN_TYPES.title}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -337,7 +337,7 @@ function MsmeCalculator({ onApply }: { onApply: () => void }) {
             <CalcIcon className="size-3.5" />
             {MSME_CALCULATOR.eyebrow}
           </span>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">{MSME_CALCULATOR.title}</h2>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">{MSME_CALCULATOR.title}</h2>
           <p className="mt-4 text-base text-white/80 sm:text-lg">{MSME_CALCULATOR.description}</p>
         </Reveal>
 
@@ -500,7 +500,7 @@ function MsmeLoanAvailable() {
             <Building2 className="size-3.5" />
             {MSME_LOAN_PURPOSE.eyebrow}
           </span>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             {MSME_LOAN_PURPOSE.title}
           </h2>
         </Reveal>
@@ -527,7 +527,7 @@ function MsmeCtaBanner({ onApply }: { onApply: () => void }) {
             <Sparkles className="size-3.5" />
             {MSME_CTA.eyebrow}
           </span>
-          <h2 className="mt-5 font-display text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+          <h2 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
             {MSME_CTA.title}
           </h2>
           <p className="mt-4 mx-auto max-w-2xl text-base text-white/90 sm:text-lg">
@@ -561,7 +561,7 @@ function MsmeFaq() {
             <HelpCircle className="size-3.5" />
             {MSME_FAQ.eyebrow}
           </span>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             {MSME_FAQ.title}
           </h2>
         </Reveal>

@@ -1046,3 +1046,23 @@ Work Log:
 
 Stage Summary:
 - About Us section redesigned with perfect layout: balanced 2-column top (image + intro/features/CTA) + full-width company registration details card below. Fixed the imbalance caused by the company details being in the right column. Tightened spacing, improved image aspect ratio, added gradient header bar to company card, 2-column body (description + quick facts). Premium, polished, responsive. Lint clean. No existing content removed — all company details preserved.
+
+---
+Task ID: 55
+Agent: main
+Task: On titles of Career & MSME pages, apply the same font colors & font-styles as other pages.
+
+Work Log:
+- Identified the difference: Other pages use the SectionHeading component with h2 class `text-3xl font-bold tracking-tight text-foreground sm:text-4xl` (font-bold=700, text-foreground, no font-display). Career & MSME pages used `font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl` (font-display, font-extrabold=800, text-navy).
+- Updated src/components/sections/career/career-page.tsx: changed all 6 section h2 titles from `font-display font-extrabold text-navy` to `font-bold text-foreground` (matching SectionHeading). Dark-background titles (Features & Benefits, Join Us banner) use `font-bold text-white` instead.
+- Updated src/components/sections/msme-loans/msme-page.tsx: same change across all 7 section h2 titles. Calculator (dark bg) and CTA banner use `font-bold text-white`.
+- Hero h1 titles left unchanged (homepage hero also uses font-display font-extrabold, so heroes are already consistent).
+- Card h3 titles left unchanged (card titles on other pages also use font-display font-bold text-navy).
+- Ran `bun run lint` → 0 errors (1 pre-existing warning).
+- Verified with Agent Browser (computed styles):
+  • Career page: all h2 titles now fontWeight=700, color=text-foreground (lab 9.43...) — matches homepage. Dark-bg titles=white. ✓
+  • MSME page: all h2 titles now fontWeight=700, color=text-foreground — matches homepage. Dark-bg titles=white. ✓
+  • Homepage About h2: fontWeight=700, color=text-foreground — identical to Career/MSME. ✓
+
+Stage Summary:
+- Career & MSME page section titles now use the same font color (text-foreground) and font style (font-bold, no font-display) as other pages (homepage About, investment pages, etc. that use SectionHeading). Titles on dark backgrounds use text-white. Hero h1 and card h3 titles left unchanged (already consistent). Lint clean. Browser-verified computed styles match.

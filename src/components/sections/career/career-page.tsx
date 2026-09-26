@@ -119,7 +119,7 @@ function LifeAtTNL() {
             <Users className="size-3.5" />
             {LIFE_AT_TNL.eyebrow}
           </span>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">{LIFE_AT_TNL.title}</h2>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{LIFE_AT_TNL.title}</h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">{LIFE_AT_TNL.description}</p>
         </Reveal>
 
@@ -189,7 +189,7 @@ function FeaturesBenefits() {
             <Award className="size-3.5" />
             {CAREER_BENEFITS.eyebrow}
           </span>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">{CAREER_BENEFITS.title}</h2>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">{CAREER_BENEFITS.title}</h2>
         </Reveal>
       </div>
       <Reveal className="mt-12">
@@ -226,7 +226,7 @@ function WhyTNL() {
               <ShieldCheck className="size-3.5" />
               {WHY_TNL.eyebrow}
             </span>
-            <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">{WHY_TNL.title}</h2>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{WHY_TNL.title}</h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">{WHY_TNL.description}</p>
             <div className="mt-7 grid gap-4 sm:grid-cols-2">
               {WHY_TNL.points.map((p, i) => (
@@ -271,7 +271,7 @@ function CareerProgramme() {
               <Rocket className="size-3.5" />
               {CAREER_PROGRAMME.eyebrow}
             </span>
-            <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">{CAREER_PROGRAMME.title}</h2>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{CAREER_PROGRAMME.title}</h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">{CAREER_PROGRAMME.description}</p>
             <div className="mt-7 space-y-3">
               {CAREER_PROGRAMME.points.map((p, i) => (
@@ -314,7 +314,7 @@ function JoinUsBanner() {
       <div className="absolute inset-0 flex items-center">
         <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
           <Reveal direction="up" className="max-w-2xl text-white">
-            <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight drop-shadow-sm sm:text-4xl lg:text-5xl">{JOIN_US.title}</h2>
+            <h2 className="text-3xl font-bold leading-tight tracking-tight text-white drop-shadow-sm sm:text-4xl lg:text-5xl">{JOIN_US.title}</h2>
             <p className="mt-4 max-w-xl text-base text-white/90 sm:text-lg">{JOIN_US.description}</p>
             <div className="mt-7">
               <Link href={OPEN_POSITIONS_ROUTE} className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-bold text-navy shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90">
@@ -362,7 +362,7 @@ function CustomerReviews() {
             <Star className="size-3.5" />
             {CUSTOMER_REVIEWS.eyebrow}
           </span>
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">{CUSTOMER_REVIEWS.title}</h2>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{CUSTOMER_REVIEWS.title}</h2>
           <p className="mt-4 text-base text-muted-foreground sm:text-lg">{CUSTOMER_REVIEWS.description}</p>
         </Reveal>
       </div>
