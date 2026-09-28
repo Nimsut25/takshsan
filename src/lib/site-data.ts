@@ -727,6 +727,6 @@ export const CONTACT_CARDS: {
 ];
 
 export const DISCLAIMER =
-  "TNL Fincorp provides loan assistance and financial solution guidance. Loan approval, interest rates, eligibility, tenure, processing fees and other terms are subject to the policies, verification and approval processes of the respective financial institution/lender. Loan approval is not guaranteed.";
+  "Takshsan Nidhi Limited provides loan assistance and financial solution guidance. Loan approval, interest rates, eligibility, tenure, processing fees and other terms are subject to the policies, verification and approval processes of the respective financial institution/lender. Loan approval is not guaranteed.";
 
 export type IconType = ComponentType<LucideProps>;
