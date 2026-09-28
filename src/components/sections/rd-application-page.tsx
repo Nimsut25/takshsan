@@ -212,7 +212,7 @@ export function RdApplicationPage() {
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-50 mask-fade-b" />
         <div className="relative mx-auto max-w-3xl px-6 text-center lg:px-8">
           <Reveal direction="up"><Link href="/investment/rd" className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal hover:gap-2 transition-all"><ArrowLeft className="size-4" /> Back to RD Page</Link></Reveal>
-          <Reveal direction="up" delay={0.05}><h1 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">FIXED DEPOSIT APPLICATION FORM</h1></Reveal>
+          <Reveal direction="up" delay={0.05}><h1 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">RECURRING DEPOSIT FORM</h1></Reveal>
           <Reveal direction="up" delay={0.1}><p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">Apply for a Recurring Deposit securely and conveniently. Please provide accurate details for KYC and processing.</p></Reveal>
           <Reveal direction="up" delay={0.15}><div className="mt-4 flex flex-wrap justify-center gap-4 text-xs text-muted-foreground"><span>Application No: <span className="font-bold text-royal">{applicationNo}</span></span><span>Date: <span className="font-bold text-navy">{applicationDate}</span></span></div></Reveal>
         </div>
