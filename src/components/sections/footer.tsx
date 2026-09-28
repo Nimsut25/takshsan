@@ -90,7 +90,7 @@ export function Footer() {
               <span className="font-display text-xl font-extrabold">
                 TNL<span className="text-gradient-brand"> Fincorp</span>
               </span>
-              <span className="text-xs text-white/60">{COMPANY.tagline}</span>
+              <span className="text-xs text-white/60 font-bold">{COMPANY.tagline}</span>
             </div>
           </div>
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/70">
