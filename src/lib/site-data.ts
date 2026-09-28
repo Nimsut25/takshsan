@@ -22,7 +22,7 @@ import type { ComponentType } from "react";
 
 export const COMPANY = {
   name: "TNL Fincorp",
-  tagline: "Smart Loan Solutions. Simple Financial Journey.",
+  tagline: "Takshsan Nidhi Limited. Simple Financial Journey.",
   phone: "+91 94279 79991",
   phoneHref: "tel:+919427979991",
   email: "care@tnlfincorp.in",
