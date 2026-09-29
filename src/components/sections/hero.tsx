@@ -51,7 +51,7 @@ export function Hero() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-teal-brand opacity-60" />
               <span className="relative inline-flex size-2 rounded-full bg-teal-brand" />
             </span>
-            Trusted Loan Assistance in Surat, Gujarat
+            Trusted Loan Assistance All Over India.
           </motion.div>
 
           <motion.h1
