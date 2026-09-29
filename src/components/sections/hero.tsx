@@ -224,7 +224,7 @@ function HeroVisual() {
               Est. EMI
             </div>
             <div className="font-display text-base font-bold text-navy">
-              ₹ 899/m*
+              ₹ 899/mo*
             </div>
           </div>
         </div>
