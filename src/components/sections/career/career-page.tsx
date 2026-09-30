@@ -211,7 +211,7 @@ function WhyTNL() {
             <div className="relative">
               <div className="relative overflow-hidden rounded-3xl shadow-glow ring-1 ring-primary/10">
                 <div className="relative aspect-[4/3] w-full">
-                  <Image src="/images/career/why-tnl.png" alt="Mentorship at TNL Fincorp" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
+                  <Image src="/images/career/why.png" alt="Mentorship at TNL Fincorp" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
                 </div>
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy/30 to-transparent" />
               </div>
@@ -261,7 +261,7 @@ function CareerProgramme() {
           <Reveal direction="scale" className="order-2 lg:order-1">
             <div className="group relative overflow-hidden rounded-3xl shadow-soft ring-1 ring-primary/10">
               <div className="relative aspect-[4/3] w-full">
-                <Image src="/images/career/career-programme.png" alt="Professional growth at TNL Fincorp" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <Image src="/images/career/grow.png" alt="Professional growth at TNL Fincorp" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
               </div>
               <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/20 rounded-3xl" />
             </div>
@@ -308,7 +308,7 @@ function JoinUsBanner() {
   return (
     <section className="relative overflow-hidden">
       <div className="relative h-[320px] w-full sm:h-[380px]">
-        <Image src="/images/career/join-us.png" alt="Join the TNL Fincorp team" fill sizes="100vw" className="object-cover" />
+        <Image src="/images/career/new-career.jpg" alt="Join the TNL Fincorp team" fill sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/70 to-royal/45" />
       </div>
       <div className="absolute inset-0 flex items-center">
