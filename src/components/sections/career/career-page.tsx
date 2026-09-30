@@ -127,7 +127,7 @@ function LifeAtTNL() {
           <Reveal direction="scale">
             <div className="group relative overflow-hidden rounded-3xl shadow-soft ring-1 ring-primary/10">
               <div className="relative aspect-[4/3] w-full">
-                <Image src="/images/career/life-at-tnl.png" alt="TNL Fincorp team collaborating" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                <Image src="/images/career/life-at.png" alt="TNL Fincorp team collaborating" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
               </div>
               <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/20 rounded-3xl" />
             </div>
