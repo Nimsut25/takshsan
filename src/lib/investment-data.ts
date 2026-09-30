@@ -70,7 +70,7 @@ export const FD_PRODUCT: InvestmentProduct = {
   heroTitle: "Build steady savings with Fixed Deposits",
   heroDescription:
     "TNL Fincorp provides Fixed Deposit facilities to help you set aside a lump sum for a chosen tenure and earn indicative interest. Explore FD options, documentation and the application journey with TNL Fincorp.",
-  image: "/images/fd-hero.jpg",
+  image: "/images/fd-page.png",
   piggyImage: "/images/piggy-bank.jpg",
   accent: "from-royal to-sky",
   glow: "shadow-[0_20px_60px_-20px_rgba(56,102,243,0.55)]",
@@ -196,7 +196,7 @@ export const RD_PRODUCT: InvestmentProduct = {
   heroTitle: "Build savings monthly with Recurring Deposits",
   heroDescription:
     "TNL Fincorp provides Recurring Deposit facilities — a disciplined way to save a fixed amount every month for a chosen tenure and earn indicative interest. Explore RD options, documentation and the application journey with TNL Fincorp.",
-  image: "/images/rd-hero.jpg",
+  image: "/images/rd-page.png",
   piggyImage: "/images/piggy-bank.jpg",
   accent: "from-teal-brand to-cyan-brand",
   glow: "shadow-[0_20px_60px_-20px_rgba(20,184,166,0.55)]",
