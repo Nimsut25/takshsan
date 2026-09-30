@@ -70,7 +70,7 @@ export function About() {
               <div className="relative overflow-hidden rounded-[2rem] border border-white/60 shadow-glow">
                 <div className="aspect-[4/3.6] w-full relative">
                   <Image
-                    src="/images/about.jpg"
+                    src="/images/about-sec.jpg"
                     alt="TNL Fincorp financial advisor guiding a customer"
                     fill
                     sizes="(max-width: 1024px) 90vw, 45vw"
