@@ -209,7 +209,7 @@ const personalLoan: LoanPageContent = {
   heroHeadline: "Instant Personal Loan",
   heroDescription:
     "Manage important life expenses — medical needs, family events, travel, home upgrades or lifestyle purchases — with personal loan assistance from TNL Fincorp. We help you understand available options, organise your documents and guide your application through our financial services network. Loan approval, eligibility, rates and tenure are subject to the respective lender's policies.",
-  heroImage: "/images/loan-personal.jpg",
+  heroImage: "/images/loan-pl.jpg",
   heroFloatingCards: [
     { icon: Zap, label: "Quick Digital Enquiry" },
     { icon: ShieldCheck, label: "Secure & Private" },
@@ -480,7 +480,7 @@ const businessLoan: LoanPageContent = {
   heroHeadline: "Business Loan",
   heroDescription:
     "Fuel your business growth — working capital, expansion, equipment, inventory or operational requirements — with business loan assistance from TNL Fincorp. We help MSMEs, professionals and enterprises understand suitable loan options, structure documentation and complete the application process. All loan terms, eligibility and approvals are subject to the respective lender's policies.",
-  heroImage: "/images/loan-business.jpg",
+  heroImage: "/images/bl-loan.png",
   heroFloatingCards: [
     { icon: TrendingUp, label: "Growth Capital" },
     { icon: Briefcase, label: "MSME Friendly" },
@@ -744,7 +744,7 @@ const homeLoan: LoanPageContent = {
   heroHeadline: "Home Loan",
   heroDescription:
     "Purchase, construct or renovate your home with home loan assistance from TNL Fincorp. We help you understand available options, structure property-related documentation and guide your application through our financial services network. Loan amount, LTV, tenure, rates and approval are subject to the respective lender's policies and property assessment.",
-  heroImage: "/images/loan-home.jpg",
+  heroImage: "/images/hl-loan.png",
   heroFloatingCards: [
     { icon: Home, label: "Up to 90% Funding*" },
     { icon: Clock, label: "Up to 30 Year Tenure*" },
@@ -1047,7 +1047,7 @@ const autoLoan: LoanPageContent = {
   heroHeadline: "Auto Loan",
   heroDescription:
     "Drive home your vehicle — a new car, a used car or a commercial vehicle — with auto loan assistance from TNL Fincorp. We help you understand available options, documentation and the application process through our financial services network. Loan amount, LTV, rates, tenure and approval are subject to the respective lender's policies and vehicle assessment.",
-  heroImage: "/images/loan-auto.jpg",
+  heroImage: "/images/al-loan.png",
   heroFloatingCards: [
     { icon: Car, label: "New & Used" },
     { icon: CarFront, label: "Car Finance" },
@@ -1358,7 +1358,7 @@ const educationLoan: LoanPageContent = {
   heroHeadline: "Education Loan",
   heroDescription:
     "Finance higher studies in India or eligible study destinations with education loan assistance from TNL Fincorp. We help students and families understand available options, course-related documentation and the application process through our financial services network. Loan amount, coverage, collateral requirements, moratorium, rates and approval are subject to the respective lender's policies and the applicant's profile.",
-  heroImage: "/images/loan-education.jpg",
+  heroImage: "/images/el-loan.png",
   heroFloatingCards: [
     { icon: GraduationCap, label: "India & Abroad" },
     { icon: BookOpen, label: "Tuition & Living" },
@@ -1622,7 +1622,7 @@ const loanAgainstProperty: LoanPageContent = {
   heroHeadline: "Loan Against Property",
   heroDescription:
     "Unlock the value of your eligible residential, commercial or industrial property with a Loan Against Property (LAP) from TNL Fincorp. We help you understand available options, property documentation, eligibility discussions and the application process through our financial services network. Loan amount, LTV, valuation, rates, tenure and approval are subject to the respective lender's policies and property assessment.",
-  heroImage: "/images/loan-lap.jpg",
+  heroImage: "/images/lap-loan.png",
   heroFloatingCards: [
     { icon: Building2, label: "Residential & Commercial" },
     { icon: BadgeIndianRupee, label: "Higher Loan Amounts" },
