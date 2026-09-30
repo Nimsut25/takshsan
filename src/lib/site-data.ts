@@ -22,7 +22,7 @@ import type { ComponentType } from "react";
 
 export const COMPANY = {
   name: "TNL Fincorp",
-  tagline: "Takshsan Nidhi Limited. Simple Financial Journey.",
+  tagline: "Takshsan Nidhi Limited. Make Simple Financial Journey.",
   phone: "+91 94279 79991",
   phoneHref: "tel:+919427979991",
   email: "care@tnlfincorp.in",
@@ -149,7 +149,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
       "Flexible personal loan solutions to help manage important expenses, emergencies, travel, lifestyle needs and more.",
     description:
       "Flexible personal loan solutions to help manage important expenses, emergencies, travel, lifestyle needs and more.",
-    image: "/images/loan-personal.jpg",
+    image: "/images/personal-loan.png",
     icon: UserRound,
     accent: "from-royal to-sky",
     glow: "shadow-[0_20px_60px_-20px_rgba(56,102,243,0.55)]",
@@ -206,7 +206,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
       "Financial solutions designed to support business expansion, working capital, equipment purchases and growth requirements.",
     description:
       "Financial solutions designed to support business expansion, working capital, equipment purchases and growth requirements.",
-    image: "/images/loan-business.jpg",
+    image: "/images/business-loan.png",
     icon: Briefcase,
     accent: "from-teal-brand to-cyan-brand",
     glow: "shadow-[0_20px_60px_-20px_rgba(20,184,166,0.55)]",
@@ -263,7 +263,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
       "Loan assistance for purchasing, constructing or financing your dream home with suitable financing options.",
     description:
       "Loan assistance for purchasing, constructing or financing your dream home with suitable financing options.",
-    image: "/images/loan-home.jpg",
+    image: "/images/home-loan.png",
     icon: Home,
     accent: "from-royal to-teal-brand",
     glow: "shadow-[0_20px_60px_-20px_rgba(56,102,243,0.55)]",
@@ -320,7 +320,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
       "Utilize the value of eligible property to access funds for personal or business-related financial requirements.",
     description:
       "Utilize the value of eligible property to access funds for personal or business-related financial requirements.",
-    image: "/images/loan-lap.jpg",
+    image: "/images/loan-against-property.png",
     icon: Building2,
     accent: "from-navy to-royal",
     glow: "shadow-[0_20px_60px_-20px_rgba(15,30,70,0.55)]",
@@ -377,7 +377,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
       "Loan assistance for purchasing a new or used vehicle with suitable financing options.",
     description:
       "Loan assistance for purchasing a new or used vehicle with suitable financing options.",
-    image: "/images/loan-auto.jpg",
+    image: "/images/auto-loan.png",
     icon: Car,
     accent: "from-sky to-cyan-brand",
     glow: "shadow-[0_20px_60px_-20px_rgba(56,189,248,0.55)]",
@@ -434,7 +434,7 @@ export const LOAN_PRODUCTS: LoanProduct[] = [
       "Financial assistance for higher education and academic expenses in India and eligible study destinations.",
     description:
       "Financial assistance for higher education and academic expenses in India and eligible study destinations.",
-    image: "/images/loan-education.jpg",
+    image: "/images/education-loan.png",
     icon: GraduationCap,
     accent: "from-teal-brand to-royal",
     glow: "shadow-[0_20px_60px_-20px_rgba(20,184,166,0.55)]",
