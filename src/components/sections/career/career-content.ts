@@ -4,35 +4,35 @@
 
 export const CAREER_HERO_SLIDES = [
   {
-    image: "/images/career/hero-1.png",
+    image: "/images/career/hs-1.png",
     eyebrow: "Careers at TNL Fincorp",
     title: "Build Your Career With TNL Fincorp",
     subtitle:
       "Join a growing financial organization where your ideas, skills and ambition can create meaningful impact.",
   },
   {
-    image: "/images/career/hero-2.png",
+    image: "/images/career/hs-2.png",
     eyebrow: "Learn · Contribute · Grow",
     title: "A Workplace Built on Collaboration",
     subtitle:
       "Work alongside experienced mentors on meaningful financial products that help real people make better decisions.",
   },
   {
-    image: "/images/career/hero-3.png",
+    image: "/images/career/hs-3.png",
     eyebrow: "People First",
     title: "Be Part of a Team That Builds Better Financial Futures",
     subtitle:
       "We invest in people who take ownership, stay curious and care deeply about doing right by the customer.",
   },
   {
-    image: "/images/career/hero-4.png",
+    image: "/images/career/hs-4.png",
     eyebrow: "Continuous Learning",
     title: "Grow With Guidance and Real Exposure",
     subtitle:
       "Practical experience, structured learning and mentorship across loans, deposits and investments.",
   },
   {
-    image: "/images/career/hero-5.png",
+    image: "/images/career/hs-5.png",
     eyebrow: "Celebrate Success Together",
     title: "A Culture That Recognises Every Contribution",
     subtitle:
