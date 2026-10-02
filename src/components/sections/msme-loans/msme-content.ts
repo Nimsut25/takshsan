@@ -165,25 +165,25 @@ export const MSME_LOAN_PURPOSE = {
   title: "Loan Can Be Available For",
   slides: [
     {
-      image: "/images/msme-loans/slide-1.png",
+      image: "/images/msme-loans/sl-1.png",
       title: "Expanding Your Existing Business",
       description:
         "Support your business expansion plans, increase capacity, upgrade operations or establish additional locations.",
     },
     {
-      image: "/images/msme-loans/slide-2.png",
+      image: "/images/msme-loans/sl-2.png",
       title: "Purchase of Industrial / Commercial Property",
       description:
         "Explore financing support for eligible industrial or commercial property requirements that can strengthen your business infrastructure.",
     },
     {
-      image: "/images/msme-loans/slide-3.png",
+      image: "/images/msme-loans/sl-3.png",
       title: "Repaying High-Interest Debt / Long-Term Working Capital",
       description:
         "Funding may help eligible businesses manage working capital requirements or address existing high-cost business debt, subject to applicable terms and approval.",
     },
     {
-      image: "/images/msme-loans/slide-4.png",
+      image: "/images/msme-loans/sl-4.png",
       title: "Adding a New Line of Business",
       description:
         "Support your plans to diversify your business and explore new products, services or business opportunities.",
