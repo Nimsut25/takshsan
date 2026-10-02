@@ -86,7 +86,7 @@ function MsmeHero({ onApply }: { onApply: () => void }) {
     <section className="relative flex min-h-[80vh] items-center overflow-hidden pt-28 pb-16 sm:pt-32 lg:pt-36">
       {/* Background image with overlay */}
       <Image
-        src="/images/msme-loans/hero.png"
+        src="/images/msme-loans/hero-sec.png"
         alt="Indian MSME business owner"
         fill
         priority
@@ -156,7 +156,7 @@ function MsmeAbout() {
             <div className="group relative overflow-hidden rounded-3xl shadow-soft ring-1 ring-primary/10">
               <div className="relative aspect-[4/3] w-full">
                 <Image
-                  src="/images/msme-loans/about.png"
+                  src="/images/msme-loans/about-sec.png"
                   alt="Small business manufacturing workspace"
                   fill
                   sizes="(min-width: 1024px) 45vw, 100vw"
