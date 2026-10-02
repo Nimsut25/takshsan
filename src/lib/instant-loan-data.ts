@@ -32,7 +32,7 @@ export const INSTANT_LOAN_CATEGORIES: InstantLoanCategory[] = [
     title: "Personal Loan",
     route: "/instant-loan/personal-loan",
     description: "Explore personal loan options from participating financial partners.",
-    image: "/images/loan-personal.jpg",
+    image: "/images/personal-loan.png",
     accent: "from-royal to-sky",
   },
   {
@@ -40,7 +40,7 @@ export const INSTANT_LOAN_CATEGORIES: InstantLoanCategory[] = [
     title: "Business Loan",
     route: "/instant-loan/business-loan",
     description: "Explore financing options designed for eligible businesses and self-employed applicants.",
-    image: "/images/loan-business.jpg",
+    image: "/images/business-loan.png",
     accent: "from-teal-brand to-cyan-brand",
   },
   {
@@ -48,7 +48,7 @@ export const INSTANT_LOAN_CATEGORIES: InstantLoanCategory[] = [
     title: "Credit Cards",
     route: "/instant-loan/credit-cards",
     description: "Explore credit card options from participating banking and financial partners.",
-    image: "/images/loan-education.jpg",
+    image: "/images/credit-card.png",
     accent: "from-navy to-royal",
   },
 ];
